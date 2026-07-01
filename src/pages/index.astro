@@ -1,0 +1,224 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DebtCalculator from '../components/DebtCalculator';
+import '../styles/global.css';
+---
+
+<Layout
+  title="Debt Payoff Planner - Free US Debt Payoff Calculator | Avalanche vs Snowball"
+  description="Free debt payoff calculator for Americans. Compare avalanche and snowball strategies, see month-by-month plans, and become debt-free faster. No signup required."
+>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+        US Debt Payoff Planner
+      </h1>
+      <p class="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
+        Calculate exactly when you will be debt-free. Compare the avalanche and snowball
+        methods to find the best strategy for your situation.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <span class="bg-white/20 px-4 py-2 rounded-full">100% Free</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">No Signup</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">Instant Results</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">Privacy First</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section class="py-12 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-text mb-8">
+        Debt Payoff Calculator
+      </h2>
+      <DebtCalculator client:load />
+    </div>
+  </section>
+
+  <!-- Educational Content -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-4xl mx-auto prose prose-lg">
+      <h2 class="text-3xl font-bold text-text mb-6">
+        The Complete Guide to Paying Off Debt in the United States
+      </h2>
+
+      <p class="text-text-muted leading-relaxed">
+        Debt is a reality for the majority of American households. According to recent Federal Reserve data, total
+        US household debt surpassed $17 trillion, with credit card balances, student loans, auto loans, and mortgages
+        making up the largest categories. The average American carries approximately $6,500 in credit card debt alone,
+        often at annual percentage rates (APRs) exceeding 20%. If you are among the millions looking for a path to
+        financial freedom, understanding debt payoff strategies is the most important first step you can take.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Understanding Your Debt: The First Step
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Before you can create a payoff plan, you need a clear picture of what you owe. Gather all your debt
+        statements and list each debt with four key pieces of information: the creditor or debt name, the current
+        balance, the annual percentage rate (APR), and the minimum monthly payment. This inventory is the foundation
+        of every debt payoff strategy. Many people are surprised to discover the true total of their debts when they
+        see everything listed in one place. Our calculator above makes this process simple. Just enter each debt, and
+        the tool will do the rest.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        The Avalanche Method: Mathematically Optimal
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        The debt avalanche method is the mathematically superior approach to paying off multiple debts. Here is how
+        it works: you make minimum payments on all your debts, then direct every extra dollar toward the debt with the
+        highest APR. Once that debt is paid off, you roll its payment (minimum plus extra) into the next highest APR
+        debt, creating an "avalanche" effect that accelerates your payoff timeline. This method minimizes the total
+        interest you pay over the life of your debts, saving you the most money possible. For someone with a mix of
+        credit cards at 22% APR and student loans at 5% APR, the avalanche method could save thousands of dollars
+        compared to paying debts randomly or proportionally.
+      </p>
+
+      <p class="text-text-muted leading-relaxed">
+        The key advantage of the avalanche method is pure math. Interest compounds, and by eliminating high-interest
+        debts first, you reduce the total amount of interest that accrues across all your accounts. Financial advisors
+        and mathematicians consistently recommend this approach for maximum savings. However, it requires discipline
+        because the highest APR debt might also be the largest balance, meaning it could take months or even years
+        before you see a debt completely eliminated from your list.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        The Snowball Method: Psychological Momentum
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        The debt snowball method, popularized by personal finance author Dave Ramsey, takes a different approach.
+        Instead of targeting the highest APR, you focus extra payments on the debt with the smallest balance. The
+        logic is psychological rather than mathematical. By paying off small debts quickly, you experience "wins"
+        that build motivation and confidence. Each eliminated debt frees up its minimum payment, which rolls into the
+        next smallest debt like a snowball growing as it rolls downhill.
+      </p>
+
+      <p class="text-text-muted leading-relaxed">
+        Research from the Harvard Business Review and other behavioral economics studies supports the snowball
+        approach. People who see early progress are more likely to stick with their debt payoff plan. A study published
+        in the Journal of Consumer Research found that consumers who focused on closing accounts (regardless of size)
+        were more motivated and ultimately paid off more debt. The snowball method may cost slightly more in interest,
+        but if it keeps you committed to your plan, the real-world results can be superior to the theoretically
+        optimal avalanche method that you abandon halfway through.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Avalanche vs. Snowball: Which Should You Choose?
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        The best debt payoff strategy is the one you will actually follow. Use our calculator above to compare both
+        methods with your specific debts. In many cases, the difference in total interest is relatively small,
+        especially if your debts have similar APRs or if your extra monthly payment is substantial. If you are
+        motivated by seeing balances hit zero, the snowball method might be your best fit. If you are driven by
+        optimizing every dollar and minimizing waste, the avalanche method is your choice. Some financial planners
+        recommend a hybrid approach: start with the snowball method to build momentum by knocking out one or two
+        small debts, then switch to the avalanche method for the remaining larger balances. There is no wrong answer
+        as long as you are making progress.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        The Power of Extra Payments
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        The single most impactful thing you can do to accelerate your debt payoff is to make extra payments beyond
+        the minimums. Even an extra $50 or $100 per month can shave years off your debt-free date and save thousands
+        in interest. Consider these strategies for finding extra money in your budget: review subscription services
+        and cancel those you do not use regularly, negotiate lower rates on insurance and recurring bills, sell items
+        you no longer need, take on a temporary side hustle, or redirect windfalls like tax refunds and bonuses
+        directly toward debt. The key is consistency. A small extra payment every month is more powerful than a large
+        one-time payment followed by months of minimums.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Understanding Interest Rates and APR
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Your annual percentage rate (APR) determines how much interest accrues on your debt each month. Credit cards
+        typically carry the highest APRs, ranging from 15% to 30% or more. Personal loans usually fall between 6% and
+        36% depending on your credit score. Auto loans range from 3% to 15%, and student loans from 3% to 8% for
+        federal loans (private student loans can be higher). Understanding these rates is critical because a $10,000
+        balance at 25% APR generates over $200 in interest per month, while the same balance at 5% APR generates
+        only about $42. This is why the avalanche method can save so much money: it eliminates the debts that are
+        generating the most interest first.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Common Debt Payoff Mistakes to Avoid
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        As you work toward becoming debt-free, watch out for these common pitfalls. First, do not neglect your
+        emergency fund. Financial experts recommend having at least $1,000 saved before aggressively paying down debt.
+        Without an emergency fund, unexpected expenses force you back into debt, erasing your progress. Second, avoid
+        taking on new debt while paying off existing balances. This means living within your means and avoiding the
+        temptation to finance new purchases. Third, do not ignore your credit card interest rates. If you have good
+        credit, consider balance transfer offers with 0% introductory APRs. Transferring a high-interest balance to a
+        0% card can save hundreds or thousands in interest, but read the fine print carefully and have a plan to pay
+        off the balance before the promotional period ends. Fourth, do not make only minimum payments. Minimum
+        payments are designed to maximize the interest the lender collects from you. On a $5,000 credit card balance
+        at 20% APR with a $100 minimum payment, it would take over 9 years and cost more than $6,700 in interest to
+        pay off the balance. That means you would pay more in interest than the original amount borrowed.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Building a Debt-Free Future
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Becoming debt-free is not just about paying off existing balances. It is about building habits that prevent
+        future debt accumulation. Create a realistic monthly budget that accounts for all your expenses and includes
+        savings goals. Track your spending to identify areas where you can cut back. Build an emergency fund of three
+        to six months of expenses to protect yourself from unexpected costs. Automate your debt payments so you never
+        miss a due date. Celebrate milestones along the way, whether that is paying off your first credit card or
+        reaching the halfway point of your total debt. The psychological boost from these celebrations reinforces
+        positive financial behavior and keeps you motivated for the long haul.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        How to Use This Debt Payoff Calculator
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Our free debt payoff calculator is designed to give you actionable insights in seconds. Start by entering each
+        of your debts with the current balance, APR, and minimum payment. Then enter any extra amount you can put
+        toward debt each month. Toggle between the avalanche and snowball strategies to see how each approach affects
+        your payoff timeline and total interest paid. The comparison panel shows you exactly how much money you could
+        save by choosing one strategy over the other. Use the month-by-month timeline to see exactly when each debt
+        will be paid off and how your total balance decreases over time. Revisit the calculator regularly as you pay
+        down debts to update your plan and stay on track. All calculations run entirely in your browser, and no
+        personal data is stored or transmitted, so your financial information remains completely private.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Tips for Staying on Track
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Paying off debt is a marathon, not a sprint. Here are ten practical tips to keep you motivated and on track.
+        First, write down your "why." Whether it is financial freedom, reducing stress, saving for a home, or
+        retiring early, having a clear purpose keeps you focused. Second, automate your payments. Set up automatic
+        transfers for your minimum payments plus extra to eliminate the temptation to spend that money elsewhere.
+        Third, use visual trackers. Print a chart or use an app to color in your progress. Seeing the visual
+        representation of your shrinking debt is incredibly motivating. Fourth, find an accountability partner.
+        Share your goals with a trusted friend or family member who can encourage you and hold you accountable. Fifth,
+        review your plan monthly and adjust as needed. Life changes, and your debt payoff plan should adapt accordingly.
+        Sixth, avoid lifestyle inflation when you get a raise or bonus. Direct that extra income toward debt instead.
+        Seventh, learn to distinguish between wants and needs. This does not mean deprivation, but rather conscious
+        spending decisions. Eighth, consider debt consolidation if you have good credit and can get a lower interest
+        rate. Ninth, celebrate your wins, no matter how small. Paid off a $500 medical bill? That is worth
+        acknowledging. Tenth, remember that setbacks are normal. If you have a month where you can only make minimums,
+        do not give up. Get back on track the following month and keep moving forward. Your future self will thank you
+        for every dollar you put toward debt today.
+      </p>
+    </div>
+  </section>
+</Layout>

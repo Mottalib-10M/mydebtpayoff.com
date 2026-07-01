@@ -1,0 +1,100 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/global.css';
+
+const faqs = [
+  {
+    question: 'What is the debt avalanche method?',
+    answer: 'The debt avalanche method focuses your extra payments on the debt with the highest annual percentage rate (APR) first, while making minimum payments on all other debts. Once the highest-APR debt is paid off, you redirect those payments to the next highest-APR debt. This approach minimizes the total interest you pay over the life of your debts.',
+  },
+  {
+    question: 'What is the debt snowball method?',
+    answer: 'The debt snowball method directs your extra payments toward the debt with the smallest balance first, regardless of APR. When that smallest debt is eliminated, you roll its payment into the next smallest debt. The psychological benefit of quick wins helps many people stay motivated throughout their payoff journey.',
+  },
+  {
+    question: 'Which is better: avalanche or snowball?',
+    answer: 'Mathematically, the avalanche method saves more money by reducing total interest paid. However, the snowball method works better for people who need motivational wins to stay committed. The best method is the one you will actually stick with. Use our calculator to compare both with your specific debts and see the actual dollar difference.',
+  },
+  {
+    question: 'How much extra should I pay toward my debt each month?',
+    answer: 'Any extra amount helps, even $25 or $50 per month. However, the more you can pay above your minimums, the faster you will be debt-free and the less interest you will pay. Use our calculator to experiment with different extra payment amounts and see how they affect your timeline.',
+  },
+  {
+    question: 'Should I save an emergency fund before paying off debt?',
+    answer: 'Most financial experts recommend having at least $1,000 in an emergency fund before aggressively paying down debt. Without an emergency cushion, unexpected expenses like car repairs or medical bills could force you to take on more debt, undoing your progress.',
+  },
+  {
+    question: 'How does APR affect my debt payoff?',
+    answer: 'APR (annual percentage rate) determines how much interest accrues on your balance each month. Higher APR debts generate more interest, which is why the avalanche method targets them first. A $5,000 balance at 25% APR generates about $104 in monthly interest, while the same balance at 5% APR generates only about $21.',
+  },
+  {
+    question: 'Is this calculator free to use?',
+    answer: 'Yes, this debt payoff calculator is completely free. There is no signup required, no email collection, and no hidden fees. All calculations are performed in your browser, meaning your financial data never leaves your device.',
+  },
+  {
+    question: 'Can I include all types of debt in this calculator?',
+    answer: 'Yes. You can include credit card debt, personal loans, auto loans, student loans, medical debt, and any other type of debt with a fixed or variable APR. For variable-rate debts, use your current APR and revisit the calculator periodically to update the rate.',
+  },
+  {
+    question: 'What if I can only make minimum payments?',
+    answer: 'If you can only make minimum payments right now, that is okay. Use the calculator with $0 in extra payments to see your current payoff timeline. This can motivate you to find ways to increase your payments in the future. Even small increases make a significant difference over time.',
+  },
+  {
+    question: 'Should I use a balance transfer to pay off credit card debt?',
+    answer: 'A balance transfer to a 0% introductory APR card can be an excellent strategy if you can pay off the balance before the promotional period ends (typically 12 to 21 months). Be aware of balance transfer fees (usually 3% to 5% of the transferred amount) and the regular APR that kicks in after the promotional period.',
+  },
+  {
+    question: 'How accurate are the results from this calculator?',
+    answer: 'Our calculator uses standard amortization formulas and provides accurate estimates based on the information you enter. Actual results may vary slightly due to factors like payment posting dates, minimum payment changes, and variable interest rates. The results are intended for planning purposes.',
+  },
+  {
+    question: 'Does this calculator store my financial information?',
+    answer: 'No. All calculations are performed entirely in your web browser. No financial data is transmitted to any server, stored in any database, or shared with any third party. Your privacy is fully protected.',
+  },
+];
+---
+
+<Layout
+  title="FAQ - Debt Payoff Planner | Common Questions About Paying Off Debt"
+  description="Answers to frequently asked questions about debt payoff strategies, avalanche vs snowball methods, APR, extra payments, and using our free debt calculator."
+>
+  <section class="py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-text text-center mb-4">Frequently Asked Questions</h1>
+      <p class="text-lg text-text-muted text-center mb-12 max-w-2xl mx-auto">
+        Everything you need to know about debt payoff strategies and using our free calculator.
+      </p>
+
+      <div class="space-y-6">
+        {faqs.map((faq, index) => (
+          <div class="bg-white rounded-xl shadow-sm border border-border p-6">
+            <h2 class="text-lg font-bold text-text mb-3">{faq.question}</h2>
+            <p class="text-text-muted leading-relaxed">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-12 text-center">
+        <a
+          href="/"
+          class="inline-block px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors"
+        >
+          Try the Calculator
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  })} />
+</Layout>

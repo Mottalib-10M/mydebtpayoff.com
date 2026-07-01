@@ -1,0 +1,104 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+}
+
+const { title, description, canonical } = Astro.props;
+const siteUrl = 'https://debtpayoffplanner.com';
+const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astro.url.pathname, siteUrl).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Debt Payoff Planner" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: 'Debt Payoff Planner',
+        url: siteUrl,
+        description: 'Free US debt payoff calculator. Compare avalanche and snowball strategies to become debt-free faster.',
+        applicationCategory: 'FinanceApplication',
+        operatingSystem: 'Any',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      })}
+    />
+    <script defer data-domain="debtpayoffplanner.com" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body class="bg-surface text-text min-h-screen flex flex-col">
+    <header class="bg-white border-b border-border sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary-dark transition-colors">
+          <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" fill="#7c3aed"/>
+            <text x="50" y="68" text-anchor="middle" fill="white" font-size="56" font-weight="bold" font-family="Arial">$</text>
+          </svg>
+          Debt Payoff Planner
+        </a>
+        <nav class="hidden sm:flex items-center gap-6 text-sm font-medium">
+          <a href="/" class="text-text-muted hover:text-primary transition-colors">Calculator</a>
+          <a href="/faq/" class="text-text-muted hover:text-primary transition-colors">FAQ</a>
+          <a href="/privacy/" class="text-text-muted hover:text-primary transition-colors">Privacy</a>
+          <a href="/legal/" class="text-text-muted hover:text-primary transition-colors">Legal</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="bg-white border-t border-border mt-16">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-bold text-text mb-3">Debt Payoff Planner</h4>
+            <p class="text-sm text-text-muted">
+              Free calculator to help you pay off debt faster using proven strategies.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-text mb-3">Pages</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/" class="text-text-muted hover:text-primary transition-colors">Calculator</a></li>
+              <li><a href="/faq/" class="text-text-muted hover:text-primary transition-colors">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-text mb-3">Legal</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/privacy/" class="text-text-muted hover:text-primary transition-colors">Privacy Policy</a></li>
+              <li><a href="/legal/" class="text-text-muted hover:text-primary transition-colors">Legal Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-border text-center text-sm text-text-muted">
+          <p>&copy; {new Date().getFullYear()} DebtPayoffPlanner.com. All rights reserved.</p>
+          <p class="mt-1">This calculator is for educational purposes only. Not financial advice.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

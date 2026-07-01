@@ -1,0 +1,25 @@
+# DebtPayoffPlanner.com
+
+## Overview
+DebtPayoffPlanner.com is a free US debt payoff calculator that helps users compare avalanche and snowball debt payoff strategies. All calculations are performed client-side for maximum privacy.
+
+## Features
+- Debt payoff calculator with support for multiple debts
+- Avalanche method: targets highest APR debt first to minimize total interest
+- Snowball method: targets lowest balance first for psychological momentum
+- Side-by-side strategy comparison showing interest saved and time difference
+- Month-by-month payoff timeline with detailed breakdown
+- Visual stacked bar chart showing debt balance over time
+- Standard loan amortization calculator
+
+## Pages
+- / — Main calculator with comprehensive guide to debt payoff strategies
+- /faq/ — Frequently asked questions about debt payoff methods
+- /privacy/ — Privacy policy (no financial data collected or stored)
+- /legal/ — Legal disclaimer (educational tool, not financial advice)
+
+## Technical Details
+- Built with Astro, React, and Tailwind CSS
+- All calculations run in the browser (no server-side processing)
+- No cookies, no tracking pixels, no advertising
+- Privacy-focused analytics via Plausible
