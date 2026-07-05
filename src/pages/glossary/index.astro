@@ -1,0 +1,101 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Debt Glossary - Key Financial Terms Explained | Debt Payoff Planner" description="A comprehensive glossary of debt and personal finance terms including APR, amortization, debt avalanche, debt snowball, and more.">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://debtpayoffplanner.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://debtpayoffplanner.com/glossary/" }
+    ]
+  })} />
+
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/" class="hover:text-primary">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-800">Glossary</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Debt and Personal Finance Glossary</h1>
+    <p class="text-gray-600 mb-8">A reference guide to the most important terms you will encounter when creating a debt payoff plan. Understanding these concepts will help you make smarter decisions about your repayment strategy. Terms are listed in alphabetical order.</p>
+
+    <dl class="space-y-6">
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Amortization</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Amortization is the process of paying off a debt over time through regular, scheduled payments. Each payment is split between interest charges and reducing the principal balance. In the early stages of an amortized loan, a larger portion of each payment goes toward interest, while later payments apply more toward the principal. Mortgage and auto loans are common examples of fully amortized loans.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">APR (Annual Percentage Rate)</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">APR is the yearly interest rate charged on a loan or credit balance, expressed as a percentage. Unlike the simple interest rate, APR may include additional fees and costs associated with the loan. APR provides a standardized way to compare the cost of borrowing across different lenders and loan products. A lower APR means less interest paid over the life of the debt.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Balance Transfer</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">A balance transfer involves moving an existing debt balance from one credit card or loan to another, typically to take advantage of a lower interest rate or a promotional 0% APR period. Balance transfers often come with a one-time fee (usually 3% to 5% of the transferred amount). When used strategically, balance transfers can reduce interest costs and accelerate debt payoff.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Compound Interest</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. This means that if you carry a balance, you pay interest on your interest. Most credit cards compound interest daily, which causes debt to grow faster than simple interest. Understanding compounding is essential for appreciating how quickly unpaid balances can escalate.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Credit Utilization</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Credit utilization is the ratio of your outstanding credit card balances to your total available credit limits, expressed as a percentage. For example, if you have $3,000 in balances and $10,000 in total credit limits, your utilization is 30%. Lower credit utilization is generally better for your credit score, with most experts recommending keeping it below 30%. Paying down debt directly improves this ratio.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Debt Avalanche</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The debt avalanche method is a repayment strategy where you make minimum payments on all debts and direct any extra money toward the debt with the highest interest rate. Once that debt is paid off, you move to the next highest rate, and so on. This approach minimizes the total amount of interest you pay over the life of your debts, making it the most cost-effective strategy mathematically.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Debt Consolidation</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Debt consolidation combines multiple debts into a single loan or payment, often at a lower interest rate. Common consolidation methods include personal loans, home equity loans, and balance transfer credit cards. Consolidation simplifies your payments and can reduce your overall interest rate, but it does not reduce the amount you owe. It is most effective when combined with a disciplined repayment plan.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Debt Snowball</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The debt snowball method is a repayment strategy where you make minimum payments on all debts and direct extra money toward the debt with the smallest balance. Once that debt is eliminated, you roll its payment into the next smallest balance, creating a "snowball" effect. While it may cost more in total interest than the avalanche method, many people find the quick wins motivating and are more likely to stick with the plan.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Debt-to-Income Ratio</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The debt-to-income (DTI) ratio compares your total monthly debt payments to your gross monthly income, expressed as a percentage. Lenders use DTI to assess your ability to manage new debt obligations. A DTI below 36% is generally considered healthy, while a DTI above 43% may make it difficult to qualify for new loans. Reducing your debt directly improves your DTI ratio.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Emergency Fund</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">An emergency fund is a savings reserve set aside to cover unexpected expenses such as medical bills, car repairs, or job loss. Financial experts typically recommend saving three to six months of living expenses. Having an emergency fund prevents you from taking on new debt when unplanned costs arise, which is critical when you are working toward paying off existing debt.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Interest Rate</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The interest rate is the percentage charged by a lender on the outstanding balance of a loan or credit account, typically expressed on an annual basis. Interest rates can be fixed (staying the same over the loan term) or variable (changing based on market conditions). Your interest rate directly determines how much extra you pay beyond the original amount borrowed and is the most critical factor in the total cost of your debt.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Minimum Payment</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The minimum payment is the smallest amount you must pay each month on a credit card or loan to remain in good standing. For credit cards, it is typically 1% to 3% of the outstanding balance plus interest and fees. Paying only the minimum extends your repayment timeline significantly and maximizes the total interest you pay. Most debt payoff strategies recommend paying as much above the minimum as possible.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Payoff Date</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The payoff date is the projected date when a debt will be fully repaid, assuming consistent payments and no additional borrowing. Our calculator computes your payoff date for each individual debt and for all debts combined, based on the repayment strategy you choose. Adding extra payments to your plan can move your payoff date significantly earlier.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Principal</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Principal is the original amount of money borrowed, or the remaining balance of a loan excluding accrued interest and fees. When you make a payment on a debt, a portion goes toward interest charges and the remainder reduces the principal. The faster you reduce the principal, the less interest accrues in future periods, which is why extra payments are so effective at shortening your payoff timeline.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Total Interest Cost</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Total interest cost is the cumulative amount of interest you will pay over the entire life of a debt, from today until the final payment. Our calculator shows the total interest cost for each repayment strategy, allowing you to see exactly how much money you save by choosing the avalanche method over the snowball method, or by adding extra payments to your plan. This figure often surprises people with how large it can be.</dd>
+      </div>
+    </dl>
+  </div>
+</Layout>

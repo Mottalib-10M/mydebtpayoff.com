@@ -28,6 +28,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="author" content="Mottalib Radif" />
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -45,9 +46,39 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
         },
       })}
     />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Debt Payoff Planner",
+      "url": "https://debtpayoffplanner.com",
+      "logo": "https://debtpayoffplanner.com/favicon.svg",
+      "founder": {
+        "@type": "Person",
+        "name": "Mottalib Radif"
+      }
+    })} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Mottalib Radif",
+      "jobTitle": "Financial Technology Expert",
+      "url": "https://debtpayoffplanner.com"
+    })} />
+
     <script defer data-domain="debtpayoffplanner.com" src="https://plausible.io/js/script.js"></script>
+
+    <!-- TODO: Replace G-XXXXXXXXXX with your real GA4 Measurement ID from https://analytics.google.com -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
   </head>
   <body class="bg-surface text-text min-h-screen flex flex-col">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-blue-700 focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-blue-500">Skip to content</a>
     <header class="bg-white border-b border-border sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary-dark transition-colors">
@@ -57,16 +88,38 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
           </svg>
           Debt Payoff Planner
         </a>
-        <nav class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
           <a href="/" class="text-text-muted hover:text-primary transition-colors">Calculator</a>
+          <a href="/guides/" class="text-text-muted hover:text-primary transition-colors">Guides</a>
           <a href="/faq/" class="text-text-muted hover:text-primary transition-colors">FAQ</a>
           <a href="/privacy/" class="text-text-muted hover:text-primary transition-colors">Privacy</a>
           <a href="/legal/" class="text-text-muted hover:text-primary transition-colors">Legal</a>
         </nav>
+        <!-- Mobile hamburger button -->
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-surface-dark transition-colors"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+        >
+          <span id="hamburger-top" class="block w-5 h-0.5 bg-text transition-all duration-300"></span>
+          <span id="hamburger-mid" class="block w-5 h-0.5 bg-text mt-1 transition-all duration-300"></span>
+          <span id="hamburger-bot" class="block w-5 h-0.5 bg-text mt-1 transition-all duration-300"></span>
+        </button>
+      </div>
+      <!-- Mobile nav panel -->
+      <div id="mobile-menu" class="md:hidden hidden border-t border-border bg-white">
+        <nav class="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-3 text-sm font-medium">
+          <a href="/" class="text-text-muted hover:text-primary transition-colors py-2">Calculator</a>
+          <a href="/guides/" class="text-text-muted hover:text-primary transition-colors py-2">Guides</a>
+          <a href="/faq/" class="text-text-muted hover:text-primary transition-colors py-2">FAQ</a>
+          <a href="/privacy/" class="text-text-muted hover:text-primary transition-colors py-2">Privacy</a>
+          <a href="/legal/" class="text-text-muted hover:text-primary transition-colors py-2">Legal</a>
+        </nav>
       </div>
     </header>
 
-    <main class="flex-1">
+    <main id="main-content" class="flex-1">
       <slot />
     </main>
 
@@ -83,6 +136,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
             <h4 class="font-bold text-text mb-3">Pages</h4>
             <ul class="space-y-2 text-sm">
               <li><a href="/" class="text-text-muted hover:text-primary transition-colors">Calculator</a></li>
+              <li><a href="/guides/" class="text-text-muted hover:text-primary transition-colors">Guides</a></li>
               <li><a href="/faq/" class="text-text-muted hover:text-primary transition-colors">FAQ</a></li>
             </ul>
           </div>
@@ -100,5 +154,31 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
         </div>
       </div>
     </footer>
+
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const top = document.getElementById('hamburger-top');
+        const mid = document.getElementById('hamburger-mid');
+        const bot = document.getElementById('hamburger-bot');
+        if (btn && menu) {
+          btn.addEventListener('click', () => {
+            const open = !menu.classList.contains('hidden');
+            menu.classList.toggle('hidden');
+            btn.setAttribute('aria-expanded', String(!open));
+            if (!open) {
+              top.style.transform = 'rotate(45deg) translate(2px, 4px)';
+              mid.style.opacity = '0';
+              bot.style.transform = 'rotate(-45deg) translate(2px, -4px)';
+            } else {
+              top.style.transform = '';
+              mid.style.opacity = '1';
+              bot.style.transform = '';
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

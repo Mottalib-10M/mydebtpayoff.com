@@ -1,0 +1,423 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DebtCalculator from '../components/DebtCalculator';
+import { debtScenarios, type DebtScenario } from '../lib/debt-scenarios-data';
+import '../styles/global.css';
+
+export function getStaticPaths() {
+  return debtScenarios.map((scenario) => ({
+    params: { amount: scenario.slug },
+    props: { scenario },
+  }));
+}
+
+interface Props {
+  scenario: DebtScenario;
+}
+
+const { scenario } = Astro.props;
+const { amount, amountFormatted, title, description, typicalDebts, timeline, contextParagraph, faqs } = scenario;
+
+// Build adjacent scenario links
+const currentIndex = debtScenarios.findIndex((s) => s.slug === scenario.slug);
+const prevScenario = currentIndex > 0 ? debtScenarios[currentIndex - 1] : null;
+const nextScenario = currentIndex < debtScenarios.length - 1 ? debtScenarios[currentIndex + 1] : null;
+
+const siteUrl = 'https://debtpayoffplanner.com';
+const pageUrl = `${siteUrl}/payoff-${scenario.slug}/`;
+
+// Schema.org BreadcrumbList
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: `Pay Off ${amountFormatted}`,
+      item: pageUrl,
+    },
+  ],
+};
+
+// Schema.org FAQPage
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+// Helper for formatting
+function fmtCurrency(n: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+}
+
+function monthsToYears(m: number): string {
+  const years = Math.floor(m / 12);
+  const months = m % 12;
+  if (years === 0) return `${months} months`;
+  if (months === 0) return `${years} year${years > 1 ? 's' : ''}`;
+  return `${years} year${years > 1 ? 's' : ''} ${months} month${months > 1 ? 's' : ''}`;
+}
+---
+
+<Layout
+  title={`${title} - Payoff Calculator & Plan`}
+  description={description}
+  canonical={`/payoff-${scenario.slug}/`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Breadcrumb -->
+  <nav class="max-w-6xl mx-auto px-4 py-3 text-sm text-text-muted" aria-label="Breadcrumb">
+    <ol class="flex items-center gap-2">
+      <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
+      <li class="before:content-['/'] before:mx-2">Pay Off {amountFormatted}</li>
+    </ol>
+  </nav>
+
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-14">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+        How to Pay Off {amountFormatted} in Debt
+      </h1>
+      <p class="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
+        See exactly how long it takes to pay off {amountFormatted} using the avalanche and snowball methods.
+        Get a personalized payoff plan with our free calculator.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <span class="bg-white/20 px-4 py-2 rounded-full">Avalanche vs Snowball</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">Month-by-Month Plan</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">100% Free</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Stats -->
+  <section class="py-10 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-text mb-6 text-center">
+        {amountFormatted} Payoff Snapshot (with {fmtCurrency(timeline.extraPayment)}/mo extra)
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div class="text-sm text-text-muted mb-1">Avalanche Payoff</div>
+          <div class="text-3xl font-bold text-primary">{timeline.avalancheMonths} mo</div>
+          <div class="text-sm text-text-muted">{monthsToYears(timeline.avalancheMonths)}</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div class="text-sm text-text-muted mb-1">Snowball Payoff</div>
+          <div class="text-3xl font-bold text-secondary">{timeline.snowballMonths} mo</div>
+          <div class="text-sm text-text-muted">{monthsToYears(timeline.snowballMonths)}</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div class="text-sm text-text-muted mb-1">Avalanche Saves</div>
+          <div class="text-3xl font-bold text-accent-dark">{fmtCurrency(timeline.interestSaved)}</div>
+          <div class="text-sm text-text-muted">{timeline.monthsSaved} month{timeline.monthsSaved !== 1 ? 's' : ''} faster</div>
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="bg-white rounded-xl shadow-lg border border-border overflow-hidden mb-10">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-surface">
+              <th class="text-left py-3 px-4 font-semibold text-text">Strategy</th>
+              <th class="text-right py-3 px-4 font-semibold text-text">Months</th>
+              <th class="text-right py-3 px-4 font-semibold text-text">Total Interest</th>
+              <th class="text-right py-3 px-4 font-semibold text-text">Total Paid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-border">
+              <td class="py-3 px-4 font-medium text-primary">Avalanche (Highest APR first)</td>
+              <td class="py-3 px-4 text-right">{timeline.avalancheMonths}</td>
+              <td class="py-3 px-4 text-right text-red-600">{fmtCurrency(timeline.avalancheInterest)}</td>
+              <td class="py-3 px-4 text-right">{fmtCurrency(amount + timeline.avalancheInterest)}</td>
+            </tr>
+            <tr class="border-t border-border">
+              <td class="py-3 px-4 font-medium text-secondary">Snowball (Lowest balance first)</td>
+              <td class="py-3 px-4 text-right">{timeline.snowballMonths}</td>
+              <td class="py-3 px-4 text-right text-red-600">{fmtCurrency(timeline.snowballInterest)}</td>
+              <td class="py-3 px-4 text-right">{fmtCurrency(amount + timeline.snowballInterest)}</td>
+            </tr>
+            <tr class="border-t-2 border-primary bg-primary/5">
+              <td class="py-3 px-4 font-bold text-primary">Avalanche Advantage</td>
+              <td class="py-3 px-4 text-right font-bold text-primary">{timeline.monthsSaved} mo faster</td>
+              <td class="py-3 px-4 text-right font-bold text-primary">{fmtCurrency(timeline.interestSaved)} saved</td>
+              <td class="py-3 px-4 text-right font-bold text-primary">{fmtCurrency(timeline.interestSaved)} saved</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Typical Debts Breakdown -->
+      <div class="bg-white rounded-xl shadow-lg border border-border p-6 mb-10">
+        <h3 class="text-xl font-bold text-text mb-4">Typical {amountFormatted} Debt Breakdown</h3>
+        <p class="text-text-muted mb-4">
+          Here is a representative mix of debts totaling {amountFormatted}. Your actual debts may differ - use the calculator below to model your specific situation.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="text-left py-2 px-3 font-medium text-text-muted">Debt</th>
+                <th class="text-right py-2 px-3 font-medium text-text-muted">Balance</th>
+                <th class="text-right py-2 px-3 font-medium text-text-muted">APR</th>
+                <th class="text-right py-2 px-3 font-medium text-text-muted">Min Payment</th>
+              </tr>
+            </thead>
+            <tbody>
+              {typicalDebts.map((debt) => (
+                <tr class="border-b border-border/50">
+                  <td class="py-2 px-3">{debt.name}</td>
+                  <td class="py-2 px-3 text-right">{fmtCurrency(debt.balance)}</td>
+                  <td class="py-2 px-3 text-right">{debt.apr}%</td>
+                  <td class="py-2 px-3 text-right">{fmtCurrency(debt.minimumPayment)}/mo</td>
+                </tr>
+              ))}
+              <tr class="bg-surface font-semibold">
+                <td class="py-2 px-3">Total</td>
+                <td class="py-2 px-3 text-right">{fmtCurrency(typicalDebts.reduce((s, d) => s + d.balance, 0))}</td>
+                <td class="py-2 px-3 text-right">-</td>
+                <td class="py-2 px-3 text-right">{fmtCurrency(typicalDebts.reduce((s, d) => s + d.minimumPayment, 0))}/mo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section class="py-12 px-4 bg-surface-dark">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-text mb-3">
+        {amountFormatted} Debt Payoff Calculator
+      </h2>
+      <p class="text-center text-text-muted mb-8 max-w-2xl mx-auto">
+        Enter your actual debts below to get a personalized payoff plan. The calculator pre-loads with
+        a typical {amountFormatted} scenario - adjust the numbers to match your situation.
+      </p>
+      <DebtCalculator client:idle />
+    </div>
+  </section>
+
+  <!-- Context Content -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-4xl mx-auto prose prose-lg">
+      <h2 class="text-3xl font-bold text-text mb-6">
+        Understanding {amountFormatted} in Debt
+      </h2>
+
+      <p class="text-text-muted leading-relaxed">
+        {contextParagraph}
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Avalanche vs Snowball for {amountFormatted}
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        When paying off {amountFormatted} in debt, the strategy you choose has a measurable impact on both
+        your timeline and total cost. Using the avalanche method - directing all extra payments to the debt
+        with the highest annual percentage rate - you can expect to be debt-free in approximately
+        {timeline.avalancheMonths} months with {fmtCurrency(timeline.extraPayment)} per month in extra payments.
+        The snowball method, which targets the lowest balance first for psychological motivation, takes about
+        {timeline.snowballMonths} months for the same extra payment. The avalanche approach saves you
+        {fmtCurrency(timeline.interestSaved)} in interest and {timeline.monthsSaved} month{timeline.monthsSaved !== 1 ? 's' : ''} of
+        payments. At {amountFormatted}, this savings represents real money that could be redirected toward
+        an emergency fund, retirement savings, or other financial goals.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Step-by-Step Plan to Pay Off {amountFormatted}
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Start by listing every debt you owe, including the current balance, APR, and minimum monthly payment.
+        Our calculator above makes this easy: enter each debt and see your payoff timeline instantly. Next,
+        determine how much extra you can afford to pay each month beyond minimums. Even {fmtCurrency(timeline.extraPayment)} per month
+        makes a dramatic difference compared to minimums alone. Select the avalanche method to minimize interest
+        costs, or the snowball method if you prefer quick wins to stay motivated. Set up automatic payments
+        to ensure consistency, and revisit your plan monthly to update balances and celebrate progress.
+      </p>
+
+      <p class="text-text-muted leading-relaxed">
+        As you pay off each debt, roll its entire payment (minimum plus any extra) into the next target debt.
+        This rolling payment effect is what makes both the avalanche and snowball methods so powerful. Each
+        eliminated debt accelerates the payoff of the remaining debts, creating momentum that compounds over
+        time. For {amountFormatted} in debt, you will likely see the first debt eliminated within
+        {Math.max(3, Math.round(timeline.avalancheMonths * 0.25))} to {Math.round(timeline.avalancheMonths * 0.4)} months,
+        giving you a tangible milestone to celebrate early in your journey.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        How Extra Payments Affect {amountFormatted} in Debt
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        The amount you pay beyond minimums has the single largest impact on your debt-free date. With
+        {amountFormatted} in debt, making only minimum payments could take 10 to 20 years depending on your
+        interest rates, and you would pay thousands or even tens of thousands in interest. Adding
+        {fmtCurrency(timeline.extraPayment)} per month cuts the timeline to approximately {monthsToYears(timeline.avalancheMonths)} using the
+        avalanche method. Doubling your extra payment would cut the timeline further, potentially below
+        {Math.round(timeline.avalancheMonths * 0.7)} months. Every dollar counts, especially when applied to
+        high-interest debts first. Consider directing windfalls such as tax refunds, work bonuses, or cash from
+        selling unused belongings toward your debt to create periodic boosts in your payoff progress.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Common Mistakes When Paying Off {amountFormatted}
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Avoid these pitfalls as you work toward eliminating {amountFormatted} in debt. First, do not drain your
+        emergency fund to pay off debt. Keep at least $1,000 to $2,000 in reserve so unexpected expenses do not
+        force you to take on new debt. Second, avoid taking on new debt while paying off existing balances. If
+        credit cards are part of your debt, stop using them or freeze them. Third, do not spread extra payments
+        across all debts equally. Concentrating extra payments on one debt at a time (using either avalanche or
+        snowball ordering) is far more effective because it eliminates debts faster and creates the rolling
+        payment effect. Fourth, do not ignore opportunities to reduce interest rates through balance transfers,
+        refinancing, or negotiation with creditors. A lower rate means more of each payment goes to principal.
+        Fifth, do not give up after a setback. Missing one month of extra payments is a minor delay, not a reason
+        to abandon your plan.
+      </p>
+
+      <h3 class="text-2xl font-bold text-text mt-10 mb-4">
+        Where to Find Extra Money for Debt Payments
+      </h3>
+
+      <p class="text-text-muted leading-relaxed">
+        Finding {fmtCurrency(timeline.extraPayment)} or more per month for extra debt payments is achievable for most households
+        with deliberate effort. Start by auditing recurring subscriptions and canceling those you rarely use.
+        The average American spends over $200 per month on subscriptions. Next, review your grocery and dining
+        budget. Meal planning and cooking at home can save $200 to $400 per month compared to frequent restaurant
+        meals. Consider negotiating your insurance premiums, cell phone plan, and internet service. Many providers
+        offer retention discounts when you mention switching to a competitor. Sell items you no longer use through
+        online marketplaces. Even a one-time $500 sale of unused electronics, clothing, or furniture accelerates
+        your payoff. Finally, explore opportunities for additional income through freelance work, overtime, or a
+        part-time job. Directing this additional income entirely toward debt can dramatically shorten your timeline.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-text mb-8 text-center">
+        Frequently Asked Questions About Paying Off {amountFormatted}
+      </h2>
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <div class="bg-white rounded-xl shadow border border-border p-6">
+            <h3 class="text-lg font-semibold text-text mb-2">{faq.question}</h3>
+            <p class="text-text-muted leading-relaxed">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-Links -->
+  <section class="py-12 px-4 bg-surface-dark">
+    <div class="max-w-5xl mx-auto">
+      <!-- Adjacent amounts -->
+      <div class="flex justify-between items-center mb-10">
+        {prevScenario ? (
+          <a
+            href={`/payoff-${prevScenario.slug}/`}
+            class="flex items-center gap-2 text-primary hover:text-primary-dark transition-colors font-medium"
+          >
+            <span>&larr;</span> Pay Off {prevScenario.amountFormatted}
+          </a>
+        ) : <div />}
+        {nextScenario ? (
+          <a
+            href={`/payoff-${nextScenario.slug}/`}
+            class="flex items-center gap-2 text-primary hover:text-primary-dark transition-colors font-medium"
+          >
+            Pay Off {nextScenario.amountFormatted} <span>&rarr;</span>
+          </a>
+        ) : <div />}
+      </div>
+
+      <h3 class="text-2xl font-bold text-text mb-6 text-center">Other Payoff Guides</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-12">
+        {debtScenarios
+          .filter((s) => s.slug !== scenario.slug)
+          .map((s) => (
+            <a
+              href={`/payoff-${s.slug}/`}
+              class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all"
+            >
+              <div class="text-lg font-bold text-primary">{s.amountFormatted}</div>
+              <div class="text-xs text-text-muted mt-1">Payoff Guide</div>
+            </a>
+          ))}
+      </div>
+
+      <h3 class="text-2xl font-bold text-text mb-6 text-center">Payoff Guides by Debt Type</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <a href="/credit-card-payoff/" class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all">
+          <div class="text-base font-bold text-primary">Credit Card</div>
+          <div class="text-xs text-text-muted mt-1">Payoff Strategies</div>
+        </a>
+        <a href="/student-loan-payoff/" class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all">
+          <div class="text-base font-bold text-primary">Student Loan</div>
+          <div class="text-xs text-text-muted mt-1">Payoff Strategies</div>
+        </a>
+        <a href="/auto-loan-payoff/" class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all">
+          <div class="text-base font-bold text-primary">Auto Loan</div>
+          <div class="text-xs text-text-muted mt-1">Payoff Strategies</div>
+        </a>
+        <a href="/personal-loan-payoff/" class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all">
+          <div class="text-base font-bold text-primary">Personal Loan</div>
+          <div class="text-xs text-text-muted mt-1">Payoff Strategies</div>
+        </a>
+        <a href="/medical-debt-payoff/" class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all">
+          <div class="text-base font-bold text-primary">Medical Debt</div>
+          <div class="text-xs text-text-muted mt-1">Payoff Strategies</div>
+        </a>
+        <a href="/mortgage-payoff/" class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all">
+          <div class="text-base font-bold text-primary">Mortgage</div>
+          <div class="text-xs text-text-muted mt-1">Payoff Strategies</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sources -->
+  <section class="py-10 px-4 bg-white border-t border-border">
+    <div class="max-w-4xl mx-auto">
+      <h3 class="text-lg font-bold text-text mb-4">Sources</h3>
+      <ul class="space-y-2 text-sm text-text-muted">
+        <li>Federal Reserve Bank of New York - <em>Quarterly Report on Household Debt and Credit</em> (2024)</li>
+        <li>Consumer Financial Protection Bureau (CFPB) - <em>Consumer Credit Trends</em></li>
+        <li>Federal Reserve Board - <em>Survey of Consumer Finances</em></li>
+        <li>Harvard Business Review - <em>Research on Debt Repayment and Motivation</em></li>
+        <li>National Foundation for Credit Counseling (NFCC) - <em>Financial Literacy Survey</em></li>
+      </ul>
+      <p class="text-xs text-text-muted mt-4">
+        This calculator is for educational and informational purposes only and does not constitute financial advice.
+        Consult with a qualified financial professional before making decisions about your debt repayment strategy.
+      </p>
+    </div>
+  </section>
+</Layout>

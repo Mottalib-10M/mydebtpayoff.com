@@ -1,0 +1,234 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DebtCalculator from '../components/DebtCalculator';
+import { debtTypes, type DebtTypeEntry } from '../lib/debt-types-data';
+import { debtScenarios } from '../lib/debt-scenarios-data';
+import '../styles/global.css';
+
+export function getStaticPaths() {
+  return debtTypes.map((entry) => ({
+    params: { debtType: entry.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: DebtTypeEntry;
+}
+
+const { entry } = Astro.props;
+const { slug, label, aprLow, aprHigh, description, strategies, exampleBalance, exampleApr, exampleMinPayment, contextContent, faqs } = entry;
+
+// Build cross-links to other debt types
+const otherTypes = debtTypes.filter((t) => t.slug !== slug);
+
+const siteUrl = 'https://debtpayoffplanner.com';
+const pageUrl = `${siteUrl}/${slug}-payoff/`;
+
+// Schema.org BreadcrumbList
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: `${label} Payoff`,
+      item: pageUrl,
+    },
+  ],
+};
+
+// Schema.org FAQPage
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+// Helper
+function fmtCurrency(n: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+}
+
+const aprDisplay = aprLow === 0 && aprHigh === 0 ? '0% (typically interest-free)' : `${aprLow}% – ${aprHigh}%`;
+const contentParagraphs = contextContent.split('\n\n');
+---
+
+<Layout
+  title={`${label} Payoff Calculator - Strategy & Tips`}
+  description={`Free ${label.toLowerCase()} payoff calculator. Typical APR: ${aprDisplay}. Compare avalanche and snowball strategies to pay off your ${label.toLowerCase()} faster.`}
+  canonical={`/${slug}-payoff/`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Breadcrumb -->
+  <nav class="max-w-6xl mx-auto px-4 py-3 text-sm text-text-muted" aria-label="Breadcrumb">
+    <ol class="flex items-center gap-2">
+      <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
+      <li class="before:content-['/'] before:mx-2">{label} Payoff</li>
+    </ol>
+  </nav>
+
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-14">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+        {label} Payoff Calculator
+      </h1>
+      <p class="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
+        {description}
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <span class="bg-white/20 px-4 py-2 rounded-full">APR Range: {aprDisplay}</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">Free Calculator</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">Expert Strategies</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- APR Context Card -->
+  <section class="py-10 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div class="text-sm text-text-muted mb-1">Typical APR Range</div>
+          <div class="text-2xl font-bold text-primary">{aprDisplay}</div>
+          <div class="text-xs text-text-muted mt-1">Based on US market data</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div class="text-sm text-text-muted mb-1">Example Balance</div>
+          <div class="text-2xl font-bold text-text">{fmtCurrency(exampleBalance)}</div>
+          <div class="text-xs text-text-muted mt-1">at {exampleApr}% APR</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div class="text-sm text-text-muted mb-1">Example Min Payment</div>
+          <div class="text-2xl font-bold text-secondary">{fmtCurrency(exampleMinPayment)}/mo</div>
+          <div class="text-xs text-text-muted mt-1">Typical minimum</div>
+        </div>
+      </div>
+
+      <!-- Strategies -->
+      <div class="bg-white rounded-xl shadow-lg border border-border p-6 mb-10">
+        <h2 class="text-2xl font-bold text-text mb-4">{label} Payoff Strategies</h2>
+        <ol class="space-y-4">
+          {strategies.map((strategy, i) => (
+            <li class="flex gap-4 items-start">
+              <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
+                {i + 1}
+              </span>
+              <p class="text-text-muted leading-relaxed">{strategy}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section class="py-12 px-4 bg-surface-dark">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-text mb-3">
+        {label} Payoff Calculator
+      </h2>
+      <p class="text-center text-text-muted mb-8 max-w-2xl mx-auto">
+        Enter your {label.toLowerCase()} details along with any other debts you carry. The calculator
+        compares avalanche and snowball strategies to find your fastest path to freedom.
+      </p>
+      <DebtCalculator client:idle />
+    </div>
+  </section>
+
+  <!-- Detailed Content -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-4xl mx-auto prose prose-lg">
+      <h2 class="text-3xl font-bold text-text mb-6">
+        The Complete Guide to Paying Off {label} Debt
+      </h2>
+
+      {contentParagraphs.map((paragraph) => (
+        <p class="text-text-muted leading-relaxed mb-6">{paragraph}</p>
+      ))}
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-text mb-8 text-center">
+        {label} Payoff FAQ
+      </h2>
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <div class="bg-white rounded-xl shadow border border-border p-6">
+            <h3 class="text-lg font-semibold text-text mb-2">{faq.question}</h3>
+            <p class="text-text-muted leading-relaxed">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-Links -->
+  <section class="py-12 px-4 bg-surface-dark">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-2xl font-bold text-text mb-6 text-center">Other Debt Type Guides</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12">
+        {otherTypes.map((t) => (
+          <a
+            href={`/${t.slug}-payoff/`}
+            class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all"
+          >
+            <div class="text-base font-bold text-primary">{t.label}</div>
+            <div class="text-xs text-text-muted mt-1">{t.aprLow === 0 && t.aprHigh === 0 ? '0% APR' : `${t.aprLow}–${t.aprHigh}% APR`}</div>
+          </a>
+        ))}
+      </div>
+
+      <h3 class="text-2xl font-bold text-text mb-6 text-center">Payoff Guides by Amount</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {debtScenarios.map((s) => (
+          <a
+            href={`/payoff-${s.slug}/`}
+            class="bg-white rounded-lg border border-border p-4 text-center hover:border-primary hover:shadow-md transition-all"
+          >
+            <div class="text-lg font-bold text-primary">{s.amountFormatted}</div>
+            <div class="text-xs text-text-muted mt-1">Payoff Guide</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sources -->
+  <section class="py-10 px-4 bg-white border-t border-border">
+    <div class="max-w-4xl mx-auto">
+      <h3 class="text-lg font-bold text-text mb-4">Sources</h3>
+      <ul class="space-y-2 text-sm text-text-muted">
+        <li>Federal Reserve Board - <em>Consumer Credit Statistical Release (G.19)</em></li>
+        <li>Federal Reserve Bank of New York - <em>Quarterly Report on Household Debt and Credit</em> (2024)</li>
+        <li>Consumer Financial Protection Bureau (CFPB) - <em>Consumer Credit and Debt Reports</em></li>
+        <li>TransUnion - <em>Consumer Credit Trends Report</em> (2024)</li>
+        <li>National Foundation for Credit Counseling (NFCC) - <em>Annual Consumer Survey</em></li>
+      </ul>
+      <p class="text-xs text-text-muted mt-4">
+        This calculator is for educational and informational purposes only and does not constitute financial advice.
+        Consult with a qualified financial professional before making decisions about your debt repayment strategy.
+      </p>
+    </div>
+  </section>
+</Layout>

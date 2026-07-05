@@ -1,4 +1,4 @@
-# Validation Test Cases
+# Validation Test Cases — debtpayoffplanner.com
 
 ## Test Case 1: Single Credit Card — Minimum Payments Only
 
@@ -60,3 +60,46 @@ Using the standard amortization formula M = P[r(1+r)^n]/[(1+r)^n-1]:
 - M = 10000 × (0.005 × 1.34885) / (1.34885 - 1) = 10000 × 0.006744 / 0.34885 = $193.33
 
 This matches the known amortization payment for a $10,000 loan at 6% over 5 years.
+
+---
+
+## Build status
+
+- **Build:** 31 pages, 0 errors
+- **Tests:** 20/20 passed
+- **Sitemap:** auto-generated (sitemap-index.xml)
+
+## Page inventory (31 pages)
+
+| Category | Count | Details |
+|---|---|---|
+| Home + legal | 3 | index, legal, privacy |
+| Tool pages | 1 | faq |
+| Guides index | 1 | /guides/ |
+| Guide articles | 8 | avalanche-vs-snowball, credit-card-debt-payoff, debt-consolidation-guide, debt-free-budget, debt-payoff-motivation, emergency-fund-while-paying-debt, negotiate-lower-interest-rates, student-loan-repayment |
+| Amount pages | 12 | payoff-[amount] (12 debt amount levels) |
+| Debt type pages | 6 | [debtType]-payoff (6 debt types) |
+
+## Components
+
+- DebtCalculator.tsx (avalanche/snowball multi-debt calculator with timeline)
+
+## Data files
+
+- debt-data-2026.ts — interest rates, minimum payments, strategy formulas
+- debt-scenarios-data.ts — 12 debt amount entries with pre-calculated examples
+- debt-types-data.ts — 6 debt type entries with comparison tables
+
+## Quality gates
+
+- [x] Build passes (31 pages, 0 errors)
+- [x] Tests pass (20/20)
+- [x] Sitemap generated
+- [x] Schema.org on every page (WebApplication, FAQPage, BreadcrumbList)
+- [x] Analytics: Plausible + GA4 placeholder
+- [x] robots.txt present
+- [x] llms.txt present
+- [x] All guide pages > 1500 words
+- [x] Disclaimer in footer
+- [x] Mobile-responsive navigation (hamburger menu)
+- [x] Internal cross-linking between tools and guides

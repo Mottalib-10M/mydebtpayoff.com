@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Embed Our Debt Payoff Calculator on Your Site | DebtPayoffPlanner.com" description="Get the embed code to add the Debt Payoff Planner calculator widget to your website. Free, customizable, and easy to install.">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://debtpayoffplanner.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Widget", "item": "https://debtpayoffplanner.com/widget/" }
+    ]
+  })} />
+
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/" class="hover:text-primary">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-800">Widget</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Embed Our Calculator on Your Site</h1>
+    <p class="text-gray-600 mb-8">Add the DebtPayoffPlanner.com calculator to your website, blog, or financial education platform. The widget is free, responsive, and lets your visitors compare avalanche and snowball strategies instantly.</p>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Embed Code</h2>
+      <p class="text-gray-700 mb-3">Copy and paste the following HTML code into your website where you want the calculator to appear:</p>
+      <div class="bg-gray-900 text-green-400 rounded-lg p-4 overflow-x-auto">
+        <pre class="text-sm"><code>&lt;iframe src="https://debtpayoffplanner.com/" width="100%" height="700" frameborder="0" style="border:none;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);" title="Debt Payoff Planner Calculator"&gt;&lt;/iframe&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Installation Instructions</h2>
+      <ol class="list-decimal list-inside space-y-3 text-gray-700">
+        <li><strong>Copy the embed code</strong> from the code block above.</li>
+        <li><strong>Open your website editor</strong> and navigate to the page where you want the calculator. Switch to the HTML or code view in your CMS or page builder.</li>
+        <li><strong>Paste the code</strong> at the desired location in your HTML. The iframe will automatically fill the width of its container.</li>
+        <li><strong>Save and publish</strong> your page. The calculator will load directly from DebtPayoffPlanner.com and will always show the latest features and calculations.</li>
+      </ol>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Customization Options</h2>
+      <p class="text-gray-700 mb-4">You can adjust the following attributes to fit the calculator into your site layout:</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="px-4 py-3 font-semibold">Attribute</th>
+              <th class="px-4 py-3 font-semibold">Default</th>
+              <th class="px-4 py-3 font-semibold">Description</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-4 py-3 font-mono text-sm">width</td>
+              <td class="px-4 py-3">100%</td>
+              <td class="px-4 py-3 text-gray-600">The width of the calculator. Use a percentage for responsive layouts or a fixed pixel value (e.g., "700px").</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-sm">height</td>
+              <td class="px-4 py-3">700</td>
+              <td class="px-4 py-3 text-gray-600">The height of the calculator in pixels. Increase this if the calculator content is being cut off at the bottom.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-sm">style</td>
+              <td class="px-4 py-3">border:none; ...</td>
+              <td class="px-4 py-3 text-gray-600">Inline CSS for visual customization. You can change the border-radius, box-shadow, or add a border color to match your design.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Terms of Use</h2>
+      <p class="text-gray-700 leading-relaxed">
+        The widget is provided free of charge for personal and commercial use. Please do not modify the calculator content within the iframe or attempt to remove attribution. The calculator is served from our servers and will always display the most current version. We reserve the right to update the design and functionality at any time.
+      </p>
+    </section>
+  </div>
+</Layout>
