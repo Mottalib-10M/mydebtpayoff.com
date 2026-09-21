@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout
+  title="Methodology - Avalanche, snowball and the maths behind the plan"
+  description="How the planner amortises each debt, how the avalanche and snowball orderings differ, why the interest totals diverge, and the assumptions behind every projection."
+>
+  <div class="max-w-3xl mx-auto">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/" class="hover:text-primary">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-800">Methodology</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">How the payoff calculations work</h1>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">One amortisation per debt, month by month</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">The planner does not apply a formula to your total debt. It amortises each balance separately, month by month: interest accrues on the outstanding balance at that debt&rsquo;s own rate, the minimum payment is applied, and any surplus goes to a single target debt.</p>
+      <p class="text-gray-700 leading-relaxed mb-3">That monthly loop matters because interest compounds on what is left after each payment. A single closed-form calculation on the combined balance gives a different &mdash; and always optimistic &mdash; answer once the rates differ.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">Avalanche and snowball differ only in the ordering</h2>
+      <p class="text-gray-700 leading-relaxed mb-3"><strong>Avalanche</strong> directs the surplus to the highest interest rate first. It is arithmetically optimal: it always produces the lowest total interest and, usually, the earliest payoff date.</p>
+      <p class="text-gray-700 leading-relaxed mb-3"><strong>Snowball</strong> directs the surplus to the smallest balance first. It costs more in interest, sometimes substantially, but clears individual debts sooner. The planner shows both totals side by side rather than recommending one, because the gap is the only honest basis for choosing.</p>
+      <p class="text-gray-700 leading-relaxed mb-3">When a debt is cleared, its minimum payment is rolled into the surplus for the next target. That rollover is what accelerates both methods over time, and it is why the payoff curve is not a straight line.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">What the projection assumes</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">It assumes fixed interest rates, a constant monthly payment, no new borrowing and no missed payments. Promotional rates that expire, variable rates, fees, and minimum payments that fall as the balance drops are not modelled &mdash; and a falling minimum payment is the single most common reason a real payoff takes longer than a projection.</p>
+      <p class="text-gray-700 leading-relaxed mb-3">This is a planning tool, not financial advice. It does not account for your wider circumstances, and it is not a substitute for regulated debt advice where you are in difficulty.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">When the tool changes</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">The arithmetic does not change with the calendar, so this page changes only when the model itself does &mdash; a new payoff strategy, a correction, or a change in how a scenario is handled. Each page carries the date of its last revision, taken from the site&rsquo;s version history, so a date that has not moved means the method has not moved either.</p>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">Reference material</h2>
+      <p class="text-gray-700 leading-relaxed mb-3">The amortisation and the consumer guidance behind the tool follow these references:</p>
+      <ul class="list-disc pl-6 text-gray-700 space-y-2">
+        <li><a class="underline" href="https://www.consumerfinance.gov/consumer-tools/debt-collection/" rel="nofollow noopener" target="_blank">Consumer Financial Protection Bureau &mdash; Debt collection and repayment</a></li>
+        <li><a class="underline" href="https://consumer.ftc.gov/articles/getting-out-debt" rel="nofollow noopener" target="_blank">Federal Trade Commission &mdash; Getting out of debt</a></li>
+        <li><a class="underline" href="https://www.federalreserve.gov/releases/g19/current/" rel="nofollow noopener" target="_blank">Federal Reserve &mdash; Consumer credit statistics (G.19)</a></li>
+      </ul>
+    </section>
+  </div>
+</Layout>
