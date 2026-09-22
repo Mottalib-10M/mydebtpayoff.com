@@ -1,43 +1,217 @@
 @import "tailwindcss";
 
+/*
+ * Identite visuelle : les couleurs du drapeau americain.
+ *
+ * Le site portait un violet (#7C3AED), un vert (#059669) et un ambre (#F59E0B)
+ * pris tels quels dans la palette par defaut de Tailwind : trois teintes sans
+ * rapport entre elles ni avec le sujet. Deux posaient en outre un probleme de
+ * lisibilite, mesure sur blanc : le vert a 3,77:1 et l'ambre a 2,15:1, quand le
+ * niveau AA demande 4,5:1.
+ *
+ * On reprend les deux couleurs officielles du drapeau, Old Glory Blue #0A3161
+ * (12,92:1 sur blanc) et Old Glory Red #B31942 (6,70:1). Sur un site qui parle
+ * de dettes, la repartition est parlante : le bleu porte ce qui avance, le
+ * capital rembourse ; le rouge, ce qui coute, les interets.
+ */
 @theme {
-  --color-primary: #7c3aed;
-  --color-primary-dark: #6d28d9;
-  --color-primary-light: #a78bfa;
-  --color-secondary: #059669;
-  --color-secondary-dark: #047857;
-  --color-secondary-light: #34d399;
-  --color-accent: #f59e0b;
-  --color-accent-dark: #d97706;
-  --color-accent-light: #fbbf24;
-  --color-surface: #f8fafc;
-  --color-surface-dark: #f1f5f9;
-  --color-border: #e2e8f0;
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
+  --color-primary: #0a3161;
+  --color-primary-dark: #061f3e;
+  --color-primary-light: #4a6fa5;
+
+  /* Rouge du drapeau : interets, retards, avertissements */
+  --color-secondary: #b31942;
+  --color-secondary-dark: #8c1334;
+  --color-secondary-light: #d94a6e;
+
+  /*
+   * Accent clair : sert sur le bleu fonce, jamais en texte sur fond blanc,
+   * ou il tomberait sous 3:1. Sur le bleu il tient 6,03:1.
+   */
+  --color-accent: #8fb4e3;
+  --color-accent-dark: #4a6fa5;
+  --color-accent-light: #c3d8f2;
+
+  --color-surface: #f7f9fc;
+  --color-surface-dark: #eef2f8;
+  --color-border: #dde4ee;
+  --color-text: #17202e;
+  /* Texte secondaire : 4,55:1 sur le fond du site, la limite etait trop juste. */
+  --color-text-muted: #5b6678;
+
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
-/* Dark mode */
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply bg-surface text-text font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+  h1 { letter-spacing: -0.025em; }
+  h2, h3 { letter-spacing: -0.015em; }
+  p { text-wrap: pretty; }
+
+  table, .tabular-nums, td, th { font-variant-numeric: tabular-nums; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+/*
+ * Signature graphique : les bandes du drapeau, reduites a un filet. Le champ
+ * bleu occupe le premier tiers, les bandes rouge et blanche le reste.
+ */
+.bande-drapeau {
+  background: linear-gradient(
+    to right,
+    var(--color-primary) 0 32%,
+    var(--color-secondary) 32% 66%,
+    #eef2f8 66% 100%
+  );
+}
+
+.bord-drapeau {
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary) 0 60%,
+    var(--color-secondary) 60% 100%
+  );
+}
+
+/*
+ * Liens du pied de page : le bloc de confiance injecte au build pose des liens
+ * sans classe, qui prenaient le bleu marine sur un pied presque noir.
+ */
+footer a { color: var(--color-accent); }
+footer a:hover { color: #ffffff; }
+
+@layer components {
+  /*
+   * Mise en forme des pages de texte : treize fichiers portent les classes
+   * `prose` du plugin @tailwindcss/typography, qui n'est pas installe. Elles ne
+   * correspondaient donc a aucune regle.
+   */
+  :where(.prose) {
+    color: var(--color-text);
+    line-height: 1.75;
+    max-width: 68ch;
+  }
+
+  :where(.prose) > * + * { margin-top: 1.25em; }
+
+  :where(.prose) h2 {
+    font-size: 1.6em;
+    line-height: 1.25;
+    font-weight: 700;
+    margin-top: 2.25em;
+    margin-bottom: 0.6em;
+  }
+
+  :where(.prose) h3 {
+    font-size: 1.25em;
+    line-height: 1.35;
+    font-weight: 700;
+    margin-top: 1.9em;
+    margin-bottom: 0.5em;
+  }
+
+  :where(.prose) h2:first-child, .prose h3:first-child { margin-top: 0; }
+
+  :where(.prose) ul, .prose ol { padding-left: 1.5em; margin-top: 1em; }
+  :where(.prose) ul { list-style: disc; }
+  :where(.prose) ol { list-style: decimal; }
+  :where(.prose) li { margin-top: 0.5em; }
+  :where(.prose) li::marker { color: var(--color-primary); }
+
+  :where(.prose) strong { color: var(--color-text); font-weight: 600; }
+
+  :where(.prose) a {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 2px;
+  }
+
+  :where(.prose) a:hover { text-decoration-color: currentColor; }
+
+  :where(.prose) blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1.1em;
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  :where(.prose) table {
+    width: 100%;
+    font-size: 0.925em;
+    border-collapse: collapse;
+  }
+
+  :where(.prose) th {
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-border);
+    padding: 0.5em 0.75em 0.5em 0;
+  }
+
+  :where(.prose) td {
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.5em 0.75em 0.5em 0;
+  }
+
+  :where(.prose-lg) { font-size: 1.0625rem; }
+}
+
+
+/*
+ * Mode sombre.
+ *
+ * La version precedente empilait des `!important` sur des classes Tailwind et
+ * repassait les liens en bleu ciel generique, ce qui faisait perdre l'identite
+ * du site. On redefinit ici les jetons, eclaircis : sur fond sombre, le bleu
+ * marine du drapeau devient noir, c'est donc l'accent clair qui porte les liens.
+ */
 @media (prefers-color-scheme: dark) {
-  body { background-color: #0f172a; color: #e2e8f0; }
-  nav, header { background-color: #1e293b; }
-  footer { background-color: #1e293b; color: #94a3b8; }
-  main { background-color: #0f172a; }
-  h1, h2, h3, h4, h5, h6 { color: #f1f5f9; }
-  a { color: #60a5fa; }
-  a:hover { color: #93bbfd; }
-  input, select, textarea { background-color: #1e293b; color: #e2e8f0; border-color: #475569; }
-  table { border-color: #334155; }
-  th { background-color: #1e293b; color: #e2e8f0; }
-  td { border-color: #334155; }
-  .bg-white { background-color: #1e293b !important; }
-  .bg-gray-50, .bg-gray-100 { background-color: #0f172a !important; }
-  .bg-gray-800, .bg-gray-900 { background-color: #0f172a !important; }
-  .text-gray-900 { color: #e2e8f0 !important; }
-  .text-gray-800 { color: #e2e8f0 !important; }
-  .text-gray-700 { color: #cbd5e1 !important; }
-  .text-gray-600 { color: #94a3b8 !important; }
-  .text-gray-500 { color: #94a3b8 !important; }
-  .border-gray-200, .border-gray-300 { border-color: #334155 !important; }
-  .shadow-lg, .shadow-md, .shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3) !important; }
+  :root {
+    --color-surface: #0f1319;
+    --color-surface-dark: #161c25;
+    --color-border: #2a323f;
+    --color-text: #e8ecf2;
+    --color-text-muted: #9aa5b5;
+  }
+
+  body {
+    background-color: #0f1319;
+    color: #d5dbe4;
+  }
+
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-accent-light); }
+
+  .bg-white { background-color: #161c25; }
+
+  input, select, textarea {
+    background-color: #161c25;
+    color: #e8ecf2;
+    border-color: #2a323f;
+  }
+
+  :where(.prose) { color: #d5dbe4; }
+  :where(.prose) strong, .prose h2, .prose h3 { color: #e8ecf2; }
+  :where(.prose) a { color: var(--color-accent); }
+  :where(.prose) li::marker { color: var(--color-accent); }
+  :where(.prose) blockquote { border-left-color: var(--color-accent); }
+
+  :focus-visible { outline-color: var(--color-accent); }
+}
+
+@media print {
+  header, footer, nav, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
 }

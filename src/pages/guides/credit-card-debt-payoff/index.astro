@@ -1,10 +1,34 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How long does it take to pay off $10,000 in credit card debt?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It depends on your interest rate and monthly payment. At 21% APR with only minimum payments, it could take over 20 years. By paying $500 per month, you can be debt-free in about 24 months and pay roughly $2,200 in interest." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I close my credit cards after paying them off?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Generally, no. Closing credit cards reduces your total available credit, which can increase your credit utilization ratio and lower your credit score. It is better to keep accounts open but stop using them for new purchases. One exception is worth making: a card carrying an annual fee you no longer use costs more to keep than the utilisation benefit is worth. Closing the newest account rather than the oldest also limits the damage, since the average age of your accounts counts toward the score." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it better to pay off credit card debt or save money?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Start with a small emergency fund of $1,000 to $2,000 to avoid going deeper into debt for unexpected expenses. After that, focus aggressively on paying off high-interest credit card debt, since the interest rate on cards (often 20%+) far exceeds what you would earn in a savings account." }
+      }
+    ]
+  };
+import OfficialSources from '../../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="How to Pay Off Credit Card Debt: Strategies That Work | Debt Payoff Planner"
-  description="Actionable strategies to eliminate credit card debt fast. Learn about balance transfers, the avalanche method, negotiation tactics, and how to stop the minimum-payment trap."
+  title="Credit card debt payoff: the options that actually work"
+  description="Balance transfers, hardship plans, negotiated rates and the arithmetic of minimum payments, with what each option costs and when it makes matters far worse."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -137,25 +161,22 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Credit Card Debt Payoff", "item": "https://debtpayoffplanner.com/guides/credit-card-debt-payoff/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How long does it take to pay off $10,000 in credit card debt?",
-        "acceptedAnswer": { "@type": "Answer", "text": "It depends on your interest rate and monthly payment. At 21% APR with only minimum payments, it could take over 20 years. By paying $500 per month, you can be debt-free in about 24 months and pay roughly $2,200 in interest." }
-      },
-      {
-        "@type": "Question",
-        "name": "Should I close my credit cards after paying them off?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Generally, no. Closing credit cards reduces your total available credit, which can increase your credit utilization ratio and lower your credit score. It is better to keep accounts open but stop using them for new purchases." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is it better to pay off credit card debt or save money?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Start with a small emergency fund of $1,000 to $2,000 to avoid going deeper into debt for unexpected expenses. After that, focus aggressively on paying off high-interest credit card debt, since the interest rate on cards (often 20%+) far exceeds what you would earn in a savings account." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+  <OfficialSources />
 </Layout>

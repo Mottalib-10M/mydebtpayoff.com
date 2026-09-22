@@ -2,11 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import DebtCalculator from '../components/DebtCalculator';
 import '../styles/global.css';
+import OfficialSources from '../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="Debt Payoff Planner - Free US Debt Payoff Calculator | Avalanche vs Snowball"
-  description="Free debt payoff calculator for Americans. Compare avalanche and snowball strategies, see month-by-month plans, and become debt-free faster. No signup required."
+  title="Debt Payoff Calculator 2026: Timeline and Interest"
+  description="Work out how long your debts take to clear and what the interest costs: compare the avalanche and snowball methods side by side, with a month-by-month plan."
 >
   <!-- Hero -->
   <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-16">
@@ -221,4 +222,35 @@ import '../styles/global.css';
       </p>
     </div>
   </section>
+  <section class="mx-auto max-w-3xl px-4 mt-12">
+    <h2 class="text-2xl font-bold">What this calculator cannot know</h2>
+    <p class="mt-3 leading-relaxed text-gray-700">
+      A payoff timeline is only as good as its assumptions, and three of them are outside any
+      calculator's reach. They are worth knowing before treating a result as a plan rather than an
+      estimate.
+    </p>
+    <p class="mt-3 leading-relaxed text-gray-700">
+      The first is your statement cycle. Interest on revolving credit accrues daily on the average
+      balance, so a payment made on the third of the month costs measurably less than the same
+      payment made on the twenty-eighth. Across a multi-year plan that timing difference can move
+      the finish line by a month, which no model working in whole months can capture.
+    </p>
+    <p class="mt-3 leading-relaxed text-gray-700">
+      The second is the behaviour of the minimum payment itself. Most issuers calculate it as a
+      percentage of the balance plus the period's interest, so it falls as the balance falls. A
+      plan that assumes a fixed minimum therefore understates the time required if you pay only
+      the minimum, and overstates the extra required if you pay more. The figures here assume the
+      extra payment is held constant, which is what most people actually do once a standing
+      transfer is set up.
+    </p>
+    <p class="mt-3 leading-relaxed text-gray-700">
+      The third is everything that happens to a household over several years. A promotional rate
+      that expires, a card that raises its rate after a missed payment, a balance transfer fee, a
+      tax refund applied in one go: each shifts the outcome, some by a little and some by a lot.
+      The calculator answers the arithmetic question exactly. Whether the plan survives contact
+      with an ordinary year depends on leaving enough margin that a single bad month does not end
+      it.
+    </p>
+  </section>
+  <OfficialSources />
 </Layout>

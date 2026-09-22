@@ -73,7 +73,7 @@ export const debtScenarios: DebtScenario[] = [
       {
         question: 'Is $5,000 in debt a lot?',
         answer:
-          'It is manageable for most households. The average US credit card balance is approximately $6,500, so $5,000 is slightly below average. With a focused payoff plan and modest extra payments, most people can become debt-free in under two years.',
+          'It is manageable for most households. The average US credit card balance is approximately $6,500, so $5,000 is slightly below average. With a focused payoff plan and modest extra payments, most people can become debt-free in under two years. What decides the outcome is not the balance but the rate attached to it. Five thousand dollars at twenty-four percent costs roughly four times what the same amount costs on a personal loan at seven percent, and that gap is what a payoff plan is really fighting.',
       },
     ],
   },
@@ -150,7 +150,7 @@ export const debtScenarios: DebtScenario[] = [
       {
         question: 'How much should I budget for debt payments on $15,000?',
         answer:
-          'Your minimum payments on $15,000 likely total $400-500 per month. To pay off the debt in 2-3 years, budget $600-700 per month total. This means finding an extra $200+ beyond minimums through budgeting, additional income, or cutting expenses.',
+          'Your minimum payments on $15,000 likely total $400-500 per month. To pay off the debt in 2-3 years, budget $600-700 per month total. This means finding an extra $200+ beyond minimums through budgeting, additional income, or cutting expenses. Where that extra comes from matters more than its exact size. A recurring saving, a cancelled subscription or a renegotiated insurance premium, holds month after month, while a one-off windfall shortens the plan once and changes nothing about the following year.',
       },
       {
         question: 'Is $15,000 in debt an emergency?',
@@ -187,12 +187,12 @@ export const debtScenarios: DebtScenario[] = [
       {
         question: 'How long will it take to pay off $20,000 in debt?',
         answer:
-          'With $200 extra per month using the avalanche method, approximately 34 months (under 3 years). With minimums only, it could take 10-15 years depending on your interest rates, and you would pay thousands more in interest.',
+          'With $200 extra per month using the avalanche method, approximately 34 months (under 3 years). With minimums only, it could take 10-15 years depending on your interest rates, and you would pay thousands more in interest. The difference between those two outcomes is almost entirely interest rather than principal. Paying the minimum keeps the balance alive long enough for interest to approach the sum originally borrowed, which is why the first extra payment has more effect than any later one.',
       },
       {
         question: 'What percentage of Americans have $20,000 or more in debt?',
         answer:
-          'According to Federal Reserve data, roughly 25-30% of American households carry $20,000 or more in non-mortgage debt. This includes credit cards, student loans, auto loans, and personal loans. You are not alone in facing this challenge.',
+          'According to Federal Reserve data, roughly 25-30% of American households carry $20,000 or more in non-mortgage debt. This includes credit cards, student loans, auto loans, and personal loans. You are not alone in facing this challenge. The figure matters less than its composition: a balance made largely of student loans at a fixed rate behaves very differently from the same amount on revolving credit. Sorting the total by rate, before anything else, is what turns a number into a plan.',
       },
       {
         question: 'Should I use my savings to pay off $20,000 in debt?',
@@ -405,7 +405,7 @@ export const debtScenarios: DebtScenario[] = [
       {
         question: 'How much does the avalanche method save on $75,000?',
         answer:
-          'With a typical mixed-rate debt profile and $500 extra per month, the avalanche method saves approximately $3,150 in interest and 6 months compared to the snowball method. This savings is roughly equivalent to two months of minimum payments.',
+          'With a typical mixed-rate debt profile and $500 extra per month, the avalanche method saves approximately $3,150 in interest and 6 months compared to the snowball method. This savings is roughly equivalent to two months of minimum payments. That saving assumes the order of payment never changes. Each time a balance clears, its minimum payment should roll into the next target rather than being absorbed into ordinary spending, which is the mechanism producing the saving in the first place.',
       },
       {
         question: 'Should I consider bankruptcy for $75,000 in debt?',

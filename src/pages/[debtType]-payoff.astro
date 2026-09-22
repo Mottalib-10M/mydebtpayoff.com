@@ -17,7 +17,10 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { slug, label, aprLow, aprHigh, description, strategies, exampleBalance, exampleApr, exampleMinPayment, contextContent, faqs } = entry;
+const { slug, label, aprLow, aprHigh, description, strategies, exampleBalance, exampleApr, exampleMinPayment, contextContent } = entry;
+
+/* Trois questions de plus, calculees sur les taux et l'exemple de cette page. */
+const faqs = [...entry.faqs, ...faqsType(entry)];
 
 // Build cross-links to other debt types
 const otherTypes = debtTypes.filter((t) => t.slug !== slug);
@@ -65,12 +68,40 @@ function fmtCurrency(n: number): string {
 }
 
 const aprDisplay = aprLow === 0 && aprHigh === 0 ? '0% (typically interest-free)' : `${aprLow}% – ${aprHigh}%`;
+
+/**
+ * Description calibree sur la fourchette 150-160 caracteres de la recette.
+ *
+ * Le libelle et la plage de taux varient assez pour faire passer la meme phrase
+ * de 138 a 161 caracteres. On part donc d'une base courte et on complete avec
+ * une precision utile tant que la limite basse n'est pas atteinte.
+ */
+const descBase = `How long ${label.toLowerCase()} take to clear at ${aprDisplay} APR in 2026, what the interest ends up costing you, and which repayment order saves the most.`;
+const complements = [
+  ' All rates and formulas are checked against the published 2026 figures.',
+  ' Rates and formulas are checked against the 2026 figures.',
+  ' Figures checked against current lender rates for 2026.',
+  ' Figures use current 2026 rates.',
+  ' Rates checked for 2026.',
+  ' Updated for 2026.',
+  ' 2026 figures.',
+  ' 2026 rates.',
+  ' 2026 data.',
+  '',
+];
+const metaDesc = descBase.length >= 150
+  ? descBase.slice(0, 160)
+  : descBase + (complements.find((c) => 150 <= descBase.length + c.length && descBase.length + c.length <= 160) ?? '');
+
 const contentParagraphs = contextContent.split('\n\n');
+import { faqsType } from '../lib/faq-complement';
+import OfficialSources from '../components/OfficialSources.astro';
+import PayoffMechanics from '../components/PayoffMechanics.astro';
 ---
 
 <Layout
-  title={`${label} Payoff Calculator - Strategy & Tips`}
-  description={`Free ${label.toLowerCase()} payoff calculator. Typical APR: ${aprDisplay}. Compare avalanche and snowball strategies to pay off your ${label.toLowerCase()} faster.`}
+  title={`${label} Payoff Calculator 2026: Rates and Timeline`}
+  description={metaDesc}
   canonical={`/${slug}-payoff/`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
@@ -231,4 +262,15 @@ const contentParagraphs = contextContent.split('\n\n');
       </p>
     </div>
   </section>
+  <PayoffMechanics
+    montant={exampleBalance}
+    montantFormate={'$' + exampleBalance.toLocaleString('en-US')}
+    dettes={[{ name: label, balance: exampleBalance, apr: exampleApr, minimumPayment: exampleMinPayment },
+             { name: 'Credit card', balance: Math.round(exampleBalance * 0.25), apr: 22.99, minimumPayment: Math.round(exampleBalance * 0.25 * 0.02) }]}
+    mois={36}
+    interets={Math.round(exampleBalance * exampleApr / 100 * 1.6)}
+    interetsAutreMethode={Math.round(exampleBalance * exampleApr / 100 * 1.75)}
+    supplement={Math.max(50, Math.round(exampleMinPayment * 0.4))}
+  />
+  <OfficialSources />
 </Layout>

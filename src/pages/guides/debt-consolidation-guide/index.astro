@@ -1,10 +1,33 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does debt consolidation hurt your credit score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Applying for a consolidation loan triggers a hard credit inquiry, which may temporarily lower your score by a few points. However, consolidation can improve your score over time by reducing your credit utilization ratio and establishing a consistent payment history." }
+      },
+      {
+        "@type": "Question",
+        "name": "What credit score do you need for debt consolidation?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Most lenders prefer a credit score of 670 or higher for the best consolidation loan rates. Some lenders work with borrowers who have scores as low as 580, but the interest rates will be higher and may not provide meaningful savings over your current debts." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I consolidate debt without a loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. A balance-transfer credit card with a 0% introductory APR is one option. You can also contact a nonprofit credit counseling agency, which can set up a debt management plan (DMP) that consolidates your payments through their organization, often with reduced interest rates negotiated with your creditors." }
+      }
+    ]
+  };
 ---
 
 <Layout
-  title="Debt Consolidation Guide: When and How to Consolidate Debt | Debt Payoff Planner"
-  description="Learn when debt consolidation makes sense, the different options available (personal loans, balance transfers, HELOCs), and step-by-step instructions for consolidating your debt."
+  title="Debt consolidation: when it saves and when it costs"
+  description="How to tell a consolidation loan that lowers your interest bill from one that merely stretches it, including origination fees and the term-length trap to avoid."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -114,25 +137,21 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Debt Consolidation Guide", "item": "https://debtpayoffplanner.com/guides/debt-consolidation-guide/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Does debt consolidation hurt your credit score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Applying for a consolidation loan triggers a hard credit inquiry, which may temporarily lower your score by a few points. However, consolidation can improve your score over time by reducing your credit utilization ratio and establishing a consistent payment history." }
-      },
-      {
-        "@type": "Question",
-        "name": "What credit score do you need for debt consolidation?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most lenders prefer a credit score of 670 or higher for the best consolidation loan rates. Some lenders work with borrowers who have scores as low as 580, but the interest rates will be higher and may not provide meaningful savings over your current debts." }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I consolidate debt without a loan?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. A balance-transfer credit card with a 0% introductory APR is one option. You can also contact a nonprofit credit counseling agency, which can set up a debt management plan (DMP) that consolidates your payments through their organization, often with reduced interest rates negotiated with your creditors." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

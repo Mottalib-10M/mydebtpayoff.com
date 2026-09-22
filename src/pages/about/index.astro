@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import OfficialSources from '../../components/OfficialSources.astro';
 ---
-<Layout title="About - Debt Payoff Planner" description="Learn about DebtPayoffPlanner.com, the free debt payoff strategy calculator built by Radif Partners. Compare avalanche and snowball methods.">
+<Layout title="Who publishes this debt payoff calculator, and why it exists" description="Who runs this calculator, where the interest formulas come from, how the rate ranges are kept current, and the limits worth knowing before you rely on a result.">
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -61,4 +62,5 @@ import Layout from '../../layouts/Layout.astro';
       </p>
     </section>
   </div>
+  <OfficialSources />
 </Layout>

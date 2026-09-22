@@ -1,10 +1,34 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I stay motivated to pay off debt when it feels overwhelming?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Break your total debt into smaller milestones and celebrate each one. Use visual trackers like a debt thermometer. Find an accountability partner. Focus on your personal 'why' for becoming debt-free. Consider the snowball method for quick wins that build momentum." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is debt payoff fatigue and how do I overcome it?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Debt payoff fatigue is the loss of motivation that occurs during a long repayment journey, typically after the initial excitement fades. Overcome it by tracking your progress visually, celebrating milestones, reading success stories, allowing small treats in your budget, and remembering your personal reasons for becoming debt-free." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it better to focus on one debt at a time or pay extra on all of them?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It is generally more effective to focus extra payments on one debt at a time while making minimum payments on the rest. This approach, used in both the avalanche and snowball methods, concentrates your resources and creates faster visible progress, which helps maintain motivation." }
+      }
+    ]
+  };
+import OfficialSources from '../../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="How to Stay Motivated While Paying Off Debt: 15 Proven Strategies | Debt Payoff Planner"
-  description="Stay motivated during your debt payoff journey with these 15 proven psychological strategies. Learn how to celebrate wins, beat fatigue, and reach the finish line."
+  title="Staying with a debt payoff plan, right through to the end"
+  description="Why plans fail in month four rather than month one, what the research on small wins actually shows, and the adjustments that keep a long payoff plan on track."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -131,25 +155,22 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Debt Payoff Motivation", "item": "https://debtpayoffplanner.com/guides/debt-payoff-motivation/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I stay motivated to pay off debt when it feels overwhelming?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Break your total debt into smaller milestones and celebrate each one. Use visual trackers like a debt thermometer. Find an accountability partner. Focus on your personal 'why' for becoming debt-free. Consider the snowball method for quick wins that build momentum." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is debt payoff fatigue and how do I overcome it?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Debt payoff fatigue is the loss of motivation that occurs during a long repayment journey, typically after the initial excitement fades. Overcome it by tracking your progress visually, celebrating milestones, reading success stories, allowing small treats in your budget, and remembering your personal reasons for becoming debt-free." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is it better to focus on one debt at a time or pay extra on all of them?",
-        "acceptedAnswer": { "@type": "Answer", "text": "It is generally more effective to focus extra payments on one debt at a time while making minimum payments on the rest. This approach, used in both the avalanche and snowball methods, concentrates your resources and creates faster visible progress, which helps maintain motivation." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+  <OfficialSources />
 </Layout>

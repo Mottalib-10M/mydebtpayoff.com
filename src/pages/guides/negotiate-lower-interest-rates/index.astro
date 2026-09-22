@@ -1,10 +1,33 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I ask my credit card company for a lower interest rate?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Call the number on the back of your card and ask to speak with the retention department. Mention your on-time payment history, your credit score, and any competing offers you have received. Politely but firmly request a lower APR. Studies show that 76% of cardholders who ask receive a reduction." }
+      },
+      {
+        "@type": "Question",
+        "name": "Will negotiating my interest rate affect my credit score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Requesting a lower interest rate from your existing creditor does not trigger a hard credit inquiry and has no impact on your credit score. The rate change is an account modification, not a new credit application. Applying for a balance transfer card is a different matter, since that is a new credit application and does trigger a hard inquiry. The safe order is to ask your existing issuer first, and shop elsewhere only if the answer is no." }
+      },
+      {
+        "@type": "Question",
+        "name": "How often should I try to negotiate my credit card APR?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Make it an annual habit. Call each of your creditors once per year to request a rate review. Your creditworthiness improves as you pay down debt, and market conditions change, so you may qualify for a better rate even if you were denied previously." }
+      }
+    ]
+  };
 ---
 
 <Layout
-  title="How to Negotiate Lower Interest Rates on Your Debt | Debt Payoff Planner"
-  description="Step-by-step guide to negotiating lower interest rates with credit card companies, student loan servicers, and other creditors. Includes phone scripts and proven tactics."
+  title="Negotiating a lower rate with your credit card issuer"
+  description="What to say, who to ask, what leverage actually works, and why the request costs you nothing in credit score terms even when the answer comes back as a no."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -143,25 +166,21 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Negotiate Lower Interest Rates", "item": "https://debtpayoffplanner.com/guides/negotiate-lower-interest-rates/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I ask my credit card company for a lower interest rate?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Call the number on the back of your card and ask to speak with the retention department. Mention your on-time payment history, your credit score, and any competing offers you have received. Politely but firmly request a lower APR. Studies show that 76% of cardholders who ask receive a reduction." }
-      },
-      {
-        "@type": "Question",
-        "name": "Will negotiating my interest rate affect my credit score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. Requesting a lower interest rate from your existing creditor does not trigger a hard credit inquiry and has no impact on your credit score. The rate change is an account modification, not a new credit application." }
-      },
-      {
-        "@type": "Question",
-        "name": "How often should I try to negotiate my credit card APR?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Make it an annual habit. Call each of your creditors once per year to request a rate review. Your creditworthiness improves as you pay down debt, and market conditions change, so you may qualify for a better rate even if you were denied previously." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

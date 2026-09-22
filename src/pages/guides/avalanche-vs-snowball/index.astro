@@ -1,10 +1,33 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which method saves the most money: avalanche or snowball?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The debt avalanche method saves the most money because it targets the highest-interest debt first, reducing the total interest you pay over the life of your repayment plan. The gap widens with the spread between your rates: balances carrying similar rates land within a month of each other either way, while a mix of a six percent loan and a twenty-four percent card can differ by several hundred dollars over the same period." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I switch between avalanche and snowball methods?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Many people start with the snowball method to build momentum by eliminating small debts, then switch to the avalanche method for larger, higher-rate balances. This hybrid approach is perfectly valid. Switching costs nothing and needs no paperwork, since the order of payment is your own decision alone. The one thing to avoid is switching so often that no balance ever reaches zero, which removes the psychological benefit that made the snowball attractive in the first place." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much faster will I pay off debt using the avalanche method?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It depends on your specific debts. In typical scenarios with mixed balances and rates, the avalanche method can shave one to six months off your timeline and save hundreds to thousands of dollars in interest compared to the snowball method." }
+      }
+    ]
+  };
 ---
 
 <Layout
-  title="Avalanche vs. Snowball Method: Which Debt Payoff Strategy Is Best? | Debt Payoff Planner"
-  description="Compare the debt avalanche and debt snowball methods side by side. Learn which strategy saves the most money, which keeps you motivated, and how to choose the right one."
+  title="Avalanche vs snowball: which method clears debt faster"
+  description="What each method costs in interest and in months, when the gap is worth the discipline, and why the cheaper method is not always the one people finish paying."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <!-- Breadcrumb -->
@@ -145,25 +168,21 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Avalanche vs. Snowball", "item": "https://debtpayoffplanner.com/guides/avalanche-vs-snowball/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Which method saves the most money: avalanche or snowball?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The debt avalanche method saves the most money because it targets the highest-interest debt first, reducing the total interest you pay over the life of your repayment plan." }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I switch between avalanche and snowball methods?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Many people start with the snowball method to build momentum by eliminating small debts, then switch to the avalanche method for larger, higher-rate balances. This hybrid approach is perfectly valid." }
-      },
-      {
-        "@type": "Question",
-        "name": "How much faster will I pay off debt using the avalanche method?",
-        "acceptedAnswer": { "@type": "Answer", "text": "It depends on your specific debts. In typical scenarios with mixed balances and rates, the avalanche method can shave one to six months off your timeline and save hundreds to thousands of dollars in interest compared to the snowball method." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

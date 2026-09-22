@@ -1,10 +1,34 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best budgeting method for paying off debt?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Zero-based budgeting is often the most effective method for debt payoff because it assigns every dollar a purpose, ensuring maximum allocation toward debt. The modified 50/20/30 rule (needs/wants/debt) is a simpler alternative that works well for beginners. Whichever you pick, the method matters less than reviewing it against reality each month. A budget never adjusted is usually a budget no longer followed, and the first sign is a category running over in the same direction three months in a row." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much of my income should go toward debt payoff?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Financial experts generally recommend allocating 20 to 30 percent of your take-home pay toward debt repayment and savings. During aggressive payoff phases, some people temporarily increase this to 40 to 50 percent by drastically reducing discretionary spending. Going above that rate works for a few months, rarely for a year. The plans that hold keep a small margin for the unexpected, because a single car repair funded on a credit card undoes several months of aggressive repayment." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I stick to a budget when paying off debt?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Automate your debt payments so they happen before you can spend the money. Include a small 'fun money' category to prevent burnout. Review your budget monthly and celebrate milestones. Use visual trackers like a debt thermometer to stay motivated. Schedule the transfer for the day after payday rather than month end, when the account is emptiest. If a month goes badly, resume the next one rather than abandoning the plan: the timeline stretches slightly, which costs far less than starting over." }
+      }
+    ]
+  };
+import OfficialSources from '../../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="How to Build a Debt-Free Budget: Accelerate Your Payoff | Debt Payoff Planner"
-  description="Learn how to create a budget designed to accelerate debt payoff. Covers the 50/30/20 rule, zero-based budgeting, expense tracking, and finding extra money for debt."
+  title="Budgeting to clear debt: the methods that really hold up"
+  description="Zero-based budgeting, the modified fifty-twenty-thirty split, and the practical habits that keep a payoff plan alive past the third month without burning out."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -131,25 +155,22 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Debt-Free Budget", "item": "https://debtpayoffplanner.com/guides/debt-free-budget/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is the best budgeting method for paying off debt?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Zero-based budgeting is often the most effective method for debt payoff because it assigns every dollar a purpose, ensuring maximum allocation toward debt. The modified 50/20/30 rule (needs/wants/debt) is a simpler alternative that works well for beginners." }
-      },
-      {
-        "@type": "Question",
-        "name": "How much of my income should go toward debt payoff?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Financial experts generally recommend allocating 20 to 30 percent of your take-home pay toward debt repayment and savings. During aggressive payoff phases, some people temporarily increase this to 40 to 50 percent by drastically reducing discretionary spending." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I stick to a budget when paying off debt?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Automate your debt payments so they happen before you can spend the money. Include a small 'fun money' category to prevent burnout. Review your budget monthly and celebrate milestones. Use visual trackers like a debt thermometer to stay motivated." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+  <OfficialSources />
 </Layout>

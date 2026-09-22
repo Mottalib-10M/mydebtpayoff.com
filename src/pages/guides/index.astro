@@ -51,12 +51,93 @@ const guides = [
     icon: '📞',
   },
 ];
+
+/** FAQ de la page (RECETTE §7) : une source pour le balisage et pour l'affichage. */
+const faqSchemaPilier = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which guide should I read first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with the comparison of the avalanche and snowball methods, because the order in which you pay matters more than any other single decision. Then read the guide matching the debt that carries your highest rate. The budgeting and negotiation guides are worth reading once a plan exists, since both are about finding the extra payment that makes the plan work rather than choosing its shape."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do these guides replace professional advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. They explain how the arithmetic works and what the common options cost, which is enough for most situations. Once collections, wage garnishment, or a possible bankruptcy filing are involved, a non-profit credit counsellor accredited by the National Foundation for Credit Counseling will give better guidance than any calculator, usually at no charge for the first consultation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are the interest rates in these guides current?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The rate ranges quoted reflect typical offers at the time each page was last reviewed, and the date appears at the top and bottom of every guide. Rates on revolving credit move with the prime rate and can change between statements, so treat a range as an order of magnitude and check your own statement for the figure that applies to you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do the guides recommend the avalanche method so often?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because on arithmetic alone it always costs less: paying the highest rate first minimises the interest that accrues. The snowball method wins on a different measure, which is the probability that someone keeps going. Where the two differ by a few dollars, as they often do on smaller balances, the method you will actually stick to is the better one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use these guides outside the United States?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The arithmetic is universal, but the specifics are not. Credit scoring models, statutes of limitation on collections, and the tax treatment of forgiven debt all differ by country, and several guides reference federal programmes that exist only for US borrowers, such as income-driven repayment on student loans. Use the calculator freely; check the legal points against your own jurisdiction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often are these guides updated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each page carries the date of its last review at the top and in the footer, and the sources it relies on are listed at the end. Guides covering programmes that change with federal policy, student loan repayment in particular, are reviewed more often than those covering arithmetic, which does not change. A date more than a year old is a signal to verify against the source."
+      }
+    }
+  ]
+};
+import OfficialSources from '../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="Debt Payoff Guides - Free Expert Resources | Debt Payoff Planner"
-  description="Browse our free debt payoff guides covering avalanche vs snowball methods, debt consolidation, credit card payoff, student loans, budgeting, and more."
+  title="Debt payoff guides: strategy, rates and recovery 2026"
+  description="Guides on clearing debt faster: comparing repayment methods, negotiating rates, consolidating sensibly, and keeping a plan alive once the novelty wears off."
 >
+  <section class="mx-auto max-w-3xl px-4 pb-2">
+    <p class="leading-relaxed text-gray-700">
+      These guides are written for someone who already has a balance and wants to know what to do
+      about it, not for someone comparing credit products. Each one covers a single situation, says
+      which figures it relies on, and lists the official sources at the end so any number can be
+      checked at its origin.
+    </p>
+    <p class="mt-3 leading-relaxed text-gray-700">
+      Read them in the order the problem presents itself. The comparison between the avalanche and
+      snowball methods comes first, because the order in which debts are paid changes the total
+      cost more than any other single decision. The guide matching your highest-rate debt comes
+      next, since that is where the money is actually leaking. Budgeting and rate negotiation come
+      afterwards: both are about finding the extra payment that makes a plan work, which is a
+      different question from choosing the plan's shape.
+    </p>
+    <p class="mt-3 leading-relaxed text-gray-700">
+      Two subjects deliberately sit apart. The emergency fund guide argues for holding back money
+      that could otherwise go to a balance, which looks like the wrong move until the first
+      unexpected expense arrives and lands back on the card being paid down. The motivation guide
+      deals with what happens in month four, when the novelty has worn off and the finish line is
+      still far away, which is where most plans are abandoned rather than at the start.
+    </p>
+  </section>
+
   <section class="max-w-6xl mx-auto px-4 py-12">
     <!-- Breadcrumb -->
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -100,4 +181,22 @@ const guides = [
       { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://debtpayoffplanner.com/guides/" }
     ]
   })} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchemaPilier.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchemaPilier)} />
+  <OfficialSources />
 </Layout>

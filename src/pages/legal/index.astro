@@ -1,16 +1,25 @@
 ---
+import LegalIdentity from '../../components/LegalIdentity.astro';
+import { LEGAL, CONTACT_EMAIL } from '../../data/site-config';
 import Layout from '../../layouts/Layout.astro';
 import '../../styles/global.css';
+import OfficialSources from '../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="Legal Disclaimer - Debt Payoff Planner"
-  description="Legal disclaimer for DebtPayoffPlanner.com. This tool provides educational debt payoff calculations and is not financial advice."
+  title="Legal notices for this debt payoff calculator 2026"
+  description="Publisher details, editorial responsibility, terms of use and the disclaimer applying to every figure this calculator produces, plus how to raise a complaint."
 >
   <section class="py-16 px-4">
     <div class="max-w-3xl mx-auto prose prose-lg">
       <h1 class="text-4xl font-bold text-text mb-8">Legal Disclaimer</h1>
       <p class="text-sm text-text-muted mb-8">Last updated: July 2025</p>
+
+      <h2 class="text-2xl font-bold text-text mt-8 mb-4">Publisher</h2>
+      <LegalIdentity mode="publisher" lang="en" />
+
+      <h2 class="text-2xl font-bold text-text mt-8 mb-4">Hosting</h2>
+      <LegalIdentity mode="hosting" lang="en" />
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Not Financial Advice</h2>
       <p class="text-text-muted leading-relaxed">
@@ -58,8 +67,9 @@ import '../../styles/global.css';
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Contact</h2>
       <p class="text-text-muted leading-relaxed">
-        If you have any questions about this legal disclaimer, please contact us through the website.
+        Questions about this disclaimer go to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. If you believe your personal data has been mishandled, you may also complain to {LEGAL.supervisoryAuthority}, whose complaint form is at <a href={LEGAL.supervisoryAuthorityUrl} rel="nofollow noopener" target="_blank">{LEGAL.supervisoryAuthorityUrl}</a>.
       </p>
     </div>
   </section>
+  <OfficialSources />
 </Layout>

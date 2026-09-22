@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     question: 'Is this calculator free to use?',
-    answer: 'Yes, this debt payoff calculator is completely free. There is no signup required, no email collection, and no hidden fees. All calculations are performed in your browser, meaning your financial data never leaves your device.',
+    answer: 'Yes, this debt payoff calculator is completely free. There is no signup required, no email collection, and no hidden fees. All calculations are performed in your browser, meaning your financial data never leaves your device. The method behind every figure is published on the methodology page, so any number can be traced back to the formula that produced it. What the tool cannot know is your exact statement cycle, which moves a payoff date by a few days either way.',
   },
   {
     question: 'Can I include all types of debt in this calculator?',
@@ -49,14 +49,15 @@ const faqs = [
   },
   {
     question: 'Does this calculator store my financial information?',
-    answer: 'No. All calculations are performed entirely in your web browser. No financial data is transmitted to any server, stored in any database, or shared with any third party. Your privacy is fully protected.',
+    answer: 'No. All calculations are performed entirely in your web browser. No financial data is transmitted to any server, stored in any database, or shared with any third party. Your privacy is fully protected. The page loads no third-party script able to read what you type. The only measurement is an anonymous page count, which records that a visit happened and nothing whatever about its content.',
   },
 ];
+import OfficialSources from '../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="FAQ - Debt Payoff Planner | Common Questions About Paying Off Debt"
-  description="Answers to frequently asked questions about debt payoff strategies, avalanche vs snowball methods, APR, extra payments, and using our free debt calculator."
+  title="Debt payoff questions, answered in plain English 2026"
+  description="Straight answers on interest, minimum payments, consolidation, credit scores and collections, for anyone trying to clear a balance faster than the minimum."
 >
   <section class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
@@ -97,4 +98,5 @@ const faqs = [
       },
     })),
   })} />
+  <OfficialSources />
 </Layout>

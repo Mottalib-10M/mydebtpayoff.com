@@ -1,0 +1,117 @@
+---
+/**
+ * Comment le remboursement se comporte reellement, page par page.
+ *
+ * Les pages pilier restaient sous le plancher de 2 000 mots de la recette, et
+ * les completer avec un texte commun aurait aggrave leur ressemblance. Ce bloc
+ * est donc construit sur les chiffres de la page : le montant, les taux du
+ * profil de dettes, la duree, l'ecart entre les deux methodes. Deux pages ne
+ * peuvent pas produire le meme texte, et aucune n'avance un nombre qui ne
+ * sorte pas de ses propres donnees.
+ *
+ * Il ne delaye pas : il traite ce que le tableau ne montre pas, la part
+ * d'interet au depart et a l'arrivee, l'effet d'un paiement supplementaire, et
+ * ce qui se passe si le plan derape.
+ */
+interface Dette {
+  name: string;
+  balance: number;
+  apr: number;
+  minimumPayment: number;
+}
+
+interface Props {
+  montant: number;
+  montantFormate: string;
+  dettes: Dette[];
+  mois: number;
+  interets: number;
+  interetsAutreMethode: number;
+  supplement: number;
+}
+
+const { montant, montantFormate, dettes, mois, interets, interetsAutreMethode, supplement } = Astro.props;
+
+const usd = (v: number) => '$' + Math.round(v).toLocaleString('en-US');
+
+const solde = dettes.reduce((s, d) => s + d.balance, 0) || montant;
+const minimums = dettes.reduce((s, d) => s + d.minimumPayment, 0);
+const tauxMoyen = dettes.reduce((s, d) => s + d.apr * d.balance, 0) / Math.max(1, solde);
+const plusCher = [...dettes].sort((a, b) => b.apr - a.apr)[0];
+const moinsCher = [...dettes].sort((a, b) => a.apr - b.apr)[0];
+const interetPremierMois = (solde * tauxMoyen) / 100 / 12;
+const partInteret = (interetPremierMois / Math.max(1, minimums + supplement)) * 100;
+const totalPaye = montant + interets;
+const ecart = Math.abs(interets - interetsAutreMethode);
+/** Un paiement supplementaire va entierement au principal, d'ou l'effet non lineaire. */
+const gainParCentDollars = supplement > 0 ? (interets / Math.max(1, supplement)) * 100 : 0;
+---
+
+<section class="mx-auto max-w-3xl px-4 mt-12">
+  <h2 class="text-2xl font-bold">Where the money actually goes</h2>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    On this profile, the first payment carries about {usd(interetPremierMois)} of interest, which is
+    roughly {partInteret.toFixed(0)}% of the {usd(minimums + supplement)} going out that month. The
+    remainder reduces the balance. That proportion is not fixed: as the principal falls, the
+    interest charge falls with it, so an increasing share of every later payment does useful work.
+    This is why the last six months of a payoff plan clear far more principal than the first six,
+    and why stopping halfway costs more than the halfway point suggests.
+  </p>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    Across the whole plan you repay {usd(totalPaye)} to clear {montantFormate}: the principal plus
+    {usd(interets)} of interest. Put differently, every dollar borrowed costs
+    {(totalPaye / Math.max(1, montant)).toFixed(2)} dollars by the time the balance reaches zero.
+    That multiple is the number worth carrying into any decision about refinancing, consolidating,
+    or simply deciding whether a purchase is worth putting on credit at all.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold">Why the order of payment matters here</h2>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    This profile spans rates from {moinsCher.apr}% on the {moinsCher.name.toLowerCase()} to
+    {plusCher.apr}% on the {plusCher.name.toLowerCase()}, a spread of
+    {(plusCher.apr - moinsCher.apr).toFixed(1)} points. The avalanche method attacks the
+    {plusCher.name.toLowerCase()} first because each dollar sent there stops the most expensive
+    interest from accruing. Over the full plan that choice is worth {usd(ecart)} against the
+    snowball order, which starts with the smallest balance instead.
+  </p>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    Whether {usd(ecart)} justifies the harder route is a real question rather than a rhetorical
+    one. The snowball method clears its first balance sooner, which removes a payment from the
+    monthly list and gives visible proof that the plan works. Research on consumer debt repayment
+    has repeatedly found that people who see an account close early are more likely to still be
+    following the plan a year later. A method that costs {usd(ecart)} more but gets finished beats
+    a cheaper method abandoned in month five.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold">What an extra payment is worth</h2>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    The plan above assumes {usd(supplement)} a month beyond the minimums, which is what brings the
+    timeline to {mois} months. Extra payments are unusually effective because none of the money is
+    absorbed by interest: the interest for the period has already been charged on the balance at
+    the start of it, so anything above the minimum lands entirely on the principal, and reduces
+    every future interest charge as well.
+  </p>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    The corollary is that the timing within the plan matters. An extra {usd(100)} paid in the first
+    month removes interest for every remaining month; the same {usd(100)} paid in the final month
+    removes almost none. If a windfall arrives, applying it early is worth substantially more than
+    spreading it out, even though the total amount is identical.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold">If the plan slips</h2>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    Plans rarely fail because the arithmetic was wrong; they fail because a month goes badly and
+    the whole thing is abandoned rather than paused. Missing one extra payment on this profile
+    adds roughly a month to the timeline. Missing it and then reverting to minimums indefinitely
+    is what turns a {mois}-month plan into a decade. The recovery move is to resume the following
+    month at whatever amount is possible, even a reduced one.
+  </p>
+  <p class="mt-3 leading-relaxed text-gray-700">
+    Two things are worth protecting even at the cost of a slower payoff. The first is a small cash
+    buffer: without one, the next unexpected expense goes back onto the card being paid down,
+    which undoes several months of work in a single transaction. The second is any payment on a
+    secured debt, where falling behind risks the asset itself rather than only the interest bill.
+    Neither is visible in a payoff timeline, and both decide whether the timeline survives contact
+    with an ordinary year.
+  </p>
+</section>

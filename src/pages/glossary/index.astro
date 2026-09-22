@@ -1,7 +1,64 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+/** FAQ de la page (RECETTE §7) : une source pour le balisage et pour l'affichage. */
+const faqSchemaPilier = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between APR and interest rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The interest rate is the cost of borrowing the principal; the annual percentage rate adds the fees required to obtain the credit, expressed as a yearly figure. On a credit card the two are usually identical because there are no origination fees, but on a personal loan an origination fee of several percent can push the APR well above the headline rate. Comparing offers on APR is the only way to compare like with like."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does credit utilisation actually measure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the share of your available revolving credit that you are currently using, calculated per card and across all cards together. Scoring models treat anything above roughly thirty percent as a sign of strain, which is why paying a card down to zero but keeping it open helps the score, while closing it hurts. The figure is taken from the statement balance, not from what you owe on the day you check."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a minimum payment and how is it set?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the smallest amount a lender will accept in a billing cycle without treating the account as delinquent, typically one to three percent of the balance plus the month's interest and any fees. Because it falls as the balance falls, paying only the minimum stretches repayment over many years. It is designed to keep the account current, not to clear it, and that distinction is the whole point of a payoff plan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does it mean for a debt to be secured?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A secured debt is backed by an asset the lender can take if payments stop: the vehicle on an auto loan, the property on a mortgage. That security is why the rate is lower than on unsecured credit. It also changes priority in a payoff plan: falling behind on a secured debt risks losing the asset, which outweighs any interest saving from targeting a higher-rate card first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is debt consolidation, in practice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It means taking a single new loan to repay several existing balances, leaving one payment instead of many. It helps only when the new rate sits below the weighted average of the debts it replaces, and when the term is not stretched so far that total interest rises despite the lower rate. The simplicity of one payment is worth something, but it is not worth paying more overall for."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the debt-to-income ratio used for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It compares total monthly debt payments with gross monthly income, and lenders use it to judge whether you can take on more credit. Below thirty-six percent is generally comfortable; above forty-three percent closes most mortgage doors. Unlike a credit score it is not recorded anywhere: it is recalculated by each lender from the figures you supply and the balances visible on your credit file."
+      }
+    }
+  ]
+};
+import OfficialSources from '../../components/OfficialSources.astro';
 ---
-<Layout title="Debt Glossary - Key Financial Terms Explained | Debt Payoff Planner" description="A comprehensive glossary of debt and personal finance terms including APR, amortization, debt avalanche, debt snowball, and more.">
+<Layout title="Debt terms explained: a glossary for US borrowers 2026" description="Forty terms that appear on statements, collection letters and loan offers, defined plainly, with what each one actually changes for the person repaying.">
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -98,4 +155,82 @@ import Layout from '../../layouts/Layout.astro';
       </div>
     </dl>
   </div>
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchemaPilier.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Charge-Off</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">A charge-off is an accounting entry a lender makes when it concludes a balance will not be collected, usually after 180 days of non-payment. It does not cancel the debt: the balance remains owed and is frequently sold to a collection agency. The entry stays on a credit report for seven years from the date of first delinquency, and it is one of the most damaging single marks a report can carry.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Statute of Limitations</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">The statute of limitations is the period during which a creditor can sue to collect a debt, set by state law and typically running from three to six years for consumer credit. Once it expires the debt becomes time-barred: it still exists and can still be reported, but a court will dismiss a suit over it. Making a payment or acknowledging the debt in writing can restart the clock in many states.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Hardship Program</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">A hardship program is a temporary arrangement offered by a lender to a borrower facing illness, job loss or a similar shock. It commonly reduces the interest rate, waives fees or lowers the minimum payment for six to twelve months. Programs are rarely advertised and generally require a phone call to request. Accepting one can be noted on a credit report, which is worth clarifying before agreeing.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Secured vs Unsecured Debt</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">A secured debt is backed by an asset the lender can repossess, such as a car or a home; an unsecured debt is backed only by a promise to repay. Secured debts carry lower rates precisely because the lender bears less risk. In a payoff plan the distinction matters more than the rate: missing payments on a secured debt risks losing the asset, a cost no interest saving offsets.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Grace Period</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">A grace period is the interval between the close of a billing cycle and the payment due date during which no interest is charged on new purchases, provided the previous balance was paid in full. Carrying a balance typically forfeits it, so interest begins accruing on purchases from the transaction date. Recovering a lost grace period usually requires paying the full statement balance for one or two cycles.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Deferment and Forbearance</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Both pause payments on a loan, most often a student loan, but they differ on interest. During a deferment, interest on subsidised federal loans is paid by the government; during a forbearance, interest accrues throughout and is usually capitalised at the end, increasing the principal. A pause that looks free can therefore add years to a repayment, which is why the distinction is worth checking.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Capitalized Interest</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Capitalised interest is unpaid interest that a lender adds to the principal balance, after which interest accrues on the larger amount. It occurs at the end of a forbearance, at the close of a deferment on unsubsidised loans, and when an income-driven repayment plan is left. Because it converts a cost into new debt, it is the mechanism by which a paused loan can grow without a single new dollar borrowed.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Debt Validation</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Debt validation is the right to require a collector to prove a debt is yours and that the amount is correct. A request made in writing within thirty days of first contact obliges the collector to stop collection activity until it responds with documentation. It is the single most useful response to a collection letter, and the deadline is short enough that it is easily missed.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Wage Garnishment</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Wage garnishment is a court-ordered deduction taken directly from a paycheck to satisfy a debt. Federal law caps most consumer garnishments at twenty-five percent of disposable earnings, with lower limits at low incomes, and different rules apply to child support and federal student loans. It almost always follows a judgment, which means it can be contested at an earlier stage than most people realise.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Credit Counseling</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Credit counselling is a service, usually offered by a non-profit agency, that reviews a household budget and negotiates with creditors on the borrower's behalf. Reputable agencies are accredited by the National Foundation for Credit Counseling and provide an initial session at no charge. It is distinct from debt settlement, which is a commercial service with far higher costs and a substantially worse credit outcome.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Debt Management Plan</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">A debt management plan consolidates payments to several unsecured creditors into one monthly payment made through a counselling agency, usually at reduced interest rates negotiated with each creditor. Plans typically run three to five years and require closing the accounts involved. Unlike consolidation, no new loan is taken, so it does not depend on qualifying for credit at a better rate.</dd>
+      </div>
+
+      <div>
+        <dt class="text-lg font-semibold text-gray-900">Revolving vs Installment Credit</dt>
+        <dd class="text-gray-700 mt-1 leading-relaxed">Revolving credit, such as a card or line of credit, has no fixed end date: the balance and the payment change each month. Installment credit, such as an auto or personal loan, has a fixed amount, rate and term. Scoring models treat them differently, and a high balance on revolving credit hurts a score far more than the same amount on an installment loan does.</dd>
+      </div>
+        </details>
+      ))}
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchemaPilier)} />
+  <OfficialSources />
 </Layout>

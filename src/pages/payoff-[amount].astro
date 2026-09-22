@@ -16,7 +16,15 @@ interface Props {
 }
 
 const { scenario } = Astro.props;
-const { amount, amountFormatted, title, description, typicalDebts, timeline, contextParagraph, faqs } = scenario;
+const { amount, amountFormatted, title, description, typicalDebts, timeline, contextParagraph } = scenario;
+
+/*
+ * La recette demande six a huit questions sur une page pilier ; les donnees en
+ * portent trois. Les suivantes sont construites sur les chiffres de CETTE page
+ * (montant, taux moyen, duree, ecart entre methodes), de sorte que deux pages
+ * ne produisent jamais le meme texte.
+ */
+const faqs = [...scenario.faqs, ...faqsMontant(scenario)];
 
 // Build adjacent scenario links
 const currentIndex = debtScenarios.findIndex((s) => s.slug === scenario.slug);
@@ -72,11 +80,14 @@ function monthsToYears(m: number): string {
   if (months === 0) return `${years} year${years > 1 ? 's' : ''}`;
   return `${years} year${years > 1 ? 's' : ''} ${months} month${months > 1 ? 's' : ''}`;
 }
+import { faqsMontant } from '../lib/faq-complement';
+import OfficialSources from '../components/OfficialSources.astro';
+import PayoffMechanics from '../components/PayoffMechanics.astro';
 ---
 
 <Layout
-  title={`${title} - Payoff Calculator & Plan`}
-  description={description}
+  title={`${amountFormatted} Debt Payoff Plan 2026: Timeline and Interest Cost`}
+  description={`Pay off ${amountFormatted} of debt in 2026: month-by-month timeline, total interest under the avalanche and snowball methods, and the payment that clears it fastest.`}
   canonical={`/payoff-${scenario.slug}/`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
@@ -420,4 +431,14 @@ function monthsToYears(m: number): string {
       </p>
     </div>
   </section>
+  <PayoffMechanics
+    montant={amount}
+    montantFormate={amountFormatted}
+    dettes={typicalDebts}
+    mois={timeline.avalancheMonths}
+    interets={timeline.avalancheInterest}
+    interetsAutreMethode={timeline.snowballInterest}
+    supplement={timeline.extraPayment}
+  />
+  <OfficialSources />
 </Layout>

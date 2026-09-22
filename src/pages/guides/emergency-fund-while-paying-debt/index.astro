@@ -1,10 +1,34 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+
+/** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much should I save in an emergency fund before paying off debt?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Start with a starter emergency fund of $1,000 to $2,500 before aggressively paying off debt. This covers the most common unexpected expenses like car repairs and medical co-pays. After your high-interest debt is paid off, build a full emergency fund of 3 to 6 months of living expenses." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I save or pay off debt first?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Do both in phases. First, save a small emergency fund of $1,000 to $2,500. Then, focus aggressively on paying off high-interest debt. Finally, build a full 3 to 6 month emergency fund after debt is eliminated. This approach protects you from setbacks while minimizing interest costs." }
+      },
+      {
+        "@type": "Question",
+        "name": "Where should I keep my emergency fund?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Keep your emergency fund in a high-yield savings account (HYSA) at an FDIC-insured bank. Online banks like Marcus, Ally, or Capital One 360 offer rates of 4 to 5 percent APY. Keep it separate from your daily checking account to reduce the temptation to spend it on non-emergencies." }
+      }
+    ]
+  };
+import OfficialSources from '../../../components/OfficialSources.astro';
 ---
 
 <Layout
-  title="How to Build an Emergency Fund While Paying Off Debt | Debt Payoff Planner"
-  description="Learn how to balance building an emergency fund and paying off debt. Discover the right savings target, where to keep your fund, and strategies that do both simultaneously."
+  title="Emergency fund or debt payoff: which one comes first?"
+  description="Why a starter fund usually beats paying the last dollar to a card, how large it really needs to be, and the point at which saving costs more than it protects."
 >
   <article class="max-w-4xl mx-auto px-4 py-12">
     <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
@@ -115,25 +139,22 @@ import Layout from '../../../layouts/Layout.astro';
       { "@type": "ListItem", "position": 3, "name": "Emergency Fund While Paying Debt", "item": "https://debtpayoffplanner.com/guides/emergency-fund-while-paying-debt/" }
     ]
   })} />
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How much should I save in an emergency fund before paying off debt?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Start with a starter emergency fund of $1,000 to $2,500 before aggressively paying off debt. This covers the most common unexpected expenses like car repairs and medical co-pays. After your high-interest debt is paid off, build a full emergency fund of 3 to 6 months of living expenses." }
-      },
-      {
-        "@type": "Question",
-        "name": "Should I save or pay off debt first?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Do both in phases. First, save a small emergency fund of $1,000 to $2,500. Then, focus aggressively on paying off high-interest debt. Finally, build a full 3 to 6 month emergency fund after debt is eliminated. This approach protects you from setbacks while minimizing interest costs." }
-      },
-      {
-        "@type": "Question",
-        "name": "Where should I keep my emergency fund?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Keep your emergency fund in a high-yield savings account (HYSA) at an FDIC-insured bank. Online banks like Marcus, Ally, or Capital One 360 offer rates of 4 to 5 percent APY. Keep it separate from your daily checking account to reduce the temptation to spend it on non-emergencies." }
-      }
-    ]
-  })} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="mx-auto max-w-3xl px-4 mt-12 border-t border-gray-200 pt-8">
+    <h2 class="text-2xl font-bold" id="faq">Frequently asked questions</h2>
+    <div class="mt-6 space-y-4">
+      {faqSchema.mainEntity.map((q) => (
+        <details class="rounded-xl border border-gray-200 bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-semibold text-gray-900 hover:text-primary">
+            {q.name}
+          </summary>
+          <div class="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+            {q.acceptedAnswer.text}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+  <OfficialSources />
 </Layout>
