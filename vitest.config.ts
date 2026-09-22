@@ -8,7 +8,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/Users/motta/Documents/GitHub/debtpayoffplanner.com/src',
+      '@': '/Users/motta/Documents/GitHub/mydebtpayoff.com/src',
     },
   },
 });

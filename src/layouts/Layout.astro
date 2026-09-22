@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { title, description, canonical } = Astro.props;
-const siteUrl = 'https://debtpayoffplanner.com';
+const siteUrl = 'https://mydebtpayoff.com';
 const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astro.url.pathname, siteUrl).href;
 ---
 
@@ -25,7 +25,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="Debt Payoff Planner" />
+    <meta property="og:site_name" content="My Debt Payoff" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -35,7 +35,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebApplication',
-        name: 'Debt Payoff Planner',
+        name: 'My Debt Payoff',
         url: siteUrl,
         description: 'Free US debt payoff calculator. Compare avalanche and snowball strategies to become debt-free faster.',
         applicationCategory: 'FinanceApplication',
@@ -50,9 +50,9 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Debt Payoff Planner",
-      "url": "https://debtpayoffplanner.com",
-      "logo": "https://debtpayoffplanner.com/favicon.svg",
+      "name": "My Debt Payoff",
+      "url": "https://mydebtpayoff.com",
+      "logo": "https://mydebtpayoff.com/favicon.svg",
       "founder": {
         "@type": "Organization",
         "name": "Radif Partners"
@@ -64,10 +64,10 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
       "@type": "Organization",
       "name": "Radif Partners",
       "jobTitle": "Financial Technology Expert",
-      "url": "https://debtpayoffplanner.com"
+      "url": "https://mydebtpayoff.com"
     })} />
 
-    <script defer data-domain="debtpayoffplanner.com" src="https://plausible.io/js/script.js"></script>
+    <script defer data-domain="mydebtpayoff.com" src="https://plausible.io/js/script.js"></script>
     <!--
       Pas de GA4 : l'identifiant etait reste a l'etat de gabarit
       (G-XXXXXXXXXX), donc deux requetes vers googletagmanager a chaque
@@ -83,7 +83,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
             <circle cx="50" cy="50" r="48" fill="#7c3aed"/>
             <text x="50" y="68" text-anchor="middle" fill="white" font-size="56" font-weight="bold" font-family="Arial">$</text>
           </svg>
-          Debt Payoff Planner
+          My Debt Payoff
         </a>
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
           <a href="/" class="text-text-muted hover:text-primary transition-colors">Calculator</a>
@@ -124,7 +124,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
       <div class="max-w-6xl mx-auto px-4 py-8">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div>
-            <h4 class="font-bold text-text mb-3">Debt Payoff Planner</h4>
+            <h4 class="font-bold text-text mb-3">My Debt Payoff</h4>
             <p class="text-sm text-text-muted">
               Free calculator to help you pay off debt faster using proven strategies.
             </p>
@@ -146,7 +146,7 @@ const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astr
           </div>
         </div>
         <div class="mt-8 pt-6 border-t border-border text-center text-sm text-text-muted">
-          <p>&copy; {new Date().getFullYear()} DebtPayoffPlanner.com. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} MyDebtPayoff.com. All rights reserved.</p>
           <p class="mt-1">This calculator is for educational purposes only. Not financial advice.</p>
         </div>
       </div>

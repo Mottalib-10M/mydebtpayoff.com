@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://debtpayoffplanner.com/sitemap-index.xml
+Sitemap: https://mydebtpayoff.com/sitemap-index.xml
 
 Disallow: /*?*

@@ -1,5 +1,5 @@
 
-export const CONTACT_EMAIL = 'contact@debtpayoffplanner.com';
+export const CONTACT_EMAIL = 'contact@mydebtpayoff.com';
 
 /*
  * Identite legale de l'editeur (RECETTE-SITE.md, controle check-legal).

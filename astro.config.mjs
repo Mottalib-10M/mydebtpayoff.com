@@ -5,9 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  trailingSlash: 'always',  site: 'https://debtpayoffplanner.com',
+  trailingSlash: 'always',  site: 'https://mydebtpayoff.com',
   integrations: [
-    trustKit({ lang: 'en', siteUrl: 'https://debtpayoffplanner.com', siteName: 'Debt Payoff Planner', founded: '2026-06-27', about: '/about/', method: '/methodology/' }), react(), sitemap()],
+    trustKit({ lang: 'en', siteUrl: 'https://mydebtpayoff.com', siteName: 'My Debt Payoff', founded: '2026-06-27', about: '/about/', method: '/methodology/' }), react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },

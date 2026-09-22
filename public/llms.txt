@@ -1,7 +1,7 @@
-# DebtPayoffPlanner.com
+# MyDebtPayoff.com
 
 ## Overview
-DebtPayoffPlanner.com is a free US debt payoff calculator that helps users compare avalanche and snowball debt payoff strategies. All calculations are performed client-side for maximum privacy.
+MyDebtPayoff.com is a free US debt payoff calculator that helps users compare avalanche and snowball debt payoff strategies. All calculations are performed client-side for maximum privacy.
 
 ## Features
 - Debt payoff calculator with support for multiple debts

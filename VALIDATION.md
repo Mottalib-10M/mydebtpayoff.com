@@ -1,4 +1,4 @@
-# Validation Test Cases — debtpayoffplanner.com
+# Validation Test Cases — mydebtpayoff.com
 
 ## Test Case 1: Single Credit Card — Minimum Payments Only
 
