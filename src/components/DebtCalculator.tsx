@@ -197,7 +197,7 @@ export default function DebtCalculator() {
                   }
                   placeholder="5000"
                   min="0"
-                  step="100"
+                  step="any"
                   className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
                 />
               </div>
@@ -229,7 +229,7 @@ export default function DebtCalculator() {
                   }
                   placeholder="100"
                   min="0"
-                  step="10"
+                  step="any"
                   className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
                 />
               </div>
@@ -265,7 +265,7 @@ export default function DebtCalculator() {
             onChange={(e: ChangeEvent<HTMLInputElement>) => setExtraPayment(e.target.value)}
             placeholder="200"
             min="0"
-            step="50"
+            step="any"
             className="w-full sm:w-48 px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
           />
           <p className="text-xs text-text-muted mt-1">
