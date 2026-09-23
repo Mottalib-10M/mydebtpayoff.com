@@ -84,11 +84,12 @@
 }
 
 /*
- * Liens du pied de page : le bloc de confiance injecte au build pose des liens
- * sans classe, qui prenaient le bleu marine sur un pied presque noir.
+ * Liens du pied de page. Ce pied est clair (`bg-white`) : les liens y prennent le
+ * bleu marine du site, comme partout ailleurs. Une regle claire copiee d'un site
+ * a pied sombre y tenait 2,14:1, soit un lien a peine visible sur les 36 pages.
  */
-footer a { color: var(--color-accent); }
-footer a:hover { color: #ffffff; }
+footer a { color: var(--color-primary); }
+footer a:hover { color: var(--color-primary-dark); }
 
 @layer components {
   /*
