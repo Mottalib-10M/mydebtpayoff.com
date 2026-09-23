@@ -42,8 +42,8 @@ function formatCurrencyExact(amount: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(amount);
 }
 
@@ -110,6 +110,16 @@ function StackedBarChart({ schedule, debts }: { schedule: MonthlySnapshot[]; deb
 
 export default function DebtCalculator() {
   const [debtInputs, setDebtInputs] = useState<DebtInput[]>(INITIAL_DEBTS);
+  // Le champ qu'on remplit garde son texte brut ; les autres affichent les
+  // milliers separes. Mettre en forme pendant la frappe reecrirait la saisie.
+  const [champActif, setChampActif] = useState<string | null>(null);
+  const affiche = (v: string | number, cle: string) => {
+    const s = String(v ?? '');
+    if (champActif === cle || s === '') return s;
+    const n = parseFloat(s.replace(/,/g, ''));
+    return Number.isFinite(n) ? Math.round(n).toLocaleString('en-US') : s;
+  };
+  const nettoie = (v: string) => v.replace(/[^\d.,]/g, '');
   const [extraPayment, setExtraPayment] = useState('200');
   const [strategy, setStrategy] = useState<PayoffStrategy>('avalanche');
   const [nextId, setNextId] = useState(4);
@@ -190,11 +200,14 @@ export default function DebtCalculator() {
                   Balance ($)
                 </label>
                 <input
-                  type="number"
-                  value={debt.balance}
+                  type="text"
+                  inputMode="decimal"
+                  value={affiche(debt.balance, `balance-${debt.id}`)}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    updateDebt(debt.id, 'balance', e.target.value)
+                    updateDebt(debt.id, 'balance', nettoie(e.target.value))
                   }
+                  onFocus={() => setChampActif(`balance-${debt.id}`)}
+                  onBlur={() => setChampActif(null)}
                   placeholder="5000"
                   min="0"
                   step="any"
@@ -222,11 +235,14 @@ export default function DebtCalculator() {
                   Min Payment ($)
                 </label>
                 <input
-                  type="number"
-                  value={debt.minimumPayment}
+                  type="text"
+                  inputMode="decimal"
+                  value={affiche(debt.minimumPayment, `min-${debt.id}`)}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    updateDebt(debt.id, 'minimumPayment', e.target.value)
+                    updateDebt(debt.id, 'minimumPayment', nettoie(e.target.value))
                   }
+                  onFocus={() => setChampActif(`min-${debt.id}`)}
+                  onBlur={() => setChampActif(null)}
                   placeholder="100"
                   min="0"
                   step="any"
@@ -260,9 +276,12 @@ export default function DebtCalculator() {
             Extra Monthly Payment ($)
           </label>
           <input
-            type="number"
-            value={extraPayment}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setExtraPayment(e.target.value)}
+            type="text"
+            inputMode="decimal"
+            value={affiche(extraPayment, 'extra')}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setExtraPayment(nettoie(e.target.value))}
+            onFocus={() => setChampActif('extra')}
+            onBlur={() => setChampActif(null)}
             placeholder="200"
             min="0"
             step="any"
