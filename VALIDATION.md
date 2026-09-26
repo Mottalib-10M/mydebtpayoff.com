@@ -1,6 +1,6 @@
-# Validation Test Cases — mydebtpayoff.com
+# Validation Test Cases, mydebtpayoff.com
 
-## Test Case 1: Single Credit Card — Minimum Payments Only
+## Test Case 1: Single Credit Card, Minimum Payments Only
 
 **Input:**
 - Debt: Credit Card, $5,000 balance, 22.99% APR, $100 minimum payment
@@ -17,7 +17,7 @@ At 22.99% APR, monthly interest on $5,000 is ~$95.79. With a $100 minimum, only 
 
 ---
 
-## Test Case 2: Three Debts — Avalanche vs. Snowball Comparison
+## Test Case 2: Three Debts, Avalanche vs. Snowball Comparison
 
 **Input:**
 - Debt A: Credit Card, $3,000 balance, 22.99% APR, $60 minimum
@@ -29,7 +29,7 @@ At 22.99% APR, monthly interest on $5,000 is ~$95.79. With a $100 minimum, only 
 **Expected Results:**
 - Avalanche pays less total interest than snowball
 - Avalanche targets Credit Card (22.99%) first
-- Snowball targets Credit Card ($3,000 — also smallest balance) first
+- Snowball targets Credit Card ($3,000, also smallest balance) first
 - In this case, both strategies target the same debt first, so results are similar
 - Total payoff: approximately 25–30 months
 - Avalanche interest saved >= $0 compared to snowball
@@ -39,7 +39,7 @@ Both strategies should target the Credit Card first since it has both the highes
 
 ---
 
-## Test Case 3: Loan Amortization — Known Formula Verification
+## Test Case 3: Loan Amortization, Known Formula Verification
 
 **Input:**
 - Principal: $10,000
@@ -86,9 +86,9 @@ This matches the known amortization payment for a $10,000 loan at 6% over 5 year
 
 ## Data files
 
-- debt-data-2026.ts — interest rates, minimum payments, strategy formulas
-- debt-scenarios-data.ts — 12 debt amount entries with pre-calculated examples
-- debt-types-data.ts — 6 debt type entries with comparison tables
+- debt-data-2026.ts, interest rates, minimum payments, strategy formulas
+- debt-scenarios-data.ts, 12 debt amount entries with pre-calculated examples
+- debt-types-data.ts, 6 debt type entries with comparison tables
 
 ## Quality gates
 

@@ -1,4 +1,5 @@
 ---
+import { CITABLE } from '../../data/citable';
 import Layout from '../../layouts/Layout.astro';
 
 const guides = [
@@ -115,6 +116,10 @@ import OfficialSources from '../../components/OfficialSources.astro';
   description="Guides on clearing debt faster: comparing repayment methods, negotiating rates, consolidating sensibly, and keeping a plan alive once the novelty wears off."
 >
   <section class="mx-auto max-w-6xl px-4 pb-2">
+
+    {/* §21 : the paragraph an answer engine can lift, before the rest of the
+        body. The hero is one line: it does not extract. */}
+    <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/']}</p>
     <p class="leading-relaxed text-gray-700">
       These guides are written for someone who already has a balance and wants to know what to do
       about it, not for someone comparing credit products. Each one covers a single situation, says

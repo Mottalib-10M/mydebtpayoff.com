@@ -1,4 +1,5 @@
 ---
+import { CITABLE } from '../../../data/citable';
 import Layout from '../../../layouts/Layout.astro';
 
 /** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
@@ -39,6 +40,10 @@ const faqSchema = {
     </nav>
 
     <h1 class="text-4xl font-extrabold text-text mb-6">Debt Consolidation Guide: When and How to Consolidate Your Debt</h1>
+      {/* §21 : the paragraph an answer engine can lift, before the rest of the
+          body. The hero is one line: it does not extract. */}
+      <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/debt-consolidation-guide/']}</p>
+
     <p class="text-lg text-text-muted mb-8">Last updated July 2025. Everything you need to know about combining multiple debts into one manageable payment.</p>
 
     <div class="prose prose-lg max-w-none">

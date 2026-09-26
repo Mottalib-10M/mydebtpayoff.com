@@ -1,4 +1,5 @@
 ---
+import { CITABLE } from '../../../data/citable';
 import Layout from '../../../layouts/Layout.astro';
 
 /** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
@@ -40,6 +41,10 @@ import OfficialSources from '../../../components/OfficialSources.astro';
     </nav>
 
     <h1 class="text-4xl font-extrabold text-text mb-6">How to Pay Off Credit Card Debt: Strategies That Actually Work</h1>
+      {/* §21 : the paragraph an answer engine can lift, before the rest of the
+          body. The hero is one line: it does not extract. */}
+      <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/credit-card-debt-payoff/']}</p>
+
     <p class="text-lg text-text-muted mb-8">Last updated July 2025. A complete guide to breaking the cycle of high-interest credit card debt.</p>
 
     <div class="prose prose-lg max-w-none">

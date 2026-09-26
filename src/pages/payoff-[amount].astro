@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { AMOUNT_ANGLES } from '../data/amount-angles';
 import DebtCalculator from '../components/DebtCalculator';
 import { debtScenarios, type DebtScenario } from '../lib/debt-scenarios-data';
 import '../styles/global.css';
@@ -120,7 +121,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Quick Stats -->
-  <section class="py-10 px-4">
+  <section data-chrome class="py-10 px-4">
     <div class="max-w-5xl mx-auto">
       <h2 class="text-2xl font-bold text-text mb-6 text-center">
         {amountFormatted} Payoff Snapshot (with {fmtCurrency(timeline.extraPayment)}/mo extra)
@@ -217,7 +218,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Calculator -->
-  <section class="py-12 px-4 bg-surface-dark">
+  <section data-chrome class="py-12 px-4 bg-surface-dark">
     <div class="max-w-5xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-text mb-3">
         {amountFormatted} Debt Payoff Calculator
@@ -231,7 +232,11 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Context Content -->
-  <section class="py-16 px-4 bg-white">
+  {/* §6.4 : ce bloc est le meme sur les douze montants, seules les sommes
+       changent, et le controle neutralise les sommes. Il reste utile au
+       lecteur mais ne fait pas l'unicite de la page : celle-ci vient de
+       AMOUNT_ANGLES. */}
+  <section data-chrome class="py-16 px-4 bg-white">
     <div class="max-w-4xl mx-auto prose prose-lg">
       <h2 class="text-3xl font-bold text-text mb-6">
         Understanding {amountFormatted} in Debt
@@ -329,8 +334,21 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
     </div>
   </section>
 
+  {/* §6 : ce qui ne vaut que pour ce montant. Les douze pages partageaient 80 %
+       de leur texte, les chiffres etant neutralises avant comparaison. */}
+  <section class="py-12 px-4 bg-white">
+    <div class="mx-auto max-w-4xl">
+      {(AMOUNT_ANGLES[scenario.slug] ?? []).map((a) => (
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-text mb-3">{a.heading}</h2>
+          {a.paragraphs.map((p) => <p class="mb-4 leading-relaxed text-gray-700">{p}</p>)}
+        </div>
+      ))}
+    </div>
+  </section>
+
   <!-- FAQ Section -->
-  <section class="py-16 px-4">
+  <section data-chrome class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold text-text mb-8 text-center">
         Frequently Asked Questions About Paying Off {amountFormatted}
@@ -347,7 +365,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Cross-Links -->
-  <section class="py-12 px-4 bg-surface-dark">
+  <section data-chrome class="py-12 px-4 bg-surface-dark">
     <div class="max-w-5xl mx-auto">
       <!-- Adjacent amounts -->
       <div class="flex justify-between items-center mb-10">
@@ -415,7 +433,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Sources -->
-  <section class="py-10 px-4 bg-white border-t border-border">
+  <section data-chrome class="py-10 px-4 bg-white border-t border-border">
     <div class="max-w-4xl mx-auto">
       <h3 class="text-lg font-bold text-text mb-4">Sources</h3>
       <ul class="space-y-2 text-sm text-text-muted">

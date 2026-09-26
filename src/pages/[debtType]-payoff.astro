@@ -1,4 +1,5 @@
 ---
+import { CITABLE_DEBT } from '../data/citable';
 import Layout from '../layouts/Layout.astro';
 import DebtCalculator from '../components/DebtCalculator';
 import { debtTypes, type DebtTypeEntry } from '../lib/debt-types-data';
@@ -121,6 +122,10 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
       <h1 class="text-4xl sm:text-5xl font-bold mb-4">
         {label} Payoff Calculator
       </h1>
+      {/* §21 : the paragraph an answer engine can lift, before the rest of the
+          body. The hero is one line: it does not extract. */}
+      <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE_DEBT[slug]}</p>
+
       <p class="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
         {description}
       </p>
@@ -133,7 +138,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- APR Context Card -->
-  <section class="py-10 px-4">
+  <section data-chrome class="py-10 px-4">
     <div class="max-w-5xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <div class="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
@@ -171,7 +176,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Calculator -->
-  <section class="py-12 px-4 bg-surface-dark">
+  <section data-chrome class="py-12 px-4 bg-surface-dark">
     <div class="max-w-5xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-text mb-3">
         {label} Payoff Calculator
@@ -198,7 +203,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- FAQ Section -->
-  <section class="py-16 px-4">
+  <section data-chrome class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold text-text mb-8 text-center">
         {label} Payoff FAQ
@@ -215,7 +220,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Cross-Links -->
-  <section class="py-12 px-4 bg-surface-dark">
+  <section data-chrome class="py-12 px-4 bg-surface-dark">
     <div class="max-w-5xl mx-auto">
       <h3 class="text-2xl font-bold text-text mb-6 text-center">Other Debt Type Guides</h3>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12">
@@ -246,7 +251,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </section>
 
   <!-- Sources -->
-  <section class="py-10 px-4 bg-white border-t border-border">
+  <section data-chrome class="py-10 px-4 bg-white border-t border-border">
     <div class="max-w-4xl mx-auto">
       <h3 class="text-lg font-bold text-text mb-4">Sources</h3>
       <ul class="space-y-2 text-sm text-text-muted">
