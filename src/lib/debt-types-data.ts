@@ -46,7 +46,7 @@ export const debtTypes: DebtTypeEntry[] = [
       {
         question: 'What is the average credit card interest rate in the US?',
         answer:
-          'The average APR on credit card accounts that pay interest has been between 21% and 23% since 2023, according to the Federal Reserve's G.19 release. Rates range from about 16% for borrowers with excellent credit to 29% or more for subprime cards. Store credit cards often carry even higher rates, sometimes exceeding 30%.',
+          'The average APR on credit card accounts that pay interest has been between 21% and 23% since 2023, according to the Federal Reserve G.19 release. Rates range from about 16% for borrowers with excellent credit to 29% or more for subprime cards. Store credit cards often carry even higher rates, sometimes exceeding 30%.',
       },
       {
         question: 'How do I pay off credit card debt fast?',
