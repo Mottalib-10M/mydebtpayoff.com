@@ -25,6 +25,7 @@ const faqSchema = {
     ]
   };
 import OfficialSources from '../../../components/OfficialSources.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -44,11 +45,13 @@ import OfficialSources from '../../../components/OfficialSources.astro';
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
       <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/credit-card-debt-payoff/']}</p>
+<MiniSimAutonome client:visible kind="card" lang="en" locale="en-US" href="/" />
 
-    <p class="text-lg text-text-muted mb-8">Last updated July 2025. A complete guide to breaking the cycle of high-interest credit card debt.</p>
+
+    <p class="text-lg text-text-muted mb-8">Last updated October 2026. A complete guide to breaking the cycle of high-interest credit card debt.</p>
 
     <div class="prose prose-lg max-w-none">
-      <p>Americans owe over $1.14 trillion in credit card debt as of early 2025, according to the Federal Reserve Bank of New York. The average credit card balance per borrower is approximately $6,500, and with average APRs hovering near 21 percent, minimum payments can stretch repayment out for decades. If you are one of the millions of Americans trapped in the minimum-payment cycle, this guide will show you exactly how to escape, how much you can save, and which strategies work best for different situations.</p>
+      <p>Americans owe $1.26 trillion in credit card debt as of mid-2026, according to the Federal Reserve Bank of New York. The average credit card balance per borrower is approximately $6,500, and with average APRs hovering near 21 percent, minimum payments can stretch repayment out for decades. If you are one of the millions of Americans trapped in the minimum-payment cycle, this guide will show you exactly how to escape, how much you can save, and which strategies work best for different situations.</p>
 
       <h2 class="text-2xl font-bold text-text mt-10 mb-4">Why Credit Card Debt Is So Dangerous</h2>
       <p>Credit card debt is uniquely harmful for three reasons:</p>
@@ -149,7 +152,7 @@ import OfficialSources from '../../../components/OfficialSources.astro';
       <div class="mt-10 pt-6 border-t border-border">
         <h3 class="text-lg font-bold text-text mb-3">Sources</h3>
         <ol class="list-decimal pl-6 space-y-1 text-sm text-text-muted">
-          <li>Federal Reserve Bank of New York. (2025). "Quarterly Report on Household Debt and Credit, Q4 2024." <em>newyorkfed.org</em>.</li>
+          <li>Federal Reserve Bank of New York. (2026). "Quarterly Report on Household Debt and Credit, Q2 2026." <em>newyorkfed.org</em>.</li>
           <li>LendingTree. (2023). "Credit Card Interest Rate Negotiation Survey." <em>lendingtree.com</em>.</li>
           <li>Bureau of Labor Statistics. (2024). "Consumer Expenditure Surveys." <em>bls.gov</em>.</li>
         </ol>

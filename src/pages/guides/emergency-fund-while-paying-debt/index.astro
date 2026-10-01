@@ -25,6 +25,7 @@ const faqSchema = {
     ]
   };
 import OfficialSources from '../../../components/OfficialSources.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -44,8 +45,10 @@ import OfficialSources from '../../../components/OfficialSources.astro';
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
       <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/emergency-fund-while-paying-debt/']}</p>
+<MiniSimAutonome client:visible kind="emergency" lang="en" locale="en-US" href="/" />
 
-    <p class="text-lg text-text-muted mb-8">Last updated July 2025. A practical guide to balancing financial security with aggressive debt repayment.</p>
+
+    <p class="text-lg text-text-muted mb-8">Last updated October 2026. A practical guide to balancing financial security with aggressive debt repayment.</p>
 
     <div class="prose prose-lg max-w-none">
       <p>One of the most common questions people face when starting a debt payoff journey is: "Should I save money first or pay off debt first?" The answer is both, done strategically. Without an emergency fund, a single unexpected expense, a car repair, a medical bill, a job disruption, can push you right back into debt and undo months of progress. But hoarding cash in a low-yield savings account while paying 22 percent interest on credit cards is also financially costly. This guide shows you how to strike the right balance between security and speed.</p>
@@ -81,7 +84,7 @@ import OfficialSources from '../../../components/OfficialSources.astro';
       <h2 class="text-2xl font-bold text-text mt-10 mb-4">Where to Keep Your Emergency Fund</h2>
       <p>Your emergency fund should be easily accessible but separate from your daily checking account to reduce temptation. The best options are:</p>
       <ul class="list-disc pl-6 space-y-2">
-        <li><strong>High-yield savings account (HYSA):</strong> Online banks like Marcus, Ally, or Capital One 360 offer rates of 4 to 5 percent APY as of mid-2025. Your money is FDIC-insured and accessible within one to two business days.</li>
+        <li><strong>High-yield savings account (HYSA):</strong> Online banks like Marcus, Ally, or Capital One 360 offer rates of roughly 3.5 to 4.5 percent APY in 2026, after the Federal Reserve's rate cuts. Your money is FDIC-insured and accessible within one to two business days.</li>
         <li><strong>Money market account:</strong> Similar to a HYSA but may offer check-writing or debit card access. Rates are comparable. Good for people who want slightly faster access.</li>
         <li><strong>Separate bank entirely:</strong> Some people find it helpful to keep their emergency fund at a completely different bank from their primary checking. The extra friction of transferring between institutions makes impulsive withdrawals less likely.</li>
       </ul>

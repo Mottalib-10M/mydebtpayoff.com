@@ -53,6 +53,7 @@ const faqs = [
   },
 ];
 import OfficialSources from '../../components/OfficialSources.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -65,6 +66,8 @@ import OfficialSources from '../../components/OfficialSources.astro';
       <p class="text-lg text-text-muted text-center mb-12 max-w-2xl mx-auto">
         Everything you need to know about debt payoff strategies and using our free calculator.
       </p>
+<MiniSimAutonome client:visible kind="payoff" lang="en" locale="en-US" href="/" />
+
 
       <div class="space-y-6">
         {faqs.map((faq, index) => (

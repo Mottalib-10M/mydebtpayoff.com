@@ -109,6 +109,7 @@ const faqSchemaPilier = {
   ]
 };
 import OfficialSources from '../../components/OfficialSources.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -120,6 +121,8 @@ import OfficialSources from '../../components/OfficialSources.astro';
     {/* §21 : the paragraph an answer engine can lift, before the rest of the
         body. The hero is one line: it does not extract. */}
     <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/']}</p>
+<MiniSimAutonome client:visible kind="payoff" lang="en" locale="en-US" href="/" />
+
     <p class="leading-relaxed text-gray-700">
       These guides are written for someone who already has a balance and wants to know what to do
       about it, not for someone comparing credit products. Each one covers a single situation, says

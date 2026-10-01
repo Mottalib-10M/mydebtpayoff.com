@@ -24,6 +24,7 @@ const faqSchema = {
       }
     ]
   };
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -44,6 +45,8 @@ const faqSchema = {
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
       <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/avalanche-vs-snowball/']}</p>
+<MiniSimAutonome client:visible kind="compare" lang="en" locale="en-US" href="/" />
+
 
     <p class="text-lg text-text-muted mb-8">Last updated July 2025. A comprehensive comparison of the two most popular debt repayment strategies used by millions of Americans.</p>
 

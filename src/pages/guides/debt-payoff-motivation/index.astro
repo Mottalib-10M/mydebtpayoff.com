@@ -25,6 +25,7 @@ const faqSchema = {
     ]
   };
 import OfficialSources from '../../../components/OfficialSources.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -44,6 +45,8 @@ import OfficialSources from '../../../components/OfficialSources.astro';
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
       <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/debt-payoff-motivation/']}</p>
+<MiniSimAutonome client:visible kind="extra" lang="en" locale="en-US" href="/" />
+
 
     <p class="text-lg text-text-muted mb-8">Last updated July 2025. Fifteen proven strategies to maintain momentum and reach your debt-free goal.</p>
 

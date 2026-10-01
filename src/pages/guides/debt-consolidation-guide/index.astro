@@ -24,6 +24,7 @@ const faqSchema = {
       }
     ]
   };
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout
@@ -43,6 +44,8 @@ const faqSchema = {
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
       <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/debt-consolidation-guide/']}</p>
+<MiniSimAutonome client:visible kind="consolidation" lang="en" locale="en-US" href="/" />
+
 
     <p class="text-lg text-text-muted mb-8">Last updated July 2025. Everything you need to know about combining multiple debts into one manageable payment.</p>
 
