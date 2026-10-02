@@ -7,7 +7,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   trailingSlash: 'always',  site: 'https://mydebtpayoff.com',
   integrations: [
-    trustKit({ lang: 'en', siteUrl: 'https://mydebtpayoff.com', siteName: 'My Debt Payoff', founded: '2026-06-27', about: '/about/', method: '/methodology/' }), react(), sitemap()],
+    trustKit({ lang: 'en', siteUrl: 'https://mydebtpayoff.com', siteName: 'My Debt Payoff', founded: '2026-06-27', about: '/about/', method: '/methodology/' }), react(),
+    // /embed/ : page d'iframe en noindex, hors sitemap
+    sitemap({ filter: (page) => !new URL(page).pathname.startsWith('/embed/') })],
   vite: {
     plugins: [tailwindcss()],
   },
