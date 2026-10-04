@@ -81,11 +81,7 @@ const ogImage = `https://mydebtpayoff.com/og/${cheminOg || 'accueil'}.png`;
     })} />
 
     <script defer data-domain="mydebtpayoff.com" src="https://plausible.io/js/script.js"></script>
-    <!--
-      Pas de GA4 : l'identifiant etait reste a l'etat de gabarit
-      (G-XXXXXXXXXX), donc deux requetes vers googletagmanager a chaque
-      page pour une mesure qui n'arrivait nulle part.
-    -->
+    <!-- GA4 (GA4_ID de site-config) est chargé par Consent, comme Clarity. -->
   <Consent part="head" lang="en" moreHref="/privacy/" />
 </head>
   <body class="bg-surface text-text min-h-screen flex flex-col">
