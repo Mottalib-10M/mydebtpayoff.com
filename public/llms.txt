@@ -21,5 +21,5 @@ MyDebtPayoff.com is a free US debt payoff calculator that helps users compare av
 ## Technical Details
 - Built with Astro, React, and Tailwind CSS
 - All calculations run in the browser (no server-side processing)
-- No cookies, no tracking pixels, no advertising
+- No advertising and no cookie banner: audience measurement with Microsoft Clarity and Google Analytics 4, described in the privacy policy
 - Privacy-focused analytics via Plausible
