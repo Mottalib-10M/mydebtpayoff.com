@@ -8,7 +8,8 @@
     "build": "astro build && node scripts/typo-nbsp.mjs dist",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check:cookies": "python3 scripts/check-cookies.py ."
   },
   "dependencies": {
     "@astrojs/react": "^4.2.1",
