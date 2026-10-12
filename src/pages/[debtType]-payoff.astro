@@ -99,6 +99,8 @@ import { faqsType } from '../lib/faq-complement';
 import OfficialSources from '../components/OfficialSources.astro';
 import PayoffMechanics from '../components/PayoffMechanics.astro';
 import Chapeau from '../components/Chapeau.astro';
+import { profilType } from '../lib/type-profile';
+const profil = profilType(entry);
 ---
 
 <Layout
@@ -276,14 +278,13 @@ import Chapeau from '../components/Chapeau.astro';
     </div>
   </section>
   <PayoffMechanics
-    montant={exampleBalance}
-    montantFormate={'$' + exampleBalance.toLocaleString('en-US')}
-    dettes={[{ name: label, balance: exampleBalance, apr: exampleApr, minimumPayment: exampleMinPayment },
-             { name: 'Credit card', balance: Math.round(exampleBalance * 0.25), apr: 22.99, minimumPayment: Math.round(exampleBalance * 0.25 * 0.02) }]}
-    mois={36}
-    interets={Math.round(exampleBalance * exampleApr / 100 * 1.6)}
-    interetsAutreMethode={Math.round(exampleBalance * exampleApr / 100 * 1.75)}
-    supplement={Math.max(50, Math.round(exampleMinPayment * 0.4))}
+    montant={profil.dettes.reduce((t, d) => t + d.balance, 0)}
+    montantFormate={'$' + profil.dettes.reduce((t, d) => t + d.balance, 0).toLocaleString('en-US')}
+    dettes={profil.dettes}
+    mois={profil.mois}
+    interets={profil.interets}
+    interetsAutreMethode={profil.interetsAutreMethode}
+    supplement={profil.supplement}
   />
   <OfficialSources />
 </Layout>
