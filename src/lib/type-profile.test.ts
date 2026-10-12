@@ -26,7 +26,30 @@ describe('pages par type de dette : chiffres affiches = moteur', () => {
       const txt = readFileSync(page, 'utf8').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ /g, ' ');
       expect(txt).toContain(`timeline to ${p.mois} months`);
       expect(txt).toContain(`${usd(p.interets)} of interest`);
-      expect(txt).toContain(`worth ${usd(Math.abs(p.interets - p.interetsAutreMethode))} against`);
+      const ecart = Math.abs(p.interets - p.interetsAutreMethode);
+      if (ecart >= 1) {
+        expect(txt).toContain(`worth ${usd(ecart)} against`);
+      } else {
+        // Ecart nul : la section « Why the order of payment matters here » n'est pas rendue.
+        expect(txt).not.toContain('against the snowball order');
+        expect(txt).not.toContain('Whether $0 justifies');
+        expect(txt).not.toContain('Why the order of payment matters here');
+      }
+    });
+  }
+});
+
+/* Pages par montant : l'ecart est toujours positif, la section reste rendue. */
+import { debtScenarios } from './debt-scenarios-data';
+describe('pages par montant : section de l ordre rendue quand l ecart > 0', () => {
+  for (const sc of debtScenarios) {
+    const page = join(dist, `payoff-${sc.slug}`, 'index.html');
+    it.skipIf(!existsSync(page))(`${sc.slug}`, () => {
+      const ecart = Math.abs(sc.timeline.avalancheInterest - sc.timeline.snowballInterest);
+      expect(ecart).toBeGreaterThan(0);
+      const txt = readFileSync(page, 'utf8').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/\u00a0/g, ' ');
+      expect(txt).toContain('Why the order of payment matters here');
+      expect(txt).toContain(`worth ${usd(ecart)} against`);
     });
   }
 });
