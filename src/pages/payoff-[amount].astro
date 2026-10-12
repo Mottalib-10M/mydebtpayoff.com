@@ -103,19 +103,35 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   </nav>
 
   <!-- Hero -->
-  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-14">
+  {/* Premier ecran (RECETTE §5, 2026-10-11) : titre, deux lignes de reponse,
+       puis le simulateur ; chiffres cles et tableaux passent juste en dessous. */}
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-5 sm:py-6">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">
         How to Pay Off {amountFormatted} in Debt
       </h1>
-      <p class="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
+      <p class="text-base sm:text-lg text-white/90 max-w-2xl mx-auto">
         See exactly how long it takes to pay off {amountFormatted} using the avalanche and snowball methods.
         Get a personalized payoff plan with our free calculator.
       </p>
-      <div class="flex flex-wrap justify-center gap-4 text-sm">
-        <span class="bg-white/20 px-4 py-2 rounded-full">Avalanche vs Snowball</span>
-        <span class="bg-white/20 px-4 py-2 rounded-full">Month-by-Month Plan</span>
-        <span class="bg-white/20 px-4 py-2 rounded-full">100% Free</span>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section data-chrome class="pt-5 pb-10 px-4 bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <DebtCalculator client:idle />
+      <h2 class="mt-8 text-3xl font-bold text-center text-text mb-3">
+        {amountFormatted} Debt Payoff Calculator
+      </h2>
+      <p class="text-center text-text-muted max-w-2xl mx-auto">
+        Enter your actual debts above to get a personalized payoff plan. The calculator pre-loads with
+        a typical {amountFormatted} scenario - adjust the numbers to match your situation.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+        <span class="bg-primary/10 text-primary px-4 py-2 rounded-full">Avalanche vs Snowball</span>
+        <span class="bg-primary/10 text-primary px-4 py-2 rounded-full">Month-by-Month Plan</span>
+        <span class="bg-primary/10 text-primary px-4 py-2 rounded-full">100% Free</span>
       </div>
     </div>
   </section>
@@ -183,7 +199,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
       <div class="bg-white rounded-xl shadow-lg border border-border p-6 mb-10">
         <h3 class="text-xl font-bold text-text mb-4">Typical {amountFormatted} Debt Breakdown</h3>
         <p class="text-text-muted mb-4">
-          Here is a representative mix of debts totaling {amountFormatted}. Your actual debts may differ - use the calculator below to model your specific situation.
+          Here is a representative mix of debts totaling {amountFormatted}. Your actual debts may differ - use the calculator above to model your specific situation.
         </p>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
@@ -217,19 +233,6 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
     </div>
   </section>
 
-  <!-- Calculator -->
-  <section data-chrome class="py-12 px-4 bg-surface-dark">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold text-center text-text mb-3">
-        {amountFormatted} Debt Payoff Calculator
-      </h2>
-      <p class="text-center text-text-muted mb-8 max-w-2xl mx-auto">
-        Enter your actual debts below to get a personalized payoff plan. The calculator pre-loads with
-        a typical {amountFormatted} scenario - adjust the numbers to match your situation.
-      </p>
-      <DebtCalculator client:idle />
-    </div>
-  </section>
 
   <!-- Context Content -->
   {/* §6.4 : ce bloc est le meme sur les douze montants, seules les sommes

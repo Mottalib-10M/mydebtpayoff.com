@@ -50,15 +50,15 @@ function Field({ id, label, value, onChange, unit, max = 1e9, decimals = 0, loca
   );
 }
 
-interface Props { kind: string; lang?: string; href?: string; locale?: string }
+interface Props { kind: string; lang?: string; href?: string; locale?: string; spacing?: string }
 
-export default function MiniSimAutonome({ kind, lang = 'en', href, locale = 'en-GB' }: Props) {
+export default function MiniSimAutonome({ kind, lang = 'en', href, locale = 'en-GB', spacing = 'my-8' }: Props) {
   const spec = getSpec(kind, lang);
   const [v, setV] = useState<Record<string, number>>(() => Object.fromEntries(spec.inputs.map((i) => [i.id, i.def])));
   const out = useMemo(() => spec.run(v), [v, spec]);
   const set = (id: string) => (x: number) => setV((o) => ({ ...o, [id]: x }));
   return (
-    <div data-chrome data-mini={kind} className="not-prose rechner-mini my-8 rounded-xl border bg-white p-4 shadow-sm sm:p-5" style={{ borderColor: C.border }}>
+    <div data-chrome data-mini={kind} className={`not-prose rechner-mini ${spacing} rounded-xl border bg-white p-4 shadow-sm sm:p-5`} style={{ borderColor: C.border }}>
       <p className="text-base font-semibold" style={{ color: C.text }}>{spec.title}</p>
       <div className="mt-3 grid gap-5 sm:grid-cols-2">
         <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>

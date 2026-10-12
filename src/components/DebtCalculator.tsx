@@ -1,4 +1,4 @@
-import { useState, useMemo, type ChangeEvent } from 'react';
+import { useState, useMemo, useEffect, useRef, type ChangeEvent } from 'react';
 import {
   compareStrategies,
   type Debt,
@@ -57,7 +57,7 @@ function StackedBarChart({ schedule, debts }: { schedule: MonthlySnapshot[]; deb
   const colors = ['#7c3aed', '#059669', '#f59e0b', '#ef4444', '#3b82f6', '#ec4899', '#14b8a6', '#f97316'];
 
   return (
-    <div className="mt-6">
+    <div>
       <h4 className="text-lg font-semibold text-text mb-3">Debt Balance Over Time</h4>
       <div className="flex items-end gap-1" style={{ height: '200px' }}>
         {sampledMonths.map((snap) => {
@@ -124,6 +124,18 @@ export default function DebtCalculator() {
   const [strategy, setStrategy] = useState<PayoffStrategy>('avalanche');
   const [nextId, setNextId] = useState(4);
   const [showTimeline, setShowTimeline] = useState(false);
+  // Telephone : tant que le resultat est sous l'ecran, une barre collante en bas
+  // montre le chiffre cle (RECETTE §5, regle du 2026-10-11). Elle n'existe que
+  // cote client : rien n'est ajoute au HTML construit.
+  const resultatRef = useRef<HTMLDivElement>(null);
+  const [resultatDessous, setResultatDessous] = useState(false);
+  useEffect(() => {
+    const el = resultatRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setResultatDessous(!e.isIntersecting && e.boundingClientRect.top > 0));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const addDebt = () => {
     setDebtInputs([...debtInputs, defaultDebt(nextId)]);
@@ -170,18 +182,20 @@ export default function DebtCalculator() {
     : null;
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="mx-auto grid max-w-6xl items-start gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+      {/* Champs a gauche, resultat a droite sur ordinateur (premier ecran, 2026-10-11) */}
+      <form className="min-w-0" onSubmit={(e) => e.preventDefault()}>
       {/* Debt Inputs */}
-      <div className="bg-white rounded-xl shadow-lg border border-border p-6 mb-6">
-        <h3 className="text-xl font-bold text-text mb-4">Your Debts</h3>
+      <div className="bg-white rounded-xl shadow-lg border border-border p-4 sm:p-5 mb-4">
+        <h3 className="text-lg font-bold text-text mb-3">Your Debts</h3>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {debtInputs.map((debt, index) => (
             <div
               key={debt.id}
-              className="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end p-4 bg-surface rounded-lg border border-border"
+              className="grid grid-cols-2 sm:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.2fr)_auto] gap-2 sm:gap-3 items-end p-3 bg-surface rounded-lg border border-border"
             >
-              <div>
+              <div className="col-span-2 sm:col-span-1">
                 <label className="block text-sm font-medium text-text-muted mb-1">
                   Debt Name
                 </label>
@@ -251,6 +265,7 @@ export default function DebtCalculator() {
               </div>
               <div className="flex justify-end">
                 <button
+                  type="button"
                   onClick={() => removeDebt(debt.id)}
                   disabled={debtInputs.length <= 1}
                   className="px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
@@ -264,14 +279,15 @@ export default function DebtCalculator() {
         </div>
 
         <button
+          type="button"
           onClick={addDebt}
-          className="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors text-sm font-medium"
+          className="mt-3 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors text-sm font-medium"
         >
           + Add Debt
         </button>
 
         {/* Extra Payment */}
-        <div className="mt-6 p-4 bg-surface rounded-lg border border-border">
+        <div className="mt-4 p-3 bg-surface rounded-lg border border-border">
           <label className="block text-sm font-medium text-text-muted mb-1">
             Extra Monthly Payment ($)
           </label>
@@ -294,10 +310,12 @@ export default function DebtCalculator() {
       </div>
 
       {/* Strategy Toggle */}
-      <div className="bg-white rounded-xl shadow-lg border border-border p-6 mb-6">
-        <h3 className="text-xl font-bold text-text mb-4">Payoff Strategy</h3>
+      <div className="bg-white rounded-xl shadow-lg border border-border p-4 sm:p-5">
+        <h3 className="text-lg font-bold text-text mb-3">Payoff Strategy</h3>
         <div className="flex gap-3">
           <button
+            type="button"
+            aria-pressed={strategy === 'avalanche'}
             onClick={() => setStrategy('avalanche')}
             className={`flex-1 px-4 py-3 rounded-lg font-medium text-sm transition-colors border-2 ${
               strategy === 'avalanche'
@@ -311,6 +329,8 @@ export default function DebtCalculator() {
             </div>
           </button>
           <button
+            type="button"
+            aria-pressed={strategy === 'snowball'}
             onClick={() => setStrategy('snowball')}
             className={`flex-1 px-4 py-3 rounded-lg font-medium text-sm transition-colors border-2 ${
               strategy === 'snowball'
@@ -326,14 +346,17 @@ export default function DebtCalculator() {
         </div>
       </div>
 
+      </form>
+
       {/* Results */}
+      <div ref={resultatRef} data-resultat aria-live="polite" className="min-w-0 lg:sticky lg:top-20">
       {comparison && activeResult && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="bg-white rounded-xl shadow-lg border border-border p-4 text-center">
               <div className="text-sm text-text-muted mb-1">Debt-Free In</div>
-              <div className="text-3xl font-bold text-primary">
+              <div className="text-2xl font-bold text-primary">
                 {activeResult.payoffMonths}
               </div>
               <div className="text-sm text-text-muted">months</div>
@@ -342,16 +365,16 @@ export default function DebtCalculator() {
                 {activeResult.payoffMonths % 12} months)
               </div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+            <div className="bg-white rounded-xl shadow-lg border border-border p-4 text-center">
               <div className="text-sm text-text-muted mb-1">Total Interest</div>
-              <div className="text-3xl font-bold text-red-600">
+              <div className="text-2xl font-bold text-red-600">
                 {formatCurrency(activeResult.totalInterestPaid)}
               </div>
               <div className="text-sm text-text-muted">paid in interest</div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg border border-border p-6 text-center">
+            <div className="bg-white rounded-xl shadow-lg border border-border p-4 text-center">
               <div className="text-sm text-text-muted mb-1">Total Paid</div>
-              <div className="text-3xl font-bold text-text">
+              <div className="text-2xl font-bold text-text">
                 {formatCurrency(activeResult.totalAmountPaid)}
               </div>
               <div className="text-sm text-text-muted">principal + interest</div>
@@ -360,7 +383,7 @@ export default function DebtCalculator() {
 
           {/* Strategy Comparison */}
           {comparison.interestSaved > 0 && (
-            <div className="bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg p-6 text-white">
+            <div className="bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg p-4 sm:p-5 text-white">
               <h4 className="text-lg font-bold mb-2">Strategy Comparison</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -404,13 +427,14 @@ export default function DebtCalculator() {
           )}
 
           {/* Chart */}
-          <div className="bg-white rounded-xl shadow-lg border border-border p-6">
+          <div className="bg-white rounded-xl shadow-lg border border-border p-4 sm:p-5">
             <StackedBarChart schedule={activeResult.schedule} debts={validDebts} />
           </div>
 
           {/* Timeline Toggle */}
-          <div className="bg-white rounded-xl shadow-lg border border-border p-6">
+          <div className="bg-white rounded-xl shadow-lg border border-border p-4 sm:p-5">
             <button
+              type="button"
               onClick={() => setShowTimeline(!showTimeline)}
               className="flex items-center gap-2 text-lg font-semibold text-text hover:text-primary transition-colors"
             >
@@ -463,6 +487,19 @@ export default function DebtCalculator() {
           </p>
         </div>
       )}
+      {resultatDessous && activeResult && (
+        <button
+          type="button"
+          aria-hidden="true"
+          tabIndex={-1}
+          onClick={() => resultatRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          className="fixed inset-x-0 bottom-0 z-40 flex items-baseline justify-between gap-3 border-t border-border bg-white px-4 py-3 text-left shadow-[0_-4px_12px_rgba(0,0,0,0.08)] lg:hidden"
+        >
+          <span className="text-sm font-medium text-text-muted">Debt-Free In</span>
+          <span className="tabular-nums text-xl font-bold text-primary">{activeResult.payoffMonths} months</span>
+        </button>
+      )}
+      </div>
     </div>
   );
 }

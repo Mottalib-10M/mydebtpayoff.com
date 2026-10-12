@@ -1,0 +1,14 @@
+---
+/**
+ * Chapeau replie sur trois lignes (RECETTE §5, regle du 2026-10-11).
+ * UN seul <p>, entier dans le HTML (le bloc citable §21 reste lisible par les
+ * moteurs) ; une case a cocher le deplie, sans JavaScript.
+ */
+interface Props { text: string; id: string; class?: string; textClass?: string; moreClass?: string }
+const { text, id, class: cls = '', textClass = '', moreClass = '' } = Astro.props;
+---
+<div class={`chapeau ${cls}`}>
+  <input type="checkbox" id={id} class="chapeau-toggle" aria-label="Read the full introduction" />
+  <p class={`chapeau-texte ${textClass}`}>{text}</p>
+  <label for={id} class={`chapeau-plus ${moreClass}`}>Read more</label>
+</div>

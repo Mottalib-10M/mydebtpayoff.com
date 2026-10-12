@@ -98,6 +98,7 @@ const contentParagraphs = contextContent.split('\n\n');
 import { faqsType } from '../lib/faq-complement';
 import OfficialSources from '../components/OfficialSources.astro';
 import PayoffMechanics from '../components/PayoffMechanics.astro';
+import Chapeau from '../components/Chapeau.astro';
 ---
 
 <Layout
@@ -109,30 +110,50 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
   <!-- Breadcrumb -->
-  <nav class="max-w-6xl mx-auto px-4 py-3 text-sm text-text-muted" aria-label="Breadcrumb">
+  <nav class="max-w-6xl mx-auto px-4 py-2 text-sm text-text-muted" aria-label="Breadcrumb">
     <ol class="flex items-center gap-2">
       <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
       <li class="before:content-['/'] before:mx-2">{label} Payoff</li>
     </ol>
   </nav>
 
-  <!-- Hero -->
-  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-14">
+  {/* Premier ecran (RECETTE §5, 2026-10-11) : titre, chapeau replie sur trois
+       lignes, puis le simulateur. Le reste de l'en-tete, les chiffres cles et les
+       strategies passent juste en dessous, sans changement de texte. */}
+  <section class="bg-gradient-to-br from-primary to-primary-dark text-white py-4 sm:py-5">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">
         {label} Payoff Calculator
       </h1>
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
-      <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE_DEBT[slug]}</p>
+      <Chapeau text={CITABLE_DEBT[slug]} id={`chapeau-${slug}`} textClass="text-white/90 leading-relaxed" moreClass="text-white" />
+    </div>
+  </section>
 
-      <p class="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
+  <!-- Calculator -->
+  <section data-chrome class="pt-5 pb-10 px-4 bg-surface-dark">
+    <div class="max-w-6xl mx-auto">
+      <DebtCalculator client:idle />
+      <h2 class="mt-8 text-3xl font-bold text-center text-text mb-3">
+        {label} Payoff Calculator
+      </h2>
+      <p class="text-center text-text-muted max-w-2xl mx-auto">
+        Enter your {label.toLowerCase()} details along with any other debts you carry. The calculator
+        compares avalanche and snowball strategies to find your fastest path to freedom.
+      </p>
+    </div>
+  </section>
+
+  <section class="pt-10 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-xl text-text-muted mb-6 max-w-2xl mx-auto">
         {description}
       </p>
       <div class="flex flex-wrap justify-center gap-4 text-sm">
-        <span class="bg-white/20 px-4 py-2 rounded-full">APR Range: {aprDisplay}</span>
-        <span class="bg-white/20 px-4 py-2 rounded-full">Free Calculator</span>
-        <span class="bg-white/20 px-4 py-2 rounded-full">Expert Strategies</span>
+        <span class="bg-primary/10 text-primary px-4 py-2 rounded-full">APR Range: {aprDisplay}</span>
+        <span class="bg-primary/10 text-primary px-4 py-2 rounded-full">Free Calculator</span>
+        <span class="bg-primary/10 text-primary px-4 py-2 rounded-full">Expert Strategies</span>
       </div>
     </div>
   </section>
@@ -175,19 +196,6 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
     </div>
   </section>
 
-  <!-- Calculator -->
-  <section data-chrome class="py-12 px-4 bg-surface-dark">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold text-center text-text mb-3">
-        {label} Payoff Calculator
-      </h2>
-      <p class="text-center text-text-muted mb-8 max-w-2xl mx-auto">
-        Enter your {label.toLowerCase()} details along with any other debts you carry. The calculator
-        compares avalanche and snowball strategies to find your fastest path to freedom.
-      </p>
-      <DebtCalculator client:idle />
-    </div>
-  </section>
 
   <!-- Detailed Content -->
   <section class="py-16 px-4 bg-white">

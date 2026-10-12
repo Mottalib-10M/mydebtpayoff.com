@@ -1,6 +1,7 @@
 ---
 import { CITABLE } from '../../../data/citable';
 import Layout from '../../../layouts/Layout.astro';
+import Chapeau from '../../../components/Chapeau.astro';
 
 /** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
 const faqSchema = {
@@ -31,9 +32,9 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
   title="Avalanche vs snowball: which method clears debt faster"
   description="What each method costs in interest and in months, when the gap is worth the discipline, and why the cheaper method is not always the one people finish paying."
 >
-  <article class="max-w-4xl mx-auto px-4 py-12">
+  <article class="max-w-4xl mx-auto px-4 pt-4 pb-12 sm:pt-6">
     <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
+    <nav aria-label="Breadcrumb" class="mb-3 text-sm text-text-muted">
       <ol class="flex items-center gap-1">
         <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
         <li class="before:content-['/'] before:mx-2"><a href="/guides/" class="hover:text-primary transition-colors">Guides</a></li>
@@ -41,11 +42,11 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
       </ol>
     </nav>
 
-    <h1 class="text-4xl font-extrabold text-text mb-6">Avalanche vs. Snowball Method: Which Debt Payoff Strategy Is Best?</h1>
+    <h1 class="text-[1.75rem] leading-tight sm:text-4xl font-extrabold text-text mb-3">Avalanche vs. Snowball Method: Which Debt Payoff Strategy Is Best?</h1>
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
-      <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/avalanche-vs-snowball/']}</p>
-<MiniSimAutonome client:visible kind="compare" lang="en" locale="en-US" href="/" />
+      <Chapeau text={CITABLE['/guides/avalanche-vs-snowball/']} id="chapeau-guide" textClass="text-slate-700 leading-relaxed" moreClass="text-primary" />
+<MiniSimAutonome client:visible kind="compare" lang="en" locale="en-US" href="/" spacing="mt-4 mb-8" />
 
 
     <p class="text-lg text-text-muted mb-8">Last updated July 2025. A comprehensive comparison of the two most popular debt repayment strategies used by millions of Americans.</p>

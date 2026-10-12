@@ -216,3 +216,16 @@ footer a:hover { color: var(--color-primary-dark); }
   header, footer, nav, .no-print { display: none !important; }
   body { background: #fff; color: #000; }
 }
+
+/*
+ * Chapeau replie (RECETTE §5, regle du 2026-10-11) : le texte reste entier dans
+ * un seul <p> du HTML ; l'ecran n'en montre que trois lignes pour que le
+ * simulateur se voie sans defiler. Une case a cocher le deplie, sans JavaScript.
+ */
+.chapeau { position: relative; }
+.chapeau-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.chapeau-texte { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+.chapeau-toggle:checked ~ .chapeau-texte { display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible; }
+.chapeau-toggle:checked ~ .chapeau-plus { display: none; }
+.chapeau-plus { display: inline-block; cursor: pointer; font-size: 0.875rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.chapeau-toggle:focus-visible ~ .chapeau-plus { outline: 2px solid currentColor; outline-offset: 3px; }

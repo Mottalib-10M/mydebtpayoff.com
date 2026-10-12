@@ -1,6 +1,7 @@
 ---
 import { CITABLE } from '../../../data/citable';
 import Layout from '../../../layouts/Layout.astro';
+import Chapeau from '../../../components/Chapeau.astro';
 
 /** Une seule source pour la FAQ : le balisage et l'accordeon la partagent. */
 const faqSchema = {
@@ -32,8 +33,8 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
   title="Credit card debt payoff: the options that actually work"
   description="Balance transfers, hardship plans, negotiated rates and the arithmetic of minimum payments, with what each option costs and when it makes matters far worse."
 >
-  <article class="max-w-4xl mx-auto px-4 py-12">
-    <nav aria-label="Breadcrumb" class="mb-8 text-sm text-text-muted">
+  <article class="max-w-4xl mx-auto px-4 pt-4 pb-12 sm:pt-6">
+    <nav aria-label="Breadcrumb" class="mb-3 text-sm text-text-muted">
       <ol class="flex items-center gap-1">
         <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
         <li class="before:content-['/'] before:mx-2"><a href="/guides/" class="hover:text-primary transition-colors">Guides</a></li>
@@ -41,11 +42,11 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
       </ol>
     </nav>
 
-    <h1 class="text-4xl font-extrabold text-text mb-6">How to Pay Off Credit Card Debt: Strategies That Actually Work</h1>
+    <h1 class="text-[1.75rem] leading-tight sm:text-4xl font-extrabold text-text mb-3">How to Pay Off Credit Card Debt: Strategies That Actually Work</h1>
       {/* §21 : the paragraph an answer engine can lift, before the rest of the
           body. The hero is one line: it does not extract. */}
-      <p class="mb-8 text-slate-700 leading-relaxed">{CITABLE['/guides/credit-card-debt-payoff/']}</p>
-<MiniSimAutonome client:visible kind="card" lang="en" locale="en-US" href="/" />
+      <Chapeau text={CITABLE['/guides/credit-card-debt-payoff/']} id="chapeau-guide" textClass="text-slate-700 leading-relaxed" moreClass="text-primary" />
+<MiniSimAutonome client:visible kind="card" lang="en" locale="en-US" href="/" spacing="mt-4 mb-8" />
 
 
     <p class="text-lg text-text-muted mb-8">Last updated October 2026. A complete guide to breaking the cycle of high-interest credit card debt.</p>
