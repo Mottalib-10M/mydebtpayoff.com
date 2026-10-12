@@ -120,7 +120,7 @@ import PayoffMechanics from '../components/PayoffMechanics.astro';
   <!-- Calculator -->
   <section data-chrome class="pt-5 pb-10 px-4 bg-surface-dark">
     <div class="max-w-6xl mx-auto">
-      <DebtCalculator client:idle />
+      <DebtCalculator client:idle initialDebts={typicalDebts} initialExtra={timeline.extraPayment} />
       <h2 class="mt-8 text-3xl font-bold text-center text-text mb-3">
         {amountFormatted} Debt Payoff Calculator
       </h2>

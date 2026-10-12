@@ -86,6 +86,14 @@ export function calculatePayoffSchedule(
   const schedule: MonthlySnapshot[] = [];
   const MAX_MONTHS = 600; // 50 years safety cap
 
+  // Montant mensuel constant : la somme des minimums d'origine plus le
+  // supplement. Quand une dette est soldee, son minimum reste dans ce montant
+  // et passe a la cible suivante (« rollover », decrit sur /methodology/).
+  // Sans cela, le minimum d'une dette soldee disparaissait du plan.
+  const monthlyBudget =
+    debts.reduce((s, d) => s + (d.balance > 0 ? Math.max(0, d.minimumPayment) : 0), 0) +
+    Math.max(0, extraPayment);
+
   let month = 0;
 
   while (balances.some((b) => b > 0.005) && month < MAX_MONTHS) {
@@ -112,7 +120,7 @@ export function calculatePayoffSchedule(
     }
 
     const monthDetails: MonthlyDebtDetail[] = [];
-    let extraRemaining = extraPayment;
+    let extraRemaining = 0;
 
     // First pass: calculate interest and pay minimums
     const interestAmounts: number[] = [];
@@ -138,6 +146,10 @@ export function calculatePayoffSchedule(
 
     // Track payments per debt
     const payments = [...minPayments];
+    extraRemaining = Math.max(
+      0,
+      monthlyBudget - minPayments.reduce((s, m) => s + m, 0)
+    );
 
     // Second pass: distribute extra payment in priority order
     for (const idx of sortedIndices) {

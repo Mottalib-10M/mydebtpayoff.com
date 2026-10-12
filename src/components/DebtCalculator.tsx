@@ -108,8 +108,18 @@ function StackedBarChart({ schedule, debts }: { schedule: MonthlySnapshot[]; deb
   );
 }
 
-export default function DebtCalculator() {
-  const [debtInputs, setDebtInputs] = useState<DebtInput[]>(INITIAL_DEBTS);
+interface Props {
+  /** Scenario de la page (pages par montant) : le calculateur s'ouvre sur les chiffres cites dans le texte. */
+  initialDebts?: Debt[];
+  initialExtra?: number;
+}
+
+export default function DebtCalculator({ initialDebts, initialExtra }: Props = {}) {
+  const [debtInputs, setDebtInputs] = useState<DebtInput[]>(() =>
+    initialDebts && initialDebts.length > 0
+      ? initialDebts.map((d, i) => ({ id: i + 1, name: d.name, balance: String(d.balance), apr: String(d.apr), minimumPayment: String(d.minimumPayment) }))
+      : INITIAL_DEBTS
+  );
   // Le champ qu'on remplit garde son texte brut ; les autres affichent les
   // milliers separes. Mettre en forme pendant la frappe reecrirait la saisie.
   const [champActif, setChampActif] = useState<string | null>(null);
@@ -120,9 +130,9 @@ export default function DebtCalculator() {
     return Number.isFinite(n) ? Math.round(n).toLocaleString('en-US') : s;
   };
   const nettoie = (v: string) => v.replace(/[^\d.,]/g, '');
-  const [extraPayment, setExtraPayment] = useState('200');
+  const [extraPayment, setExtraPayment] = useState(initialExtra !== undefined ? String(initialExtra) : '200');
   const [strategy, setStrategy] = useState<PayoffStrategy>('avalanche');
-  const [nextId, setNextId] = useState(4);
+  const [nextId, setNextId] = useState((initialDebts?.length || 3) + 1);
   const [showTimeline, setShowTimeline] = useState(false);
   // Telephone : tant que le resultat est sous l'ecran, une barre collante en bas
   // montre le chiffre cle (RECETTE §5, regle du 2026-10-11). Elle n'existe que
