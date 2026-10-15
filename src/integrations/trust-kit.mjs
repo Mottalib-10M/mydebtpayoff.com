@@ -6,7 +6,7 @@
  * leur en-tête et leur pied : le plus sûr est d'intervenir sur le HTML construit, une fois,
  * au lieu de retoucher des centaines de pages. Après le build, pour chaque page indexable :
  *
- *   - en haut, juste avant le <h1> (il en prend l'alignement) : « Mis à jour le AAAA-MM-JJ »
+ *   - en haut, juste avant le <h1>, sur une page de lecture seulement (Article) : « Mis à jour le 7 octobre 2026 »
  *   - en bas, dans le dernier <footer>, avec la classe du conteneur du pied (même alignement) :
  *     disclaimer, date, liens méthode et auteur (rel="author")
  *   - dans <head> : Organization (founder = Person complet, foundingDate,
@@ -58,11 +58,26 @@ const TEXT = {
  */
 const LOCALE = { en: 'en-GB', fr: 'fr-FR', es: 'es-ES', de: 'de-DE', it: 'it-IT', pt: 'pt-PT' };
 
+// Page qui commence par un simulateur : premier champ du <main> à moins de 250 mots du titre
+// (même définition que check-trame.py §8.4).
+const SIMU_INPUT = /<input\b(?![^>]*type="(?:hidden|search|checkbox|radio|submit|button)")[^>]*>|<select\b|<button\b[^>]*\baria-pressed=|role="slider"/i;
+const meneParSimu = (html) => {
+  const m = html.match(/<main\b[\s\S]*?<\/main>/);
+  const main = m ? m[0] : html;
+  const fi = main.search(SIMU_INPUT);
+  if (fi < 0) return false;
+  const h1e = Math.max(main.indexOf('</h1>'), 0);
+  const txt = main.slice(h1e, Math.max(fi, h1e)).replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ');
+  return txt.split(/\s+/).filter(Boolean).length < 250;
+};
+
 const dateLisible = (iso, lang) => {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || '')) return iso;
   const d = new Date(`${iso}T12:00:00Z`);
-  return new Intl.DateTimeFormat(LOCALE[lang] || 'en-GB',
+  const s = new Intl.DateTimeFormat(LOCALE[lang] || 'en-GB',
     { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(d);
+  // Français : « 1er octobre », jamais « 1 octobre » (RECETTE §8.4).
+  return lang === 'fr' ? s.replace(/^1 /, '1er ') : s;
 };
 
 const AUTHOR = {
@@ -187,34 +202,41 @@ export default function trustKit(opts) {
             html = html.replace('</head>', `<script type="application/ld+json" data-trust-kit>${JSON.stringify(ld)}</script></head>`);
             // Juste avant le premier <h1> ; si ce <h1> est dans un îlot React (<astro-island>),
             // avant l'îlot : React compare son rendu au HTML servi, on n'y insère jamais rien.
-            const h1 = html.search(/<h1[\s>]/);
-            if (h1 >= 0) {
-              let at = h1;
-              const open = html.lastIndexOf('<astro-island', h1);
-              if (open >= 0 && html.lastIndexOf('</astro-island>', h1) < open) at = open;
-              // Fil d'Ariane juste avant le titre : la date va à droite sur sa ligne fine,
-              // plutôt que seule sur une ligne de plus (RECETTE §10.3, 2026-10-14).
-              const navEnd = html.lastIndexOf('</nav>', at);
-              const navStart = navEnd >= 0 ? html.lastIndexOf('<nav', navEnd) : -1;
-              const between = navEnd >= 0 ? html.slice(navEnd + 6, at) : 'x';
-              const onlyOpening = !between.replace(/<[^>]*>/g, '').trim() && !/<\/(div|section|article|header)>/.test(between);
-              const flexRow = 'display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;column-gap:1.5rem';
-              const aside = top.replace('style="margin:0 0 0.5rem;', 'style="margin:0 0 0 auto;');
-              const nav = navStart > html.indexOf('</header>') ? html.slice(navStart, navEnd + 6) : '';
-              let flat = null;
-              const bar = nav.match(/^(<nav[^>]*>\s*<div class="[^"]*")(>\s*<ol[\s\S]*?<\/ol>)(\s*<\/div>\s*<\/nav>)$/);
-              if (nav && onlyOpening && bar) {
-                // Barre de fil d'Ariane pleine largeur : la date se place dans sa rangée intérieure.
-                html = html.slice(0, navStart) + bar[1] + ` style="${flexRow}"` + bar[2] + aside + bar[3] + html.slice(navEnd + 6);
-              } else if (nav && onlyOpening && (flat = nav.match(/^(<nav[^>]*?)(>\s*<ol[\s\S]*?<\/ol>)(\s*<\/nav>)$/))) {
-                // Fil d'Ariane sans rangée intérieure (<nav><ol>) suivi d'un bandeau : la date
-                // passe à droite sur la ligne du fil plutôt que dans le bandeau, au-dessus du titre.
-                html = html.slice(0, navStart) + flat[1] + ` style="${flexRow}"` + flat[2] + aside + flat[3] + html.slice(navEnd + 6);
-              } else if (nav && onlyOpening && !/<section/.test(between)) {
-                html = html.slice(0, navStart) + `<div data-trust-kit-row style="${flexRow}">` + nav + aside + '</div>' + html.slice(navEnd + 6);
-              } else html = html.slice(0, at) + top + html.slice(at);
-            } else html = html.includes('</header>') ? html.replace('</header>', `</header>${top}`)
-                 : html.replace(/<body[^>]*>/, (m) => m + top);
+            // Date en haut seulement sur une page de lecture (Article déclaré) ; sur un
+            // simulateur ou un accueil, elle reste en bas de page (RECETTE §8.4, 2026-10-15).
+            // Un guide qui s'ouvre sur un mini-simulateur (moins de 250 mots entre le titre et le
+            // premier champ) se traite comme un simulateur : pas de date au-dessus (check-trame §8.4).
+            const lecture = /"@type"\s*:\s*"(?:Article|BlogPosting|NewsArticle)"/.test(html) && !meneParSimu(html);
+            if (lecture) {
+              const h1 = html.search(/<h1[\s>]/);
+              if (h1 >= 0) {
+                let at = h1;
+                const open = html.lastIndexOf('<astro-island', h1);
+                if (open >= 0 && html.lastIndexOf('</astro-island>', h1) < open) at = open;
+                // Fil d'Ariane juste avant le titre : la date va à droite sur sa ligne fine,
+                // plutôt que seule sur une ligne de plus (RECETTE §10.3, 2026-10-14).
+                const navEnd = html.lastIndexOf('</nav>', at);
+                const navStart = navEnd >= 0 ? html.lastIndexOf('<nav', navEnd) : -1;
+                const between = navEnd >= 0 ? html.slice(navEnd + 6, at) : 'x';
+                const onlyOpening = !between.replace(/<[^>]*>/g, '').trim() && !/<\/(div|section|article|header)>/.test(between);
+                const flexRow = 'display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;column-gap:1.5rem';
+                const aside = top.replace('style="margin:0 0 0.5rem;', 'style="margin:0 0 0 auto;');
+                const nav = navStart > html.indexOf('</header>') ? html.slice(navStart, navEnd + 6) : '';
+                let flat = null;
+                const bar = nav.match(/^(<nav[^>]*>\s*<div class="[^"]*")(>\s*<ol[\s\S]*?<\/ol>)(\s*<\/div>\s*<\/nav>)$/);
+                if (nav && onlyOpening && bar) {
+                  // Barre de fil d'Ariane pleine largeur : la date se place dans sa rangée intérieure.
+                  html = html.slice(0, navStart) + bar[1] + ` style="${flexRow}"` + bar[2] + aside + bar[3] + html.slice(navEnd + 6);
+                } else if (nav && onlyOpening && (flat = nav.match(/^(<nav[^>]*?)(>\s*<ol[\s\S]*?<\/ol>)(\s*<\/nav>)$/))) {
+                  // Fil d'Ariane sans rangée intérieure (<nav><ol>) suivi d'un bandeau : la date
+                  // passe à droite sur la ligne du fil plutôt que dans le bandeau, au-dessus du titre.
+                  html = html.slice(0, navStart) + flat[1] + ` style="${flexRow}"` + flat[2] + aside + flat[3] + html.slice(navEnd + 6);
+                } else if (nav && onlyOpening && !/<section/.test(between)) {
+                  html = html.slice(0, navStart) + `<div data-trust-kit-row style="${flexRow}">` + nav + aside + '</div>' + html.slice(navEnd + 6);
+                } else html = html.slice(0, at) + top + html.slice(at);
+              } else html = html.includes('</header>') ? html.replace('</header>', `</header>${top}`)
+                   : html.replace(/<body[^>]*>/, (m) => m + top);
+            } else html = html.replace('<span data-trust-ici></span>', '');
             const i = html.lastIndexOf('</footer>');
             html = i >= 0 ? html.slice(0, i) + bottom + html.slice(i) : html.replace('</body>', `${bottom}</body>`);
             html = wrapTables(html);
