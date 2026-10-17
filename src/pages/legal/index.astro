@@ -1,6 +1,6 @@
 ---
 import LegalIdentity from '../../components/LegalIdentity.astro';
-import { LEGAL, CONTACT_EMAIL } from '../../data/site-config';
+import { LEGAL, CONTACT_EMAIL, GA4_ID } from '../../data/site-config';
 import Layout from '../../layouts/Layout.astro';
 import '../../styles/global.css';
 import OfficialSources from '../../components/OfficialSources.astro';
@@ -47,9 +47,10 @@ import OfficialSources from '../../components/OfficialSources.astro';
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Personal Data and Cookies</h2>
       <p class="text-text-muted leading-relaxed">
         The calculators keep nothing: your balances and rates are processed in your browser and disappear when the
-        tab closes. The site sets no cookies and the publisher records no personal data. The one measurement is an
-        anonymous, technical check of page stability with Microsoft Clarity, running cookieless with page content
-        masked; the <a href="/privacy/">privacy policy</a> describes it.
+        tab closes. The site sets Google Analytics audience measurement cookies (<code>_ga</code>,
+        <code>_ga_{GA4_ID.replace('G-', '')}</code>, 13 months at most), with no advertising; page stability is
+        checked with Microsoft Clarity, cookieless with page content masked. Details, legal basis and how to opt
+        out: the <a href="/privacy/">privacy policy</a> and its <a href="/privacy/#cookies">cookies</a> section.
       </p>
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Third-Party Links</h2>

@@ -2,23 +2,23 @@
 import Layout from '../../layouts/Layout.astro';
 import '../../styles/global.css';
 import OfficialSources from '../../components/OfficialSources.astro';
-import { CONTACT_EMAIL, LEGAL } from '../../data/site-config';
+import { CONTACT_EMAIL, GA4_ID, LEGAL } from '../../data/site-config';
 ---
 
 <Layout
   title="Privacy policy for this debt payoff calculator 2026"
-  description="Balances, APRs and monthly payments you enter stay in your browser. MyDebtPayoff.com sets no cookies and keeps no personal data; only site stability is checked."
+  description="Balances, APRs and monthly payments you enter stay in your browser. Google Analytics audience cookies, no ads, cookieless stability checks and your rights."
 >
   <section class="pt-2 pb-16 px-4">
     <div class="max-w-6xl mx-auto prose prose-lg">
       <h1 class="text-4xl font-bold text-text mb-8">Privacy Policy</h1>
-      <p class="text-sm text-text-muted mb-8">Last updated: October 6, 2026</p>
+      <p class="text-sm text-text-muted mb-8">Last updated: October 17, 2026</p>
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">The short version</h2>
       <p class="text-text-muted leading-relaxed">
-        MyDebtPayoff.com is published by {LEGAL.entityName}. It sets no cookies, shows no ads and keeps no
-        personal information about you. The only thing measured is whether the pages work, anonymously and
-        without cookies.
+        MyDebtPayoff.com is published by {LEGAL.entityName}. It shows no ads and never sees the figures you
+        type. Visits are counted with Google Analytics, which sets audience measurement cookies, and page
+        stability is checked anonymously with Microsoft Clarity, which sets none.
       </p>
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Your debt figures</h2>
@@ -29,12 +29,36 @@ import { CONTACT_EMAIL, LEGAL } from '../../data/site-config';
         are gone.
       </p>
 
-      <h2 class="text-2xl font-bold text-text mt-8 mb-4">Cookies</h2>
+      <h2 id="cookies" class="text-2xl font-bold text-text mt-8 mb-4">Cookies</h2>
       <p class="text-text-muted leading-relaxed">
-        No cookie is set by the site, the calculators or the stability tool below, and nothing is written to your
-        browser’s local or session storage. That is why you see no cookie banner: there is nothing to accept or
-        reject. There is no advertising, no ad network, no Facebook Pixel and no social media tracker.
+        What you type in the calculators is never stored in your browser. The only cookies are those of Google
+        Analytics audience measurement, described below. There is no advertising, no ad network, no Facebook Pixel
+        and no social media tracker.
       </p>
+      <table>
+        <thead><tr><th>Name</th><th>Provider</th><th>Purpose</th><th>Lifetime</th></tr></thead>
+        <tbody>
+          <tr><td><code>_ga</code></td><td>Google Analytics</td><td>Tell visitors apart with a random identifier</td><td>13 months at most (390 days)</td></tr>
+          <tr><td><code>_ga_{GA4_ID.replace('G-', '')}</code></td><td>Google Analytics</td><td>Keep the state of the current visit</td><td>13 months at most (390 days)</td></tr>
+        </tbody>
+      </table>
+      <p class="text-text-muted leading-relaxed">These lifetimes are not extended on each visit; Google’s default is 2 years and the site shortens it.</p>
+
+      <h2 class="text-2xl font-bold text-text mt-8 mb-4">Audience measurement with Google Analytics</h2>
+      <p class="text-text-muted leading-relaxed">
+        The site uses Google Analytics 4 to count visits and see which pages are useful: pages viewed, referring
+        page, visit length, device and browser type, approximate country and city. The IP address is anonymised:
+        Google Analytics 4 neither logs nor stores it. The page address sent to Google is stripped of its
+        parameters, so your balances and rates are never included. Ad storage, ad user data, ad personalization and
+        Google signals are switched off, and measurement data is shared with no advertiser.
+      </p>
+      <ul class="text-text-muted leading-relaxed">
+        <li><strong>Who processes it</strong>: Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland, acting on the publisher’s behalf (Article 28 GDPR). Data may be transferred to Google LLC in the United States under the EU–U.S. Data Privacy Framework and the European Commission’s standard contractual clauses.</li>
+        <li><strong>Purpose</strong>: audience measurement.</li>
+        <li><strong>Retention</strong>: 14 months for visit-level and identifier-level data, then deletion; only anonymous totals remain.</li>
+        <li><strong>Basis</strong>: the publisher’s legitimate interests; for visitors in the European Union, Article 6(1)(f) of the GDPR. No personal information is sold or shared within the meaning of the CCPA/CPRA.</li>
+        <li><strong>Opting out</strong>: block or delete cookies in your browser settings, or install the <a href="https://tools.google.com/dlpage/gaoptout" rel="nofollow noopener" target="_blank">Google Analytics opt-out browser add-on</a>. The calculators work exactly the same.</li>
+      </ul>
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Anonymous stability monitoring</h2>
       <p class="text-text-muted leading-relaxed">
@@ -67,15 +91,15 @@ import { CONTACT_EMAIL, LEGAL } from '../../data/site-config';
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Children's privacy</h2>
       <p class="text-text-muted leading-relaxed">
-        The site is not directed to children under 13 and collects no information from anyone, children included.
+        The site is not directed to children under 13 and does not knowingly collect information from children.
       </p>
 
       <h2 class="text-2xl font-bold text-text mt-8 mb-4">Your rights</h2>
       <p class="text-text-muted leading-relaxed">
         We do not sell or share personal information within the meaning of the California Consumer Privacy Act or
-        other US state privacy laws, and we hold none to give access to or delete, apart from emails you send us.
+        other US state privacy laws, and we usually hold no data that identifies you, apart from emails you send us.
         Visitors from the European Union also have the GDPR rights of access, rectification, erasure and objection,
-        and may complain to the {LEGAL.supervisoryAuthority}. For stability monitoring you can also contact Microsoft.
+        and may complain to the {LEGAL.supervisoryAuthority}. For audience measurement and stability monitoring you can also contact Google or Microsoft.
         Concerns about unfair practices can be reported to the US Federal Trade Commission at
         <a href="https://reportfraud.ftc.gov/" rel="nofollow noopener" target="_blank">reportfraud.ftc.gov</a>.
       </p>
