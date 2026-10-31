@@ -24,8 +24,8 @@ const defaultDebt = (id: number): DebtInput => ({
 });
 
 const INITIAL_DEBTS: DebtInput[] = [
-  { id: 1, name: 'Credit Card', balance: '5000', apr: '22.99', minimumPayment: '100' },
-  { id: 2, name: 'Car Loan', balance: '15000', apr: '6.5', minimumPayment: '350' },
+  { id: 1, name: 'Credit Card', balance: '8000', apr: '22.99', minimumPayment: '160' },
+  { id: 2, name: 'Car Loan', balance: '6500', apr: '6.5', minimumPayment: '200' },
   { id: 3, name: 'Student Loan', balance: '25000', apr: '5.5', minimumPayment: '280' },
 ];
 
@@ -206,24 +206,26 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
               className="grid grid-cols-2 sm:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.2fr)_auto] gap-2 sm:gap-3 items-end p-3 bg-surface rounded-lg border border-border"
             >
               <div className="col-span-2 sm:col-span-1">
-                <label className="block text-sm font-medium text-text-muted mb-1">
+                <label htmlFor={`debt-${debt.id}-name`} className="block text-sm font-medium text-text-muted mb-1">
                   Debt Name
                 </label>
                 <input
+                  id={`debt-${debt.id}-name`}
                   type="text"
                   value={debt.name}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     updateDebt(debt.id, 'name', e.target.value)
                   }
                   placeholder="e.g. Credit Card"
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-muted mb-1">
+                <label htmlFor={`debt-${debt.id}-balance`} className="block text-sm font-medium text-text-muted mb-1">
                   Balance ($)
                 </label>
                 <input
+                  id={`debt-${debt.id}-balance`}
                   type="text"
                   inputMode="decimal"
                   value={affiche(debt.balance, `balance-${debt.id}`)}
@@ -235,14 +237,15 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
                   placeholder="5000"
                   min="0"
                   step="any"
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-muted mb-1">
+                <label htmlFor={`debt-${debt.id}-apr`} className="block text-sm font-medium text-text-muted mb-1">
                   APR (%)
                 </label>
                 <input
+                  id={`debt-${debt.id}-apr`}
                   type="number"
                   value={debt.apr}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -251,14 +254,15 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
                   placeholder="18.99"
                   min="0"
                   step="0.01"
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-muted mb-1">
+                <label htmlFor={`debt-${debt.id}-min`} className="block text-sm font-medium text-text-muted mb-1">
                   Min Payment ($)
                 </label>
                 <input
+                  id={`debt-${debt.id}-min`}
                   type="text"
                   inputMode="decimal"
                   value={affiche(debt.minimumPayment, `min-${debt.id}`)}
@@ -270,7 +274,7 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
                   placeholder="100"
                   min="0"
                   step="any"
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base"
                 />
               </div>
               <div className="flex justify-end">
@@ -298,10 +302,11 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
 
         {/* Extra Payment */}
         <div className="mt-4 p-3 bg-surface rounded-lg border border-border">
-          <label className="block text-sm font-medium text-text-muted mb-1">
+          <label htmlFor="extra-payment" className="block text-sm font-medium text-text-muted mb-1">
             Extra Monthly Payment ($)
           </label>
           <input
+            id="extra-payment"
             type="text"
             inputMode="decimal"
             value={affiche(extraPayment, 'extra')}
@@ -311,7 +316,7 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
             placeholder="200"
             min="0"
             step="any"
-            className="w-full sm:w-48 px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+            className="w-full sm:w-48 px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base"
           />
           <p className="text-xs text-text-muted mt-1">
             Additional amount beyond minimum payments each month
@@ -364,6 +369,15 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
         <div className="space-y-4">
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {activeResult.neverPaidOff ? (
+            <div className="sm:col-span-3 bg-white rounded-xl shadow-lg border-2 border-red-300 p-4 text-center">
+              <div className="text-sm text-text-muted mb-1">Debt-Free In</div>
+              <div className="text-2xl font-bold text-red-600">Never at this rate</div>
+              <div className="text-sm text-text-muted mt-1">
+                Interest alone is {formatCurrency(activeResult.firstMonthInterest)} a month: your payments must be higher than that to start reducing the balance.
+              </div>
+            </div>
+            ) : (<>
             <div className="bg-white rounded-xl shadow-lg border border-border p-4 text-center">
               <div className="text-sm text-text-muted mb-1">Debt-Free In</div>
               <div className="text-2xl font-bold text-primary">
@@ -371,8 +385,8 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
               </div>
               <div className="text-sm text-text-muted">months</div>
               <div className="text-xs text-text-muted mt-1">
-                ({Math.floor(activeResult.payoffMonths / 12)} years{' '}
-                {activeResult.payoffMonths % 12} months)
+                ({Math.floor(activeResult.payoffMonths / 12)} year{Math.floor(activeResult.payoffMonths / 12) !== 1 ? 's' : ''}{' '}
+                {activeResult.payoffMonths % 12} month{activeResult.payoffMonths % 12 !== 1 ? 's' : ''})
               </div>
             </div>
             <div className="bg-white rounded-xl shadow-lg border border-border p-4 text-center">
@@ -389,10 +403,11 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
               </div>
               <div className="text-sm text-text-muted">principal + interest</div>
             </div>
+            </>)}
           </div>
 
           {/* Strategy Comparison */}
-          {comparison.interestSaved > 0 && (
+          {comparison.interestSaved > 0 && !comparison.avalanche.neverPaidOff && !comparison.snowball.neverPaidOff && (
             <div className="bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg p-4 sm:p-5 text-white">
               <h4 className="text-lg font-bold mb-2">Strategy Comparison</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -506,7 +521,7 @@ export default function DebtCalculator({ initialDebts, initialExtra }: Props = {
           className="fixed inset-x-0 bottom-0 z-40 flex items-baseline justify-between gap-3 border-t border-border bg-white px-4 py-3 text-left shadow-[0_-4px_12px_rgba(0,0,0,0.08)] lg:hidden"
         >
           <span className="text-sm font-medium text-text-muted">Debt-Free In</span>
-          <span className="tabular-nums text-xl font-bold text-primary">{activeResult.payoffMonths} months</span>
+          <span className="tabular-nums text-xl font-bold text-primary">{activeResult.neverPaidOff ? 'Never at this rate' : `${activeResult.payoffMonths} months`}</span>
         </button>
       )}
       </div>

@@ -33,6 +33,10 @@ export interface PayoffResult {
   totalInterestPaid: number;
   totalAmountPaid: number;
   payoffMonths: number;
+  /** Solde restant apres 600 mois : la mensualite ne couvre pas (ou a peine) les interets. */
+  neverPaidOff: boolean;
+  /** Interets du premier mois, toutes dettes : la mensualite totale doit les depasser. */
+  firstMonthInterest: number;
 }
 
 export interface StrategyComparison {
@@ -236,12 +240,19 @@ function buildPayoffResult(
     (sum, snap) => sum + snap.totalPayment,
     0
   );
+  const last = schedule[schedule.length - 1];
+  const firstMonthInterest = debts.reduce(
+    (s, d) => s + Math.round(Math.max(0, d.balance) * (d.apr / 100 / 12) * 100) / 100,
+    0
+  );
   return {
     strategy,
     schedule,
     totalInterestPaid,
     totalAmountPaid: Math.round(totalAmountPaid * 100) / 100,
     payoffMonths: calculatePayoffMonths(schedule),
+    neverPaidOff: !!last && last.totalRemainingBalance > 0.005,
+    firstMonthInterest: Math.round(firstMonthInterest * 100) / 100,
   };
 }
 

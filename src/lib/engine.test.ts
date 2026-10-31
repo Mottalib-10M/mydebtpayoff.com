@@ -165,3 +165,17 @@ describe('calculateLoanAmortization', () => {
     expect(calculateLoanAmortization(0, 5, 12)).toEqual([]);
   });
 });
+
+describe('mensualite inferieure aux interets (audit de Sami du 2026-10-28)', () => {
+  it('10 000 $ a 25 % avec 150 $/mois : jamais rembourse, interets du mois 208,33 $', () => {
+    const c = compareStrategies([{ name: 'Card', balance: 10000, apr: 25, minimumPayment: 150 }], 0);
+    expect(c.avalanche.neverPaidOff).toBe(true);
+    expect(c.avalanche.firstMonthInterest).toBeCloseTo(208.33, 2);
+  });
+  it('5 000 $ a 20 % avec 100 $/mois : 109 mois, 5 840 $ d interets (texte de l accueil)', () => {
+    const c = compareStrategies([{ name: 'Card', balance: 5000, apr: 20, minimumPayment: 100 }], 0);
+    expect(c.avalanche.neverPaidOff).toBe(false);
+    expect(c.avalanche.payoffMonths).toBe(109);
+    expect(Math.round(c.avalanche.totalInterestPaid)).toBe(5840);
+  });
+});
