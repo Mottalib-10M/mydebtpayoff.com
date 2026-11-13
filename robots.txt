@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mydebtpayoff.com/sitemap-index.xml
+
+Disallow: /*?*
